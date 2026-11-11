@@ -39,6 +39,16 @@ The first TimesFM run takes about 2 to 3 minutes per symbol on a laptop
 without a graphics card. Forecasts are saved under `data/processed/forecasts/`,
 so later runs take seconds unless the prices or settings change.
 
+Visual report (opens offline in any browser):
+
+```bash
+python -m silkperfect visualize
+```
+
+It writes `reports/visualizer.html`: the verdict, money over time, forecast accuracy by year,
+trade results, and a per-stock page with the actual price, the TimesFM guess, the rule's trades
+and a guess-vs-reality chart. Add `--no-timesfm` to leave TimesFM out.
+
 Optional check against NSE's official bhavcopy files:
 
 ```bash

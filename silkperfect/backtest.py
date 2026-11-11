@@ -44,6 +44,7 @@ def run_signal(bars: pd.DataFrame, signal: pd.Series, capital: float,
         "trades": int(stats["# Trades"]),
         "costs": float(stats.get("Commissions [$]", 0.0) or 0.0),
         "exposure_pct": float(stats["Exposure Time [%]"]),
+        "trade_log": stats["_trades"],
     }
 
 

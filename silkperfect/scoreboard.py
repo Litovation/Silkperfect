@@ -34,6 +34,12 @@ class Result:
     start: pd.Timestamp
     end: pd.Timestamp
     entry_threshold: float
+    # Raw material for the visualizer (see silkperfect/visualize.py).
+    closes: dict[str, pd.Series] = field(default_factory=dict)              # symbol -> close
+    forecasts: dict[str, dict[str, pd.DataFrame]] = field(default_factory=dict)  # symbol -> forecaster -> walk-forward frame
+    curves: dict[str, list[pd.Series]] = field(default_factory=dict)        # strategy -> per-symbol equity
+    trade_logs: dict[str, dict[str, pd.DataFrame]] = field(default_factory=dict)  # strategy -> symbol -> trades
+    benchmark: pd.Series | None = None                                      # index close over the judged period
 
 
 def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = None,
@@ -46,6 +52,9 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
 
     forecast_frames: dict[str, list[pd.DataFrame]] = {f.name: [] for f in forecasters}
     curves: dict[str, list[pd.Series]] = {}
+    trade_logs: dict[str, dict[str, pd.DataFrame]] = {}
+    closes: dict[str, pd.Series] = {}
+    forecasts: dict[str, dict[str, pd.DataFrame]] = {}
     rows, used, skipped = [], [], []
 
     for symbol in universe:
@@ -55,6 +64,8 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
             continue
         used.append(symbol)
         close = bars["Close"]
+        closes[symbol] = close
+        forecasts[symbol] = {}
         window = bars.iloc[s.min_history - 1:]   # the period every strategy is judged on
 
         signals = {
@@ -68,11 +79,13 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
             frame = wf.cached_walk_forward(close, f, s.horizon, s.min_history,
                                            s.max_context, cache_dir, label=symbol)
             forecast_frames[f.name].append(frame)
+            forecasts[symbol][f.name] = frame
             signals[f"Forecast rule: {f.name}"] = wf.forecast_signal(frame["pred_ret"], entry)
 
         for name, signal in signals.items():
             res = backtest.run_signal(window, signal, s.capital, s.costs)
             curves.setdefault(name, []).append(res["equity"])
+            trade_logs.setdefault(name, {})[symbol] = res["trade_log"]
             m = backtest.curve_metrics(res["equity"])
             rows.append({"strategy": name, "symbol": symbol, **m, "trades": res["trades"],
                          "costs_rupees": res["costs"], "exposure_pct": res["exposure_pct"]})
@@ -111,7 +124,8 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
                              "costs_rupees": 0.0, "exposure_pct": 100.0})
 
     return Result(accuracy, skill_by_year, pd.DataFrame(trading_rows), by_symbol, used, skipped,
-                  start, end, entry)
+                  start, end, entry, closes=closes, forecasts=forecasts, curves=curves,
+                  trade_logs=trade_logs, benchmark=bench if len(bench) > 1 else None)
 
 
 def _table(df: pd.DataFrame, columns: dict[str, tuple[str, str]]) -> str:

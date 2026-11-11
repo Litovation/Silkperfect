@@ -8,7 +8,7 @@ from datetime import date
 import numpy as np
 import pandas as pd
 
-from . import config, corporate_actions as ca, dataset, nse, parse, scoreboard
+from . import config, corporate_actions as ca, dataset, nse, parse, scoreboard, visualize
 from .forecasters import TimesFM, default_forecasters
 
 
@@ -98,6 +98,25 @@ def cmd_scoreboard(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/scoreboard.md")
 
 
+def cmd_visualize(args) -> None:
+    universe = config.load_universe()
+    settings = scoreboard.Settings(horizon=args.horizon, min_history=args.min_history,
+                                   capital=args.capital)
+    prices = dataset.load_prices(symbols=universe + [settings.benchmark])
+    events = pd.read_csv(config.ACTIONS_PATH, parse_dates=["ex_date"])
+    forecasters = default_forecasters()
+    if not args.no_timesfm:
+        forecasters.append(TimesFM(max_context=settings.max_context))
+        print("Including TimesFM 2.5. Results already saved by `scoreboard --timesfm` are reused; "
+              "otherwise the first run takes roughly 2 to 3 minutes per stock.")
+    result = scoreboard.run(prices, universe, settings, forecasters,
+                            cache_dir=config.FORECAST_CACHE_DIR,
+                            progress=lambda msg: print(msg, flush=True))
+    page = visualize.build_html(result, settings, events)
+    path = visualize.save(page)
+    print(f"Saved {path}. Open it in any browser.")
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="silkperfect", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -122,6 +141,13 @@ def main(argv: list[str] | None = None) -> None:
     s.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
     s.add_argument("--timesfm", action="store_true", help="also score TimesFM 2.5")
     s.set_defaults(func=cmd_scoreboard)
+
+    v = sub.add_parser("visualize", help="write reports/visualizer.html with charts")
+    v.add_argument("--horizon", type=int, default=config.HORIZON)
+    v.add_argument("--min-history", type=int, default=config.MIN_HISTORY)
+    v.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
+    v.add_argument("--no-timesfm", action="store_true", help="leave TimesFM 2.5 out")
+    v.set_defaults(func=cmd_visualize)
 
     r = sub.add_parser("run", help="fetch, build and scoreboard in one go")
     r.add_argument("--start", default=config.DEFAULT_START)
