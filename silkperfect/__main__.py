@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import argparse
 import random
+import sys
 from datetime import date
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -117,6 +119,13 @@ def cmd_visualize(args) -> None:
     print(f"Saved {path}. Open it in any browser.")
 
 
+def cmd_dashboard(args) -> None:
+    import subprocess
+    app = Path(__file__).resolve().parent / "dashboard.py"
+    print("Opening the dashboard in your browser. Press Ctrl+C here to stop it.")
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(app)], check=False)
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="silkperfect", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -148,6 +157,9 @@ def main(argv: list[str] | None = None) -> None:
     v.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
     v.add_argument("--no-timesfm", action="store_true", help="leave TimesFM 2.5 out")
     v.set_defaults(func=cmd_visualize)
+
+    d = sub.add_parser("dashboard", help="live dashboard in your browser (change settings, see results)")
+    d.set_defaults(func=cmd_dashboard)
 
     r = sub.add_parser("run", help="fetch, build and scoreboard in one go")
     r.add_argument("--start", default=config.DEFAULT_START)
