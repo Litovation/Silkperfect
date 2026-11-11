@@ -35,7 +35,8 @@ def cmd_build(args) -> None:
     if bad:
         raise SystemExit(f"{len(bad)} files do not match data/manifest.csv "
                          f"(first: {bad[0]}). Delete them and run fetch again.")
-    prices, events = dataset.build(renames=_renames(), manual=dataset.read_manual())
+    prices, events = dataset.build(renames=_renames(), manual=dataset.read_manual(),
+                                   cache_dir=config.DAY_CACHE_DIR)
     dataset.save(prices, events)
     stocks = prices[prices["series"] != parse.INDEX_SERIES]
     print(f"Built {len(prices):,} rows: {stocks['symbol'].nunique():,} stocks, "
@@ -118,6 +119,28 @@ def cmd_rank(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/ranking.md")
 
 
+def cmd_dashboard(args) -> None:
+    """Get any new NSE prices, then open the dashboard."""
+    import subprocess
+    import sys
+    try:
+        print("Checking for new NSE prices ...")
+        counts = nse.fetch_range(date.fromisoformat(config.DEFAULT_START), date.today())
+        print(f"  {counts['ok']} new day(s) downloaded")
+        if counts["ok"] or not config.PRICES_PATH.exists():
+            if not config.SYMBOL_CHANGE_PATH.exists() or counts["ok"]:
+                nse.fetch_symbol_changes()
+            print("Updating the price table ...")
+            cmd_build(args)
+    except Exception as exc:   # no internet should not stop the dashboard from opening
+        print(f"  Could not update prices ({exc}). Opening with the prices already here.")
+    if not config.PRICES_PATH.exists():
+        raise SystemExit("No price data and no internet. Connect and run this again.")
+    print("Opening the dashboard. Press Ctrl+C here to stop it.")
+    subprocess.run([sys.executable, "-m", "streamlit", "run", str(config.ROOT / "dashboard.py")],
+                   cwd=config.ROOT, check=False)
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="silkperfect", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -148,6 +171,9 @@ def main(argv: list[str] | None = None) -> None:
     k.add_argument("--top", type=int, default=20)
     k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
     k.set_defaults(func=cmd_rank)
+
+    d = sub.add_parser("dashboard", help="update prices and open the dashboard")
+    d.set_defaults(func=cmd_dashboard)
 
     r = sub.add_parser("run", help="fetch, build and scoreboard in one go")
     r.add_argument("--start", default=config.DEFAULT_START)

@@ -10,9 +10,11 @@
 
 | Method | Per year (%) | vs hold-all (pts) | Worst drop (%) | Sharpe | Before holdout, per year (%) | Holdout return (%) | Turnover per rebalance (%) | Costs (Rs) |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Hold all equally | 16.1 | +0.0 | -23.8 | 0.95 | 20.5 | -2.8 | 7 | 728,050 |
-| Momentum (12-1 month) | 25.9 | +9.8 | -32.5 | 1.02 | 32.9 | -2.7 | 31 | 1,887,008 |
-| Low volatility (12 month) | 10.4 | -5.7 | -18.8 | 0.91 | 13.4 | -2.8 | 14 | 522,017 |
+| Hold all equally | 16.1 | +0.0 | -23.5 | 0.95 | 20.5 | -2.7 | 7 | 690,096 |
+| Momentum (12-1 month) | 25.8 | +9.7 | -32.4 | 1.02 | 32.8 | -2.7 | 31 | 1,871,062 |
+| Low volatility (12 month) | 10.4 | -5.7 | -18.8 | 0.91 | 13.4 | -2.7 | 14 | 519,998 |
+| TimesFM 2.5 | 13.0 | -3.1 | -29.4 | 0.71 | 18.5 | -10.2 | 68 | 2,617,363 |
+| Chronos-Bolt | 15.4 | -0.7 | -36.7 | 0.77 | 22.5 | -13.1 | 73 | 3,119,696 |
 | Nifty 50 index (no costs, no dividends) | 9.2 | -6.9 | -17.2 | 0.71 | n/a | n/a | 0 | 0 |
 
 ## Does the ranking carry information?
@@ -25,3 +27,5 @@ is unlikely to be luck.
 | --- | ---: | ---: | ---: |
 | Momentum (12-1 month) | +0.036 | +1.73 | 59 |
 | Low volatility (12 month) | +0.011 | +0.41 | 47 |
+| TimesFM 2.5 | +0.012 | +0.99 | 47 |
+| Chronos-Bolt | -0.001 | -0.08 | 51 |

@@ -19,7 +19,7 @@ first one on stock prices, so that is checked before anything else.
 | 1 | Data pull, price adjustment, cost model, baselines, scoreboard | Done |
 | 2 | TimesFM 2.5 added as one more forecaster on the same scoreboard | Done: it failed the test (see below) |
 | 3 | Streamlit dashboard: forecast against actual, scoreboard | Done (`streamlit run dashboard.py`) |
-| 4 | Paper trading with OpenAlgo Analyzer mode on live Upstox prices | On hold: nothing has earned it yet |
+| 4 | Paper trading | Built into the dashboard as a pretend account on NSE closing prices. OpenAlgo and Upstox are only needed for real orders. |
 | 5 | Real money through Upstox orders via OpenAlgo | Only if paper passes |
 
 ## What changed from the first plan, and why
@@ -109,6 +109,44 @@ last 12 months held back:
 2. Using TimesFM's uncertainty range to size positions rather than to pick
    direction.
 3. A longer horizon (20 days), where costs matter less.
+
+## Ranking test result (10 Feb 2021 to 9 Nov 2026)
+
+From the 200 most traded NSE shares (rebuilt each month from that day's data,
+no ETFs), each method buys its top 20 monthly with Rs 1 crore. The bar is
+holding all 200 equally: 16.1% a year. Full table: [reports/ranking.md](../reports/ranking.md).
+
+| Method | Per year | Strength (t, needs 2) | Last 12 months |
+| --- | ---: | ---: | ---: |
+| Momentum (12-1 month) | 25.8% | 1.73 | -2.7% |
+| Low volatility | 10.4% | 0.41 | -2.7% |
+| TimesFM 2.5 | 13.0% | 0.99 | -10.2% |
+| Chronos-Bolt | 15.4% | -0.08 | -13.1% |
+| Hold all 200 | 16.1% | | -2.7% |
+
+- TimesFM and Chronos fail as rankers too: below hold-all, no reliable pattern.
+- Momentum is the only method ahead, but its strength is under 2, its worst
+  drop is deeper (-32%), and it added nothing in the last 12 months.
+- Kronos (MIT licence) is not yet added: it needs open/high/low/close/volume
+  input and is slow without a graphics card.
+
+## Small money (Rs 10,000)
+
+Each order costs roughly Rs 20 to Rs 45 whatever its size, and only whole
+shares can be bought. Momentum with Rs 10,000 on past prices:
+
+| Hold | Swap | Rs 10,000 became | Fees paid |
+| --- | --- | ---: | ---: |
+| 5 shares | monthly | 5,885 | 12,400 |
+| 5 shares | every 3 months | 28,656 | 6,875 |
+| 3 shares | every 3 months | 17,591 | 4,525 |
+| 10 shares | every 3 months | 15,817 | 10,804 |
+| One Nifty 50 fund, bought once | never | 17,514 | about 30 |
+
+The spread between rows is the finding: at this size the outcome depends more
+on fees and on which few shares happened to be affordable than on the method.
+For small sums a single low-cost fund is the sound comparison, and momentum
+funds exist that follow the same idea in one purchase.
 
 ## Known gaps
 

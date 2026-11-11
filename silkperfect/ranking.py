@@ -153,38 +153,73 @@ def _trade_cost(costs: CostModel, old: pd.Series, new: pd.Series) -> float:
     return total
 
 
-def simulate(panel: Panel, picks: dict[int, list[str]], s: RankSettings) -> dict:
-    """Hold each rebalance's picks in equal amounts from the next day's open."""
+def affordable(ranked: list[str], price: pd.Series, worth: float, count: int | None) -> list[str]:
+    """The first `count` names in rank order whose share price fits an equal slice.
+
+    With plenty of money this is simply the top `count`. With little money a
+    share that costs more than one slice is passed over for the next in line.
+    """
+    if count is None:
+        return list(ranked)
+    slice_ = worth / count
+    return [n for n in ranked if price.get(n, np.inf) <= slice_][:count]
+
+
+def simulate(panel: Panel, picks: dict[int, list[str]], s: RankSettings,
+             count: int | None = None) -> dict:
+    """Hold each rebalance's picks in equal amounts from the next day's open.
+
+    `picks` gives names in rank order for each rebalance day; the first
+    `count` affordable ones are held (all of them when `count` is None). Only
+    whole shares are bought. Returns the daily value, every trade, what was
+    chosen at each rebalance and what is held at the end.
+    """
     close = panel.close.ffill()
     open_ = panel.open.fillna(close.shift(1)).fillna(close)   # no trade that day: last price
     days = sorted(picks)
     shares = pd.Series(dtype=float)
-    cash, total_cost, turnover = s.capital, 0.0, []
-    values = {}
+    cash, total_cost, turnover = float(s.capital), 0.0, []
+    values, trades, chosen = {close.index[days[0]]: float(s.capital)}, [], {}
     for k, signal_day in enumerate(days):
         trade_day = signal_day + 1
         if trade_day >= len(close):
             break
         last_day = days[k + 1] if k + 1 < len(days) else len(close) - 1
         px = open_.iloc[trade_day]
-        old = shares * px.reindex(shares.index)
-        worth = cash + old.sum()
-        names = picks[signal_day]
-        new = pd.Series(worth / len(names), index=names)
-        cost = _trade_cost(s.costs, old, new)
-        new *= (worth - cost) / worth                 # costs come out of the amount invested
-        total_cost += cost
-        traded = new.reindex(old.index.union(new.index), fill_value=0.0).sub(
-            old.reindex(old.index.union(new.index), fill_value=0.0)).abs().sum()
-        turnover.append(traded / (2 * worth))
-        shares, cash = new / px.reindex(names), 0.0
-        block = close.iloc[trade_day:last_day + 1][names]
+        worth = cash + float((shares * px.reindex(shares.index)).sum())
+        names = affordable(picks[signal_day], px, worth, count)
+        chosen[close.index[signal_day]] = names
+        if not names:
+            names = list(shares.index)            # nothing affordable: keep what is held
+            if not names:
+                continue
+        budget = worth
+        while True:   # shrink the budget until the purchases and their costs fit
+            want = np.floor(budget / len(names) / px.reindex(names)).fillna(0.0)
+            everyone = shares.index.union(want.index)
+            delta = want.reindex(everyone, fill_value=0.0) - shares.reindex(everyone, fill_value=0.0)
+            delta = delta[delta != 0]
+            fees = {n: s.costs.cost("buy" if d > 0 else "sell", abs(d), float(px[n]))
+                    for n, d in delta.items()}
+            left = worth - float((want * px.reindex(names)).sum()) - sum(fees.values())
+            if left >= 0 or budget < 1:
+                break
+            budget *= 0.995
+        for n, d in delta.items():
+            trades.append({"date": close.index[trade_day], "symbol": n,
+                           "action": "Buy" if d > 0 else "Sell", "shares": abs(d),
+                           "price": float(px[n]), "fees": fees[n]})
+        total_cost += sum(fees.values())
+        turnover.append(float((delta.abs() * px.reindex(delta.index)).sum()) / (2 * worth))
+        shares, cash = want[want > 0], left
+        block = close.iloc[trade_day:last_day + 1][list(shares.index)]
         for day, row in block.iterrows():
-            values[day] = float((shares * row).sum())
-    equity = pd.Series(values).sort_index()
-    equity = pd.concat([pd.Series({close.index[days[0]]: s.capital}), equity])
-    return {"equity": equity, "costs": total_cost,
-            "turnover_pct": float(np.mean(turnover)) * 100 if turnover else 0.0}
+            values[day] = cash + float((shares * row).sum())
+    return {"equity": pd.Series(values).sort_index(), "costs": total_cost,
+            "turnover_pct": float(np.mean(turnover)) * 100 if turnover else 0.0,
+            "trades": pd.DataFrame(trades, columns=["date", "symbol", "action", "shares",
+                                                    "price", "fees"]),
+            "shares": shares, "cash": cash, "chosen": chosen}
 
 
 @dataclass
@@ -198,6 +233,7 @@ class RankResult:
     end: pd.Timestamp
     holdout_start: pd.Timestamp
     rebalances: int
+    sims: dict = field(default_factory=dict)   # method -> trades, shares held, cash
 
 
 def _metrics(equity: pd.Series) -> dict:
@@ -207,11 +243,21 @@ def _metrics(equity: pd.Series) -> dict:
 
 
 def run(panel: Panel, signals: list[Signal], settings: RankSettings | None = None,
-        cache_dir: Path | None = None, progress=None) -> RankResult:
+        cache_dir: Path | None = None, progress=None,
+        first_index: int | None = None) -> RankResult:
+    """Score, pick and simulate every method.
+
+    `first_index` starts the rebalances on a chosen day instead of as early
+    as the history allows; a paper account uses it to start "today".
+    """
     s = settings or RankSettings()
     n = len(panel.close)
-    days = list(range(s.min_history - 1, n - 1, s.rebalance_days))
-    if len(days) < 3:
+    start = s.min_history - 1 if first_index is None else first_index
+    if start < s.context - 1:
+        raise ValueError("not enough price history before the start date")
+    # The latest day can be a rebalance day too: its picks are bought at the next open.
+    days = list(range(start, n, s.rebalance_days))
+    if first_index is None and len(days) < 3:
         raise ValueError("not enough history for a ranking test")
     close = panel.close.ffill()
 
@@ -230,12 +276,14 @@ def run(panel: Panel, signals: list[Signal], settings: RankSettings | None = Non
     picks = {HOLD_ALL: universes}
     for sig in signals:
         picks[sig.name] = {i: list(scores[sig.name][i].dropna()
-                                   .sort_values(ascending=False).index[:s.top_n]) for i in days}
+                                   .sort_values(ascending=False).index) for i in days}
 
     holdout_i = n - 1 - s.holdout_days
     period_rows = []
     for k, i in enumerate(days):
         j = days[k + 1] if k + 1 < len(days) else n - 1
+        if j == i:
+            continue   # picked today, no outcome yet
         fwd = close.iloc[j][universes[i]] / close.iloc[i][universes[i]] - 1
         for sig in signals:
             sc = scores[sig.name][i]
@@ -243,31 +291,44 @@ def run(panel: Panel, signals: list[Signal], settings: RankSettings | None = Non
             period_rows.append({
                 "method": sig.name, "date": close.index[i], "holdout": i >= holdout_i,
                 "rank_correlation": both["s"].rank().corr(both["f"].rank()),
-                "top_return_pct": fwd[picks[sig.name][i]].mean() * 100,
+                "top_return_pct": fwd[picks[sig.name][i][:s.top_n]].mean() * 100,
                 "universe_return_pct": fwd.mean() * 100})
-    periods = pd.DataFrame(period_rows)
+    periods = pd.DataFrame(period_rows, columns=["method", "date", "holdout", "rank_correlation",
+                                                 "top_return_pct", "universe_return_pct"])
 
-    equity, rows = {}, []
+    equity, rows, sims = {}, [], {}
     for name, chosen in picks.items():
-        sim = simulate(panel, chosen, s)
+        sim = simulate(panel, chosen, s, count=None if name == HOLD_ALL else s.top_n)
         equity[name] = sim["equity"]
+        sims[name] = sim
         row = {"method": name, **_metrics(sim["equity"]),
                "turnover_pct": sim["turnover_pct"], "costs_rupees": sim["costs"]}
         early = sim["equity"][sim["equity"].index < close.index[holdout_i]]
         late = sim["equity"][sim["equity"].index >= close.index[holdout_i]]
         row["cagr_before_pct"] = backtest.curve_metrics(early)["cagr_pct"] if len(early) > 2 else np.nan
         row["return_holdout_pct"] = (late.iloc[-1] / late.iloc[0] - 1) * 100 if len(late) > 2 else np.nan
-        if name != HOLD_ALL:
+        if name != HOLD_ALL and len(periods):
             p = periods[periods["method"] == name]
             ic = p["rank_correlation"]
             row["rank_correlation"] = ic.mean()
             row["rank_t_stat"] = ic.mean() / ic.std() * np.sqrt(len(ic)) if ic.std() > 0 else np.nan
             row["periods_won_pct"] = (p["top_return_pct"] > p["universe_return_pct"]).mean() * 100
         rows.append(row)
-    holdings = {name: {close.index[i]: v for i, v in chosen.items()}
-                for name, chosen in picks.items() if name != HOLD_ALL}
+    # What was held from each rebalance; for the latest day (not traded yet),
+    # what would be bought at that day's closing prices.
+    holdings = {}
+    for name, ranked in picks.items():
+        if name == HOLD_ALL:
+            continue
+        held = dict(sims[name]["chosen"])
+        last = days[-1]
+        if close.index[last] not in held:
+            sim = sims[name]
+            worth = sim["cash"] + float((sim["shares"] * close.iloc[last].reindex(sim["shares"].index)).sum())
+            held[close.index[last]] = affordable(ranked[last], close.iloc[last], worth, s.top_n)
+        holdings[name] = held
     return RankResult(pd.DataFrame(rows), periods, equity, holdings, s,
-                      close.index[days[0]], close.index[-1], close.index[holdout_i], len(days))
+                      close.index[days[0]], close.index[-1], close.index[holdout_i], len(days), sims)
 
 
 def render(result: RankResult, benchmark: pd.Series | None = None) -> str:

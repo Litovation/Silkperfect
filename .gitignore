@@ -8,3 +8,4 @@ data/processed/
 # Never commit keys or tokens.
 .env
 *.token
+data/paper_account.json

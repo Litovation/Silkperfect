@@ -71,9 +71,12 @@ def test_simulation_matches_hand_calculation_and_charges_costs():
                      dp_charge_sell=0, slippage_bps=0)
     s = ranking.RankSettings(capital=1000.0, costs=free)
     sim = ranking.simulate(panel, {0: ["A", "B"], 2: ["B"]}, s)
-    # Day 1 open: 500 each. Day 2 close: A 550 + B 500. Day 3 open: A at 121 -> 605 + 500, all into B.
+    # Day 1 open: 5 of A and 10 of B. Day 2 close: A 550 + B 500.
+    # Day 3 open: A at 121 -> 605 + 500 = 1105, all into B (22 shares, Rs 5 left over).
     assert sim["equity"].loc[idx[2]] == pytest.approx(1050.0)
     assert sim["equity"].iloc[-1] == pytest.approx(1105.0)
+    assert sim["shares"]["B"] == 22 and sim["cash"] == pytest.approx(5.0)
+    assert list(sim["trades"]["action"]) == ["Buy", "Buy", "Sell", "Buy"]
     assert sim["costs"] == 0
     paid = ranking.simulate(panel, {0: ["A", "B"], 2: ["B"]}, ranking.RankSettings(capital=1e6))
     assert paid["costs"] > 0 and paid["equity"].iloc[-1] < 1105.0 * 1000
@@ -124,3 +127,21 @@ def test_slow_scores_are_cached(tmp_path):
     b = ranking.run(panel, [Slow()], s, cache_dir=tmp_path)
     assert len(calls) == first
     pd.testing.assert_frame_equal(a.summary, b.summary)
+
+
+def test_small_money_skips_shares_it_cannot_afford():
+    price = pd.Series({"DEAR": 900.0, "MID": 300.0, "CHEAP": 50.0, "ALSO": 40.0})
+    ranked = ["DEAR", "MID", "CHEAP", "ALSO"]
+    assert ranking.affordable(ranked, price, worth=1000.0, count=2) == ["MID", "CHEAP"]
+    assert ranking.affordable(ranked, price, worth=1_000_000.0, count=2) == ["DEAR", "MID"]
+    assert ranking.affordable(ranked, price, worth=10.0, count=2) == []
+    assert ranking.affordable(ranked, price, worth=10.0, count=None) == ranked
+
+
+def test_fees_never_push_the_account_below_zero_cash():
+    panel = make_panel()
+    s = ranking.RankSettings(**{**SMALL, "capital": 10_000.0})
+    result = ranking.run(panel, [ranking.Momentum(126, 21)], s)
+    sim = result.sims["Momentum (6-1 month)"]
+    assert sim["cash"] >= 0 and (sim["trades"]["shares"] % 1 == 0).all()
+    assert sim["costs"] == pytest.approx(sim["trades"]["fees"].sum())

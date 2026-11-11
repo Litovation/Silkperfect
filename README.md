@@ -41,20 +41,34 @@ so later runs take seconds unless the prices or settings change.
 
 ## Dashboard
 
+One command updates the prices and opens the dashboard in your browser:
+
 ```bash
-streamlit run dashboard.py
+python -m silkperfect dashboard
 ```
 
-This opens a page in your browser (http://localhost:8501). Pick stocks, the
-forecast horizon and money per stock on the left, tick "Include TimesFM 2.5"
-if it is installed, and press **Run test**. Results fill in stock by stock
-while the test runs. Then:
+Stop it with Ctrl+C in the terminal. It has three pages:
 
-- **Growth of money:** what the starting money became under each strategy
-- **Forecast vs actual:** each forecast drawn against what the price then did
-- **Scoreboard, By stock, Data checks:** the full tables
+- **Simple view:** in plain words, what a sum of money (Rs 10,000 by default)
+  would have become under a plan, next to a Nifty 50 fund and a bank deposit,
+  with the fees and the worst fall. It also runs a **pretend account**: press
+  one button and the plan is followed with pretend money from today onward.
+  Run the command again on later days to see it move.
+- **Pick-the-best test:** the ranking test results for every method.
+- **Single-share forecast test:** the detailed forecast scoreboard.
 
-Stop it with Ctrl+C in the terminal.
+How shares are picked is a dropdown: momentum, steadiest shares, and TimesFM
+or Chronos when their packages are installed. Nothing in the dashboard places
+a real order.
+
+## Ranking test
+
+```bash
+python -m silkperfect rank
+```
+
+Add `--models` to include TimesFM and Chronos (slow the first time, saved
+afterwards). Results go to `reports/ranking.md`.
 
 Optional check against NSE's official bhavcopy files:
 
@@ -91,6 +105,8 @@ python -m pytest -q
 | `silkperfect/walkforward.py` | Forecasts day by day using only past data, and scores them |
 | `silkperfect/backtest.py` | Runs buy/sell signals through backtesting.py with costs |
 | `silkperfect/scoreboard.py` | Puts it together and writes the report |
+| `silkperfect/ranking.py` | Pick-the-best test on the 200 most traded shares |
+| `silkperfect/paper.py` | Plans in plain terms and the pretend account |
 | `dashboard.py` | Streamlit dashboard |
 
 Downloaded data is not stored in git. `data/manifest.csv` lists the SHA-256
