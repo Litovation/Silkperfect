@@ -17,6 +17,7 @@ TimesFM has to clear that bar to be worth trading.
 | No change | 15,906 | 2.346 | +0.0000 | n/a | 0 of 11 |
 | Drift (250d) | 15,906 | 2.362 | -0.0066 | 51.7 | 2 of 11 |
 | Moving average (20d) | 15,906 | 3.545 | -0.5109 | 50.4 | 0 of 11 |
+| TimesFM 2.5 | 15,906 | 2.384 | -0.0162 | 50.1 | 0 of 11 |
 
 A real edge should show up in most years and most symbols, not just one.
 
@@ -24,6 +25,7 @@ A real edge should show up in most years and most symbols, not just one.
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Drift (250d) | -0.0145 | -0.0078 | +0.0021 | -0.0031 | -0.0059 | -0.0080 |
 | Moving average (20d) | -0.5534 | -0.5195 | -0.5433 | -0.4360 | -0.3983 | -0.6023 |
+| TimesFM 2.5 | -0.0283 | -0.0207 | -0.0081 | -0.0083 | -0.0180 | -0.0108 |
 
 ## Trading results after costs
 
@@ -34,6 +36,7 @@ A real edge should show up in most years and most symbols, not just one.
 | Forecast rule: No change | 0.0 | 0.0 | 0.0 | n/a | 0 | 0 | 0 |
 | Forecast rule: Drift (250d) | 49.7 | 7.1 | -10.9 | 0.75 | 33 | 62,954 | 63 |
 | Forecast rule: Moving average (20d) | 15.1 | 2.4 | -12.9 | 0.34 | 763 | 1,400,115 | 48 |
+| Forecast rule: TimesFM 2.5 | -6.7 | -1.2 | -12.5 | -0.19 | 606 | 951,142 | 37 |
 | Nifty 50 index (no costs, no dividends) | 76.4 | 10.2 | -17.2 | 0.76 | 0 | 0 | 100 |
 
 The index row is a reference only: it pays no costs and leaves out dividends,

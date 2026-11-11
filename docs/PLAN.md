@@ -17,9 +17,9 @@ first one on stock prices, so that is checked before anything else.
 | Phase | What | Status |
 | --- | --- | --- |
 | 1 | Data pull, price adjustment, cost model, baselines, scoreboard | Done |
-| 2 | TimesFM 2.5 added as one more forecaster on the same scoreboard | Next |
-| 3 | Streamlit dashboard: forecast against actual, scoreboard | After 2 |
-| 4 | Paper trading with OpenAlgo Analyzer mode on live Upstox prices | After 3 |
+| 2 | TimesFM 2.5 added as one more forecaster on the same scoreboard | Done: it failed the test (see below) |
+| 3 | Streamlit dashboard: forecast against actual, scoreboard | On hold |
+| 4 | Paper trading with OpenAlgo Analyzer mode on live Upstox prices | On hold: nothing has earned it yet |
 | 5 | Real money through Upstox orders via OpenAlgo | Only if paper passes |
 
 ## What changed from the first plan, and why
@@ -82,6 +82,33 @@ Full tables: [reports/scoreboard.md](../reports/scoreboard.md).
   crossover returned 3.6% and paid Rs 3.4 lakh in costs on Rs 55 lakh.
 - So the bars for TimesFM are: skill above 0, and more than 12.9% a year
   after costs or a clearly smaller worst drop.
+
+## TimesFM 2.5 result (same period, same 11 symbols)
+
+Run as published, with no training on our data and all settings fixed before
+the run: 5-day horizon, 1,024 days of context, daily adjusted closes.
+
+- Forecast skill against "no change": -0.016. Worse than no change in every
+  year from 2021 to 2026 and on all 11 symbols. Direction right 50.1% of the
+  time, which is a coin toss.
+- Trading rule after costs: -1.2% a year, against 12.9% for buy-and-hold.
+  606 trades cost Rs 9.5 lakh on Rs 55 lakh of capital.
+
+Verdict: in this form TimesFM 2.5 does not forecast these stocks well enough
+to trade. It does not go to paper trading.
+
+What must not be done next: changing horizons, thresholds or stock lists
+until a good number appears. With enough tries something always looks good
+on past data and then fails live.
+
+Tests that are still fair, each to be decided in advance and judged with the
+last 12 months held back:
+
+1. Ranking instead of timing: forecast a few hundred stocks and hold the top
+   few, judged against holding them all equally.
+2. Using TimesFM's uncertainty range to size positions rather than to pick
+   direction.
+3. A longer horizon (20 days), where costs matter less.
 
 ## Known gaps
 
