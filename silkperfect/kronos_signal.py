@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 from . import config
+from .forecasters import pick_device
 from .ranking import Panel, Signal
 
 KRONOS_DIR = config.ROOT / "third_party" / "kronos"
@@ -60,7 +61,7 @@ class KronosSignal(Signal):
                              "pip install -r requirements-timesfm.txt") from exc
         tokenizer = KronosTokenizer.from_pretrained(self.TOKENIZER, revision=self.TOKENIZER_REVISION)
         model = Kronos.from_pretrained(self.MODEL, revision=self.MODEL_REVISION)
-        return KronosPredictor(model, tokenizer, device="cpu", max_context=512)
+        return KronosPredictor(model, tokenizer, device=pick_device(), max_context=512)
 
     def score(self, close, horizon):
         return self.score_bars(Panel(close, close, close), horizon)

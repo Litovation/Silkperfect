@@ -124,6 +124,22 @@ def cmd_rank(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/ranking.md")
 
 
+def cmd_device(args) -> None:
+    """Say whether the forecasting models will use a graphics card."""
+    try:
+        import torch
+    except ImportError:
+        raise SystemExit("PyTorch is not installed. Run: pip install -r requirements-timesfm.txt")
+    if torch.cuda.is_available():
+        print(f"Graphics card found: {torch.cuda.get_device_name(0)}. The models will use it.")
+    else:
+        print(f"No graphics card visible to PyTorch (version {torch.__version__}). "
+              "The models will use the processor, which is much slower.")
+        if "+cpu" in torch.__version__:
+            print("This PyTorch build is processor-only. If the computer has an NVIDIA card, "
+                  "install the graphics build: see README, 'Using a graphics card'.")
+
+
 def cmd_dashboard(args) -> None:
     """Get any new NSE prices, then open the dashboard."""
     import subprocess
@@ -177,6 +193,9 @@ def main(argv: list[str] | None = None) -> None:
     k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
     k.add_argument("--kronos", action="store_true", help="also rank with Kronos (slow)")
     k.set_defaults(func=cmd_rank)
+
+    g = sub.add_parser("device", help="check whether a graphics card will be used")
+    g.set_defaults(func=cmd_device)
 
     d = sub.add_parser("dashboard", help="update prices and open the dashboard")
     d.set_defaults(func=cmd_dashboard)

@@ -61,14 +61,34 @@ How shares are picked is a dropdown: momentum, steadiest shares, and TimesFM
 or Chronos when their packages are installed. Nothing in the dashboard places
 a real order.
 
+## Using a graphics card
+
+TimesFM, Chronos and Kronos use an NVIDIA graphics card automatically when
+PyTorch can see one, and are many times faster with it. Check with:
+
+```bash
+python -m silkperfect device
+```
+
+On Windows, `pip install torch` usually installs a processor-only build. To
+switch to the graphics build:
+
+```bash
+pip uninstall -y torch
+```
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cu124
+```
+
 ## Ranking test
 
 ```bash
 python -m silkperfect rank
 ```
 
-Add `--models` to include TimesFM and Chronos (slow the first time, saved
-afterwards). Results go to `reports/ranking.md`.
+Add `--models` to include TimesFM and Chronos, and `--kronos` to include
+Kronos (about 2 hours without a graphics card; all are saved after the first run). Results go to `reports/ranking.md`.
 
 Optional check against NSE's official bhavcopy files:
 

@@ -7,6 +7,15 @@ from __future__ import annotations
 import numpy as np
 
 
+def pick_device() -> str:
+    """Use a graphics card when PyTorch can see one, otherwise the processor."""
+    try:
+        import torch
+        return "cuda" if torch.cuda.is_available() else "cpu"
+    except ImportError:
+        return "cpu"
+
+
 class Forecaster:
     name = "forecaster"
     cache_key: str | None = None   # set on slow forecasters so results are saved to disk
@@ -119,7 +128,7 @@ class Chronos(Forecaster):
                              "pip install -r requirements-timesfm.txt") from exc
         torch.manual_seed(0)
         return BaseChronosPipeline.from_pretrained(self.REPO, revision=self.REVISION,
-                                                   device_map="cpu")
+                                                   device_map=pick_device())
 
     def predict(self, histories, horizon):
         import torch
@@ -131,7 +140,7 @@ class Chronos(Forecaster):
                      for h in histories[start:start + self.batch_size]]
             quantiles, _ = self._pipe.predict_quantiles(chunk, prediction_length=horizon,
                                                         quantile_levels=[0.5])
-            out.append(quantiles[:, :, 0].numpy())
+            out.append(quantiles[:, :, 0].cpu().numpy())
         return np.concatenate(out).astype(float)
 
 
