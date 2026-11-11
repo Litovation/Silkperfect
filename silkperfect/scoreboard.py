@@ -26,6 +26,7 @@ class Settings:
 @dataclass
 class Result:
     accuracy: pd.DataFrame          # one row per forecaster
+    skill_by_year: pd.DataFrame     # forecaster x calendar year
     trading: pd.DataFrame           # one row per strategy, whole portfolio
     by_symbol: pd.DataFrame         # strategy x symbol
     symbols: list[str]
@@ -36,7 +37,8 @@ class Result:
 
 
 def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = None,
-        forecasters: list[Forecaster] | None = None) -> Result:
+        forecasters: list[Forecaster] | None = None,
+        cache_dir: Path | None = None, progress=None) -> Result:
     s = settings or Settings()
     forecasters = forecasters or default_forecasters()
     entry = s.costs.round_trip_fraction(s.capital)
@@ -61,7 +63,10 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
                 wf.sma_signal(close, s.sma_fast, s.sma_slow).loc[window.index],
         }
         for f in forecasters:
-            frame = wf.walk_forward(close, f, s.horizon, s.min_history, s.max_context)
+            if progress and f.cache_key:
+                progress(f"  {f.name}: {symbol}")
+            frame = wf.cached_walk_forward(close, f, s.horizon, s.min_history,
+                                           s.max_context, cache_dir, label=symbol)
             forecast_frames[f.name].append(frame)
             signals[f"Forecast rule: {f.name}"] = wf.forecast_signal(frame["pred_ret"], entry)
 
@@ -76,9 +81,17 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
         raise ValueError("no symbol in the universe has enough history")
 
     by_symbol = pd.DataFrame(rows)
-    accuracy = pd.DataFrame(
-        [{"forecaster": name, **wf.accuracy(pd.concat(frames))}
-         for name, frames in forecast_frames.items()])
+    acc_rows, year_rows = [], []
+    for name, frames in forecast_frames.items():
+        pooled = pd.concat(frames)
+        beaten = sum(wf.skill(f) > 0 for f in frames)
+        acc_rows.append({"forecaster": name, **wf.accuracy(pooled),
+                         "symbols_beaten": f"{beaten} of {len(frames)}"})
+        scored = pooled.dropna(subset=["actual_ret"])
+        year_rows.append({"forecaster": name,
+                          **{str(y): wf.skill(g) for y, g in scored.groupby(scored.index.year)}})
+    accuracy = pd.DataFrame(acc_rows)
+    skill_by_year = pd.DataFrame(year_rows)
 
     trading_rows = []
     for name, sleeve_curves in curves.items():
@@ -97,7 +110,7 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
                              **backtest.curve_metrics(bench), "trades": 0,
                              "costs_rupees": 0.0, "exposure_pct": 100.0})
 
-    return Result(accuracy, pd.DataFrame(trading_rows), by_symbol, used, skipped,
+    return Result(accuracy, skill_by_year, pd.DataFrame(trading_rows), by_symbol, used, skipped,
                   start, end, entry)
 
 
@@ -124,7 +137,12 @@ def render(result: Result, settings: Settings, events: pd.DataFrame | None = Non
         "mae_pct": ("Avg error (%)", ".3f"),
         "skill_vs_no_change": ("Skill vs no change", "+.4f"),
         "direction_hit_pct": ("Direction right (%)", ".1f"),
+        "symbols_beaten": ("Symbols where it beats no change", ""),
     })
+    years = [c for c in result.skill_by_year.columns if c != "forecaster"]
+    by_year = _table(result.skill_by_year[result.skill_by_year["forecaster"] != "No change"],
+                     {"forecaster": ("Skill vs no change, by year", ""),
+                      **{y: (y, "+.4f") for y in years}})
     trade = _table(result.trading, {
         "strategy": ("Strategy", ""),
         "total_return_pct": ("Total return (%)", ".1f"),
@@ -156,6 +174,10 @@ def render(result: Result, settings: Settings, events: pd.DataFrame | None = Non
         "TimesFM has to clear that bar to be worth trading.",
         "",
         acc,
+        "",
+        "A real edge should show up in most years and most symbols, not just one.",
+        "",
+        by_year,
         "",
         "## Trading results after costs",
         "",
@@ -192,5 +214,6 @@ def save(result: Result, text: str, out_dir: Path = config.REPORTS_DIR) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "scoreboard.md").write_text(text)
     result.accuracy.round(6).to_csv(out_dir / "forecast_accuracy.csv", index=False)
+    result.skill_by_year.round(6).to_csv(out_dir / "skill_by_year.csv", index=False)
     result.trading.round(4).to_csv(out_dir / "trading.csv", index=False)
     result.by_symbol.round(4).to_csv(out_dir / "trading_by_symbol.csv", index=False)

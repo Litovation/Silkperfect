@@ -12,11 +12,18 @@
 Skill above zero means the forecaster beats assuming the price stays where it is.
 TimesFM has to clear that bar to be worth trading.
 
-| Forecaster | Forecasts | Avg error (%) | Skill vs no change | Direction right (%) |
-| --- | ---: | ---: | ---: | ---: |
-| No change | 15,906 | 2.346 | +0.0000 | n/a |
-| Drift (250d) | 15,906 | 2.362 | -0.0066 | 51.7 |
-| Moving average (20d) | 15,906 | 3.545 | -0.5109 | 50.4 |
+| Forecaster | Forecasts | Avg error (%) | Skill vs no change | Direction right (%) | Symbols where it beats no change |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| No change | 15,906 | 2.346 | +0.0000 | n/a | 0 of 11 |
+| Drift (250d) | 15,906 | 2.362 | -0.0066 | 51.7 | 2 of 11 |
+| Moving average (20d) | 15,906 | 3.545 | -0.5109 | 50.4 | 0 of 11 |
+
+A real edge should show up in most years and most symbols, not just one.
+
+| Skill vs no change, by year | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Drift (250d) | -0.0145 | -0.0078 | +0.0021 | -0.0031 | -0.0059 | -0.0080 |
+| Moving average (20d) | -0.5534 | -0.5195 | -0.5433 | -0.4360 | -0.3983 | -0.6023 |
 
 ## Trading results after costs
 

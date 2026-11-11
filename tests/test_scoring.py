@@ -140,3 +140,56 @@ def test_scoreboard_end_to_end():
     assert trading.loc["Buy and hold", "trades"] == 2
     text = scoreboard.render(result, settings)
     assert "## Forecast accuracy" in text and "Buy and hold" in text
+
+
+def test_slow_forecasts_are_cached_and_cache_tracks_the_data(tmp_path):
+    close = series()
+    calls = []
+
+    class Slow(NoChange):
+        cache_key = "slow-v1"
+
+        def predict(self, histories, horizon):
+            calls.append(len(histories))
+            return super().predict(histories, horizon)
+
+    a = wf.cached_walk_forward(close, Slow(), 5, 100, None, tmp_path, "AAA")
+    first = len(calls)
+    b = wf.cached_walk_forward(close, Slow(), 5, 100, None, tmp_path, "AAA")
+    assert len(calls) == first                      # second run read from disk
+    pd.testing.assert_frame_equal(a, b)
+    wf.cached_walk_forward(close * 1.01, Slow(), 5, 100, None, tmp_path, "AAA")
+    assert len(calls) > first                       # new prices are not served stale results
+    wf.cached_walk_forward(close, NoChange(), 5, 100, None, tmp_path, "AAA")
+    assert len(list(tmp_path.iterdir())) == 2       # fast forecasters are never cached
+
+
+def test_timesfm_wrapper_passes_only_recent_history(monkeypatch):
+    from silkperfect.forecasters import TimesFM
+
+    class FakeModel:
+        def forecast(self, horizon, inputs):
+            self.inputs = inputs
+            return np.array([np.full(64, x[-1] + 1) for x in inputs]), None
+
+    fake = FakeModel()
+    tf = TimesFM(max_context=50)
+    monkeypatch.setattr(tf, "_load", lambda: fake)
+    out = tf.predict([np.arange(200.0), np.arange(30.0)], horizon=5)
+    assert out.shape == (2, 5) and out[0, -1] == 200.0
+    assert [len(x) for x in fake.inputs] == [50, 30]
+    assert "ctx50" in tf.cache_key
+
+
+def test_skill_by_year_and_symbol_counts_reported():
+    frames = []
+    for i, sym in enumerate(["AAA", "NIFTY 50"]):
+        b = bars(series(420, seed=i))
+        frames.append(pd.DataFrame({"date": b.index, "symbol": sym, "adj_open": b["Open"],
+                                    "adj_high": b["High"], "adj_low": b["Low"],
+                                    "adj_close": b["Close"], "adj_volume": b["Volume"]}))
+    settings = scoreboard.Settings(min_history=200)
+    result = scoreboard.run(pd.concat(frames, ignore_index=True), ["AAA"], settings)
+    assert {"2020", "2021"} <= set(result.skill_by_year.columns)
+    assert result.accuracy.set_index("forecaster").loc["No change", "symbols_beaten"] == "0 of 1"
+    assert "by year" in scoreboard.render(result, settings)

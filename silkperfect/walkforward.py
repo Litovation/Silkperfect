@@ -5,6 +5,9 @@ and including that date and nothing else, so it cannot see the future.
 """
 from __future__ import annotations
 
+import hashlib
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -46,6 +49,35 @@ def walk_forward(close: pd.Series, forecaster: Forecaster, horizon: int,
         "pred_ret": np.log(preds / now),
         "actual_ret": np.log(future / now),
     }, index=close.index[idx])
+
+
+def cached_walk_forward(close: pd.Series, forecaster: Forecaster, horizon: int,
+                        min_history: int, max_context: int | None,
+                        cache_dir: Path | None, label: str = "") -> pd.DataFrame:
+    """walk_forward, saved to disk for slow forecasters.
+
+    The file name includes a hash of the prices and settings, so changed data
+    or settings never reuse an old result.
+    """
+    if cache_dir is None or forecaster.cache_key is None:
+        return walk_forward(close, forecaster, horizon, min_history, max_context)
+    digest = hashlib.sha256()
+    digest.update(close.to_numpy(dtype=float).tobytes())
+    digest.update(str(close.index[0]).encode() + str(close.index[-1]).encode())
+    digest.update(f"{forecaster.cache_key}|{horizon}|{min_history}|{max_context}".encode())
+    path = Path(cache_dir) / f"{label}-{forecaster.cache_key}-{digest.hexdigest()[:16]}.parquet"
+    if path.exists():
+        return pd.read_parquet(path)
+    frame = walk_forward(close, forecaster, horizon, min_history, max_context)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    frame.to_parquet(path)
+    return frame
+
+
+def skill(frame: pd.DataFrame) -> float:
+    df = frame.dropna(subset=["actual_ret"])
+    naive = df["actual_ret"].abs().mean()
+    return float(1 - (df["pred_ret"] - df["actual_ret"]).abs().mean() / naive) if naive else np.nan
 
 
 def accuracy(frame: pd.DataFrame) -> dict[str, float]:

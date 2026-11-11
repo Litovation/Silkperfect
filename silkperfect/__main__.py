@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 
 from . import config, corporate_actions as ca, dataset, nse, parse, scoreboard
+from .forecasters import TimesFM, default_forecasters
 
 
 def _renames() -> dict[str, str]:
@@ -83,7 +84,14 @@ def cmd_scoreboard(args) -> None:
                                    capital=args.capital)
     prices = dataset.load_prices(symbols=universe + [settings.benchmark])
     events = pd.read_csv(config.ACTIONS_PATH, parse_dates=["ex_date"])
-    result = scoreboard.run(prices, universe, settings)
+    forecasters = default_forecasters()
+    if args.timesfm:
+        forecasters.append(TimesFM(max_context=settings.max_context))
+        print("Running TimesFM. The first run is slow (about 2 to 3 minutes per symbol "
+              "on a laptop); results are saved, so later runs take seconds.")
+    result = scoreboard.run(prices, universe, settings, forecasters,
+                            cache_dir=config.FORECAST_CACHE_DIR,
+                            progress=lambda msg: print(msg, flush=True))
     text = scoreboard.render(result, settings, events, ca.unexplained_gaps(prices))
     scoreboard.save(result, text)
     print(text)
@@ -112,6 +120,7 @@ def main(argv: list[str] | None = None) -> None:
     s.add_argument("--horizon", type=int, default=config.HORIZON)
     s.add_argument("--min-history", type=int, default=config.MIN_HISTORY)
     s.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
+    s.add_argument("--timesfm", action="store_true", help="also score TimesFM 2.5")
     s.set_defaults(func=cmd_scoreboard)
 
     r = sub.add_parser("run", help="fetch, build and scoreboard in one go")
@@ -121,6 +130,7 @@ def main(argv: list[str] | None = None) -> None:
     r.add_argument("--horizon", type=int, default=config.HORIZON)
     r.add_argument("--min-history", type=int, default=config.MIN_HISTORY)
     r.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
+    r.add_argument("--timesfm", action="store_true", help="also score TimesFM 2.5")
     r.set_defaults(func=lambda a: (cmd_fetch(a), cmd_build(a), cmd_scoreboard(a)))
 
     args = p.parse_args(argv)
