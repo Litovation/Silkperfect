@@ -375,6 +375,8 @@ def method_choices() -> dict[str, str]:
     choices = dict(paper.METHODS)
     if not timesfm_installed():
         choices.pop("timesfm")
+    if importlib.util.find_spec("torch") is None:
+        choices.pop("kronos", None)
     if importlib.util.find_spec("chronos") is None:
         choices.pop("chronos", None)
     return choices

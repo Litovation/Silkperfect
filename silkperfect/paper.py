@@ -29,8 +29,9 @@ METHODS = {
     "low_volatility": "The steadiest shares",
     "timesfm": "TimesFM computer forecast",
     "chronos": "Chronos computer forecast",
+    "kronos": "Kronos computer forecast",
 }
-MODEL_METHODS = ("timesfm", "chronos")
+MODEL_METHODS = ("timesfm", "chronos", "kronos")
 
 
 @dataclass
@@ -54,6 +55,9 @@ def make_signal(method: str, context: int) -> ranking.Signal:
         return ranking.ForecastSignal(TimesFM(max_context=context))
     if method == "chronos":
         return ranking.ForecastSignal(Chronos(max_context=context))
+    if method == "kronos":
+        from .kronos_signal import KronosSignal
+        return KronosSignal()
     raise ValueError(f"unknown method {method!r}")
 
 

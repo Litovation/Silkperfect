@@ -110,6 +110,11 @@ def cmd_rank(args) -> None:
         signals += [ranking.ForecastSignal(TimesFM(max_context=settings.context)),
                     ranking.ForecastSignal(Chronos(max_context=settings.context))]
         print("Running forecasting models. The first run is slow; results are saved.")
+    if args.kronos:
+        from .kronos_signal import KronosSignal
+        signals.append(KronosSignal())
+        print("Running Kronos. Without a graphics card the first run takes about 2 hours; "
+              "it saves as it goes, so it can be stopped and resumed.")
     result = ranking.run(panel, signals, settings, cache_dir=config.FORECAST_CACHE_DIR,
                          progress=lambda msg: print(f"  {msg}", flush=True) if "scored" in msg else None)
     bench = dataset.ohlcv(prices, config.BENCHMARK)["Close"].loc[result.start:result.end]
@@ -170,6 +175,7 @@ def main(argv: list[str] | None = None) -> None:
     k.add_argument("--universe", type=int, default=200)
     k.add_argument("--top", type=int, default=20)
     k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
+    k.add_argument("--kronos", action="store_true", help="also rank with Kronos (slow)")
     k.set_defaults(func=cmd_rank)
 
     d = sub.add_parser("dashboard", help="update prices and open the dashboard")

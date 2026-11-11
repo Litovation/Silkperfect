@@ -145,3 +145,33 @@ def test_fees_never_push_the_account_below_zero_cash():
     sim = result.sims["Momentum (6-1 month)"]
     assert sim["cash"] >= 0 and (sim["trades"]["shares"] % 1 == 0).all()
     assert sim["costs"] == pytest.approx(sim["trades"]["fees"].sum())
+
+
+def test_weekly_bars_group_past_days_counting_back():
+    from silkperfect.kronos_signal import weekly_bars
+    idx = pd.bdate_range("2024-01-01", periods=12)
+    c = pd.DataFrame({"A": np.arange(1.0, 13.0)}, index=idx)
+    past = ranking.Panel(c, c - 0.5, c * 0, high=c + 1, low=c - 1, volume=c * 0 + 10)
+    bars = weekly_bars(past, "A")
+    assert len(bars) == 2                                   # the two oldest days are dropped
+    assert list(bars["close"]) == [7.0, 12.0] and list(bars["open"]) == [2.5, 7.5]
+    assert list(bars["high"]) == [8.0, 13.0] and list(bars["low"]) == [2.0, 7.0]
+    assert list(bars["volume"]) == [50.0, 50.0]
+
+
+def test_bar_methods_receive_only_past_bars():
+    panel = make_panel()
+    panel.high, panel.low, panel.volume = panel.close * 1.01, panel.close * 0.99, panel.value
+    seen = []
+
+    class Bars(ranking.Signal):
+        name = "bars"
+
+        def score_bars(self, past, horizon):
+            seen.append((past.close.index[-1], past.high.index[-1], len(past.volume)))
+            return past.close.iloc[-1]
+
+    s = ranking.RankSettings(**SMALL)
+    result = ranking.run(panel, [Bars()], s)
+    assert [d for d, _, _ in seen] == list(result.holdings["bars"])
+    assert all(d == h and n == s.context for d, h, n in seen)

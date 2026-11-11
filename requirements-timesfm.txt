@@ -1,3 +1,4 @@
 torch>=2.2
 timesfm>=2.0
 chronos-forecasting>=2.0
+einops>=0.8

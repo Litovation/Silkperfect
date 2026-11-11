@@ -44,13 +44,24 @@ class Panel:
     close: pd.DataFrame
     open: pd.DataFrame
     value: pd.DataFrame
+    high: pd.DataFrame | None = None     # only models that read full price bars need these
+    low: pd.DataFrame | None = None
+    volume: pd.DataFrame | None = None
+
+    def window(self, lo: int, hi: int, names: list[str]) -> "Panel":
+        """Rows lo..hi-1 for the given names: the past as seen on day hi-1."""
+        def cut(df):
+            return None if df is None else df.iloc[lo:hi][names]
+        return Panel(cut(self.close), cut(self.open), cut(self.value),
+                     cut(self.high), cut(self.low), cut(self.volume))
 
 
 def make_panel(prices: pd.DataFrame, exclude: set[str] = frozenset()) -> Panel:
     stocks = prices[(prices["series"] == "EQ") & ~prices["symbol"].isin(exclude)]
-    wide = stocks.pivot(index="date", columns="symbol",
-                        values=["adj_close", "adj_open", "value"]).sort_index()
-    return Panel(wide["adj_close"], wide["adj_open"], wide["value"])
+    fields = ["adj_close", "adj_open", "value", "adj_high", "adj_low", "adj_volume"]
+    have = [f for f in fields if f in stocks.columns]
+    wide = stocks.pivot(index="date", columns="symbol", values=have).sort_index()
+    return Panel(*(wide[f] if f in have else None for f in fields))
 
 
 def etf_symbols(pr_dir: Path = config.PR_DIR) -> set[str]:
@@ -90,6 +101,10 @@ class Signal:
         """`close` holds past closes only, oldest first, one column per stock."""
         raise NotImplementedError
 
+    def score_bars(self, past: "Panel", horizon: int) -> pd.Series:
+        """Same, for methods that need full price bars. `past` holds past days only."""
+        return self.score(past.close, horizon)
+
 
 class Momentum(Signal):
     """Return over the past `lookback` days, leaving out the latest `skip` days."""
@@ -127,17 +142,18 @@ class ForecastSignal(Signal):
         return pd.Series(paths[:, -1] / close.iloc[-1].to_numpy() - 1, index=close.columns)
 
 
-def _cached_score(signal: Signal, close: pd.DataFrame, horizon: int,
+def _cached_score(signal: Signal, past: Panel, horizon: int,
                   cache_dir: Path | None) -> pd.Series:
+    close = past.close
     if cache_dir is None or signal.cache_key is None:
-        return signal.score(close, horizon)
+        return signal.score_bars(past, horizon)
     digest = hashlib.sha256(close.to_numpy(dtype=float).tobytes())
     digest.update("|".join(close.columns).encode())
     digest.update(f"{signal.cache_key}|{horizon}|{close.index[-1]}".encode())
     path = Path(cache_dir) / f"rank-{signal.cache_key}-{digest.hexdigest()[:16]}.parquet"
     if path.exists():
         return pd.read_parquet(path)["score"]
-    scores = signal.score(close, horizon)
+    scores = signal.score_bars(past, horizon)
     path.parent.mkdir(parents=True, exist_ok=True)
     scores.rename("score").to_frame().to_parquet(path)
     return scores
@@ -265,7 +281,7 @@ def run(panel: Panel, signals: list[Signal], settings: RankSettings | None = Non
     for k, i in enumerate(days, 1):
         names = eligible(panel, i, s)
         universes[i] = names
-        window = panel.close.iloc[max(0, i + 1 - s.context):i + 1][names]
+        window = panel.window(max(0, i + 1 - s.context), i + 1, names)
         for sig in signals:
             if progress and sig.cache_key:
                 progress(f"{sig.name}: rebalance {k} of {len(days)}")
