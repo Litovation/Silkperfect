@@ -1,0 +1,4 @@
+method,cagr_pct,max_drawdown_pct,sharpe,turnover_pct,costs_rupees,cagr_before_pct,return_holdout_pct,rank_correlation,rank_t_stat,periods_won_pct
+Hold all equally,16.1181,-23.8173,0.9453,6.8636,728050.4953,20.5492,-2.8169,,,
+Momentum (12-1 month),25.8703,-32.5197,1.021,31.3388,1887008.4375,32.9288,-2.6971,0.0356,1.7314,58.8235
+Low volatility (12 month),10.3768,-18.7904,0.9055,14.4368,522017.0904,13.4333,-2.759,0.0111,0.4088,47.0588

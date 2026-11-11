@@ -98,5 +98,42 @@ class TimesFM(Forecaster):
         return np.asarray(point, dtype=float)[:, :horizon]
 
 
+class Chronos(Forecaster):
+    """Amazon's Chronos-Bolt (base), used as published. Apache-2.0."""
+    REPO = "amazon/chronos-bolt-base"
+    REVISION = "5d9f166d69f47aef3401367a7b842e78fe97b121"
+    name = "Chronos-Bolt"
+
+    def __init__(self, max_context: int = 1024, batch_size: int = 128):
+        self.max_context = max_context
+        self.batch_size = batch_size
+        self.cache_key = f"chronosbolt-{self.REVISION[:8]}-ctx{max_context}"
+        self._pipe = None
+
+    def _load(self):
+        try:
+            import torch
+            from chronos import BaseChronosPipeline
+        except ImportError as exc:
+            raise SystemExit("Chronos is not installed. Run: "
+                             "pip install -r requirements-timesfm.txt") from exc
+        torch.manual_seed(0)
+        return BaseChronosPipeline.from_pretrained(self.REPO, revision=self.REVISION,
+                                                   device_map="cpu")
+
+    def predict(self, histories, horizon):
+        import torch
+        if self._pipe is None:
+            self._pipe = self._load()
+        out = []
+        for start in range(0, len(histories), self.batch_size):
+            chunk = [torch.tensor(np.asarray(h[-self.max_context:], dtype=np.float32))
+                     for h in histories[start:start + self.batch_size]]
+            quantiles, _ = self._pipe.predict_quantiles(chunk, prediction_length=horizon,
+                                                        quantile_levels=[0.5])
+            out.append(quantiles[:, :, 0].numpy())
+        return np.concatenate(out).astype(float)
+
+
 def default_forecasters() -> list[Forecaster]:
     return [NoChange(), Drift(250), MovingAverage(20)]

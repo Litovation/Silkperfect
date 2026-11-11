@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from . import config, corporate_actions as ca, dataset, nse, parse, scoreboard
-from .forecasters import TimesFM, default_forecasters
+from .forecasters import Chronos, TimesFM, default_forecasters
 
 
 def _renames() -> dict[str, str]:
@@ -98,6 +98,26 @@ def cmd_scoreboard(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/scoreboard.md")
 
 
+def cmd_rank(args) -> None:
+    from . import ranking
+    settings = ranking.RankSettings(universe_size=args.universe, top_n=args.top)
+    print("Loading prices ...", flush=True)
+    prices = dataset.load_prices()
+    panel = ranking.make_panel(prices, exclude=ranking.etf_symbols())
+    signals = [ranking.Momentum(), ranking.LowVolatility()]
+    if args.models:
+        signals += [ranking.ForecastSignal(TimesFM(max_context=settings.context)),
+                    ranking.ForecastSignal(Chronos(max_context=settings.context))]
+        print("Running forecasting models. The first run is slow; results are saved.")
+    result = ranking.run(panel, signals, settings, cache_dir=config.FORECAST_CACHE_DIR,
+                         progress=lambda msg: print(f"  {msg}", flush=True) if "scored" in msg else None)
+    bench = dataset.ohlcv(prices, config.BENCHMARK)["Close"].loc[result.start:result.end]
+    text = ranking.render(result, bench)
+    ranking.save(result, text)
+    print(text)
+    print(f"Saved to {config.REPORTS_DIR}/ranking.md")
+
+
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="silkperfect", description=__doc__)
     sub = p.add_subparsers(dest="command", required=True)
@@ -122,6 +142,12 @@ def main(argv: list[str] | None = None) -> None:
     s.add_argument("--capital", type=float, default=config.CAPITAL_PER_SYMBOL)
     s.add_argument("--timesfm", action="store_true", help="also score TimesFM 2.5")
     s.set_defaults(func=cmd_scoreboard)
+
+    k = sub.add_parser("rank", help="ranking test on the most liquid stocks")
+    k.add_argument("--universe", type=int, default=200)
+    k.add_argument("--top", type=int, default=20)
+    k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
+    k.set_defaults(func=cmd_rank)
 
     r = sub.add_parser("run", help="fetch, build and scoreboard in one go")
     r.add_argument("--start", default=config.DEFAULT_START)
