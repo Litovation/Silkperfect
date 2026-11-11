@@ -122,13 +122,16 @@ holding all 200 equally: 16.1% a year. Full table: [reports/ranking.md](../repor
 | Low volatility | 10.4% | 0.41 | -2.7% |
 | TimesFM 2.5 | 13.0% | 0.99 | -10.2% |
 | Chronos-Bolt | 15.4% | -0.08 | -13.1% |
+| Kronos (small, 5-day bars) | 12.8% | -1.42 | +1.6% |
 | Hold all 200 | 16.1% | | -2.7% |
 
-- TimesFM and Chronos fail as rankers too: below hold-all, no reliable pattern.
+- TimesFM, Chronos and Kronos all fail as rankers: below hold-all, no reliable
+  pattern. Kronos's ranking leaned slightly the wrong way.
 - Momentum is the only method ahead, but its strength is under 2, its worst
   drop is deeper (-32%), and it added nothing in the last 12 months.
-- Kronos (MIT licence) is not yet added: it needs open/high/low/close/volume
-  input and is slow without a graphics card.
+- Kronos was run with its small model on 5-day bars, 5 averaged draws, because
+  daily bars take over 9 hours without a graphics card. The larger model on
+  daily bars is untested.
 
 ## Small money (Rs 10,000)
 
