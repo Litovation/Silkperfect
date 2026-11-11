@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+# Downloaded and derived market data is large; data/manifest.csv records what was used.
+data/raw/
+data/processed/
+# Never commit keys or tokens.
+.env
+*.token

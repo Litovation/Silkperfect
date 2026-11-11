@@ -1,0 +1,4 @@
+forecaster,forecasts,mae_pct,rmse_pct,skill_vs_no_change,direction_hit_pct
+No change,15906,2.346172,3.140135,0.0,
+Drift (250d),15906,2.36168,3.163245,-0.00661,51.695715
+Moving average (20d),15906,3.544883,4.620647,-0.510922,50.399547

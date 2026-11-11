@@ -1,0 +1,13 @@
+# One NSE symbol per line. Lines starting with # are ignored.
+# Edit this list to change what the scoreboard covers.
+RELIANCE
+HDFCBANK
+ICICIBANK
+INFY
+TCS
+ITC
+SBIN
+BHARTIARTL
+LT
+HINDUNILVR
+NIFTYBEES

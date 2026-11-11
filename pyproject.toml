@@ -1,0 +1,8 @@
+[project]
+name = "silkperfect"
+version = "0.1.0"
+description = "NSE data pull, baselines and a walk-forward scoreboard"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

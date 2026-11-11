@@ -1,0 +1,7 @@
+strategy,total_return_pct,cagr_pct,max_drawdown_pct,volatility_pct,sharpe,trades,costs_rupees,exposure_pct
+Buy and hold,103.2519,12.9074,-17.6955,13.5601,0.9771,11,26623.6913,99.8622
+Moving-average crossover (20/50),23.2891,3.6484,-15.0913,8.9069,0.453,189,340586.084,59.0502
+Forecast rule: No change,0.0,0.0,0.0,0.0,,0,0.0,0.0
+Forecast rule: Drift (250d),49.6853,7.1478,-10.9291,10.0811,0.746,33,62954.0233,62.6715
+Forecast rule: Moving average (20d),15.1487,2.4436,-12.9108,8.2556,0.3381,763,1400115.1415,47.7602
+"Nifty 50 index (no costs, no dividends)",76.377,10.1997,-17.2298,14.285,0.762,0,0.0,100.0
