@@ -39,6 +39,23 @@ The first TimesFM run takes about 2 to 3 minutes per symbol on a laptop
 without a graphics card. Forecasts are saved under `data/processed/forecasts/`,
 so later runs take seconds unless the prices or settings change.
 
+## Dashboard
+
+```bash
+streamlit run dashboard.py
+```
+
+This opens a page in your browser (http://localhost:8501). Pick stocks, the
+forecast horizon and money per stock on the left, tick "Include TimesFM 2.5"
+if it is installed, and press **Run test**. Results fill in stock by stock
+while the test runs. Then:
+
+- **Growth of money:** what the starting money became under each strategy
+- **Forecast vs actual:** each forecast drawn against what the price then did
+- **Scoreboard, By stock, Data checks:** the full tables
+
+Stop it with Ctrl+C in the terminal.
+
 Optional check against NSE's official bhavcopy files:
 
 ```bash
@@ -74,6 +91,7 @@ python -m pytest -q
 | `silkperfect/walkforward.py` | Forecasts day by day using only past data, and scores them |
 | `silkperfect/backtest.py` | Runs buy/sell signals through backtesting.py with costs |
 | `silkperfect/scoreboard.py` | Puts it together and writes the report |
+| `dashboard.py` | Streamlit dashboard |
 
 Downloaded data is not stored in git. `data/manifest.csv` lists the SHA-256
 of every file used, and `build` refuses to run if a file no longer matches.

@@ -11,6 +11,9 @@ from .costs import CostModel
 from .forecasters import Forecaster, default_forecasters
 
 
+BENCHMARK_LABEL = "Index (no costs)"
+
+
 @dataclass
 class Settings:
     horizon: int = config.HORIZON
@@ -34,11 +37,18 @@ class Result:
     start: pd.Timestamp
     end: pd.Timestamp
     entry_threshold: float
+    equity: dict = field(default_factory=dict)      # strategy -> portfolio value by date
+    forecasts: dict = field(default_factory=dict)   # forecaster -> symbol -> forecast frame
 
 
 def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = None,
         forecasters: list[Forecaster] | None = None,
-        cache_dir: Path | None = None, progress=None) -> Result:
+        cache_dir: Path | None = None, progress=None, on_symbol=None) -> Result:
+    """Score every forecaster and strategy over the universe.
+
+    progress(text) is called before each slow forecast; on_symbol(done, total,
+    rows_so_far) after each symbol, so a dashboard can show results as they arrive.
+    """
     s = settings or Settings()
     forecasters = forecasters or default_forecasters()
     entry = s.costs.round_trip_fraction(s.capital)
@@ -48,10 +58,12 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
     curves: dict[str, list[pd.Series]] = {}
     rows, used, skipped = [], [], []
 
-    for symbol in universe:
+    for position, symbol in enumerate(universe, 1):
         bars = dataset.ohlcv(prices, symbol)
         if len(bars) < need:
             skipped.append(symbol)
+            if on_symbol:
+                on_symbol(position, len(universe), pd.DataFrame(rows))
             continue
         used.append(symbol)
         close = bars["Close"]
@@ -76,6 +88,8 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
             m = backtest.curve_metrics(res["equity"])
             rows.append({"strategy": name, "symbol": symbol, **m, "trades": res["trades"],
                          "costs_rupees": res["costs"], "exposure_pct": res["exposure_pct"]})
+        if on_symbol:
+            on_symbol(position, len(universe), pd.DataFrame(rows))
 
     if not used:
         raise ValueError("no symbol in the universe has enough history")
@@ -93,9 +107,10 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
     accuracy = pd.DataFrame(acc_rows)
     skill_by_year = pd.DataFrame(year_rows)
 
-    trading_rows = []
+    trading_rows, equity = [], {}
     for name, sleeve_curves in curves.items():
         portfolio = backtest.combine_equity(sleeve_curves, s.capital)
+        equity[name] = portfolio
         sub = by_symbol[by_symbol["strategy"] == name]
         trading_rows.append({"strategy": name, **backtest.curve_metrics(portfolio),
                              "trades": int(sub["trades"].sum()),
@@ -106,12 +121,15 @@ def run(prices: pd.DataFrame, universe: list[str], settings: Settings | None = N
 
     bench = dataset.ohlcv(prices, s.benchmark)["Close"].loc[start:end]
     if len(bench) > 1:
+        # Scaled to the same starting money so it can be drawn beside the strategies.
+        equity[BENCHMARK_LABEL] = bench / bench.iloc[0] * s.capital * len(used)
         trading_rows.append({"strategy": f"{s.benchmark.title()} index (no costs, no dividends)",
                              **backtest.curve_metrics(bench), "trades": 0,
                              "costs_rupees": 0.0, "exposure_pct": 100.0})
 
+    forecasts = {name: dict(zip(used, frames)) for name, frames in forecast_frames.items()}
     return Result(accuracy, skill_by_year, pd.DataFrame(trading_rows), by_symbol, used, skipped,
-                  start, end, entry)
+                  start, end, entry, equity, forecasts)
 
 
 def _table(df: pd.DataFrame, columns: dict[str, tuple[str, str]]) -> str:

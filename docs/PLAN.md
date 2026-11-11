@@ -18,7 +18,7 @@ first one on stock prices, so that is checked before anything else.
 | --- | --- | --- |
 | 1 | Data pull, price adjustment, cost model, baselines, scoreboard | Done |
 | 2 | TimesFM 2.5 added as one more forecaster on the same scoreboard | Done: it failed the test (see below) |
-| 3 | Streamlit dashboard: forecast against actual, scoreboard | On hold |
+| 3 | Streamlit dashboard: forecast against actual, scoreboard | Done (`streamlit run dashboard.py`) |
 | 4 | Paper trading with OpenAlgo Analyzer mode on live Upstox prices | On hold: nothing has earned it yet |
 | 5 | Real money through Upstox orders via OpenAlgo | Only if paper passes |
 
