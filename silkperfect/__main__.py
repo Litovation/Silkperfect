@@ -229,6 +229,36 @@ def cmd_chinese(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/chinese_methods.md")
 
 
+def cmd_intraday(args) -> None:
+    from . import daytrade, intraday, ranking
+    print("Loading prices ...", flush=True)
+    prices, panel = _load_market()
+    start = max(len(panel.close) - 61, 0)
+    universe = ranking.eligible(panel, start, ranking.RankSettings(universe_size=args.universe))
+    print(f"Getting 5-minute prices for {len(universe)} shares ...", flush=True)
+    daytrade.fetch(universe, refresh=args.refresh, progress=lambda m: print(f"  {m}", flush=True))
+    sessions = {}
+    for symbol in universe:
+        path = config.INTRADAY_DIR / f"{symbol}.json"
+        if path.exists():
+            found = daytrade.read_sessions(path)
+            if found:
+                sessions[symbol] = found
+    settings = intraday.Settings()
+    print("Running the rule-based strategies ...", flush=True)
+    parts = [intraday.run_rules(sessions, settings, progress=lambda m: print(f"  {m}", flush=True)),
+             intraday.run_leaders(sessions, settings)]
+    print("Training and testing the ML classifier ...", flush=True)
+    ml_trades, ml_info = intraday.run_classifier(sessions, settings)
+    trades = pd.concat(parts + [ml_trades], ignore_index=True)
+    summary = intraday.summarise(trades)
+    text = intraday.render(summary, trades["date"].min(), trades["date"].max(), len(sessions),
+                           settings, ml_info)
+    intraday.save(trades, summary, text)
+    print(text)
+    print(f"Saved to {config.REPORTS_DIR}/intraday.md")
+
+
 def cmd_daytrade(args) -> None:
     from . import daytrade, ranking
     print("Loading prices ...", flush=True)
@@ -350,6 +380,11 @@ def main(argv: list[str] | None = None) -> None:
 
     cn = sub.add_parser("chinese", help="test Chan theory (czsc), RSRS, turtle and reversal rules")
     cn.set_defaults(func=cmd_chinese)
+
+    it = sub.add_parser("intraday", help="test a battery of day-trading strategies on 5-minute bars")
+    it.add_argument("--universe", type=int, default=200)
+    it.add_argument("--refresh", action="store_true", help="download the 5-minute prices again")
+    it.set_defaults(func=cmd_intraday)
 
     t = sub.add_parser("daytrade", help="test the opening-range-breakout day trade on NSE shares")
     t.add_argument("--universe", type=int, default=200)

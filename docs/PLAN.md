@@ -223,6 +223,26 @@ Ahead in all ten cases by 7 to 11 points a year, so the lead does not hinge
 on one setting. It is still one 5.7-year period with a strong run in mid-size
 shares, the worst drops are 26% to 41%, and the rank strength stays under 2.
 
+## Day-trading strategy battery (17 Aug to 11 Nov 2026)
+
+Fifteen common day-trading approaches on 5-minute bars, 200 most traded NSE
+shares, textbook settings, trades at bar closes, flat by 15:20, intraday
+costs of about 0.25% a round trip. Table: [reports/intraday.md](../reports/intraday.md).
+
+- Made money after costs: 0 of 15.
+- Best before costs: gap fade at +0.10% a trade and shorting the morning's
+  laggards at +0.08%, both well under the 0.25% cost and neither reliable.
+- The only reliable edge before costs: the 9/21 moving-average crossover,
+  +0.03% a trade (strength 2.35), about an eighth of what a trade costs.
+- Mean reversion (RSI, Bollinger, VWAP fade) and the machine-learning
+  classifier lost even before costs.
+- Not testable here: options strategies (no free option price history),
+  reinforcement learning (60 days is too little), index arbitrage and pairs
+  (need futures and speed).
+
+The pattern across every intraday test: average gains per trade are a few
+hundredths of a percent, and a round trip costs a quarter of a percent.
+
 ## Small money (Rs 10,000)
 
 Each order costs roughly Rs 20 to Rs 45 whatever its size, and only whole
