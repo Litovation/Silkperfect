@@ -153,6 +153,37 @@ and Indian intraday costs. Full table: [reports/daytrade.md](../reports/daytrade
 - Limits: 60 days is all Yahoo's free 5-minute data offers, and stops are
   assumed to fill exactly at their price.
 
+### Every variant of the day-trade rule
+
+All 48 settings the skill offers were run: buying or shorting, 15- or
+30-minute range, stop at the middle or far edge, targets of 1, 2 or 3 times
+the risk, with and without a volume filter. The days were split in half so a
+lucky first half could be caught by the second. Table:
+[reports/daytrade_variants.md](../reports/daytrade_variants.md).
+
+- 0 of 48 made money after costs, in either half or overall.
+- The best lost 0.12 R a trade. Shorting showed about +0.1 R before costs
+  in a falling stretch, less than half of what costs take.
+
+## Momentum under different definitions (Rs 1 crore, same period)
+
+To check that momentum's lead is not an accident of one setting, it was run
+two ways (12-1 month return, and the 6- and 12-month volatility-adjusted
+score NSE's Nifty200 Momentum 30 index uses) across five holding and
+swap schedules.
+
+| Hold | Swap | Hold all 200 | Momentum (12-1) | Momentum (NSE style) |
+| --- | --- | ---: | ---: | ---: |
+| 20 | monthly | 16.1% | 25.8% | 26.6% |
+| 30 | monthly | 16.1% | 24.4% | 24.1% |
+| 20 | 3 months | 17.0% | 26.4% | 25.0% |
+| 30 | 6 months | 17.3% | 25.4% | 26.4% |
+| 10 | monthly | 16.1% | 26.3% | 26.8% |
+
+Ahead in all ten cases by 7 to 11 points a year, so the lead does not hinge
+on one setting. It is still one 5.7-year period with a strong run in mid-size
+shares, the worst drops are 26% to 41%, and the rank strength stays under 2.
+
 ## Small money (Rs 10,000)
 
 Each order costs roughly Rs 20 to Rs 45 whatever its size, and only whole

@@ -105,7 +105,7 @@ def cmd_rank(args) -> None:
     print("Loading prices ...", flush=True)
     prices = dataset.load_prices()
     panel = ranking.make_panel(prices, exclude=ranking.etf_symbols())
-    signals = [ranking.Momentum(), ranking.LowVolatility()]
+    signals = [ranking.Momentum(), ranking.IndexMomentum(), ranking.LowVolatility()]
     if args.models:
         signals += [ranking.ForecastSignal(TimesFM(max_context=settings.context)),
                     ranking.ForecastSignal(Chronos(max_context=settings.context))]
@@ -143,6 +143,13 @@ def cmd_daytrade(args) -> None:
             if found:
                 sessions[symbol] = found
     print(f"  {len(sessions)} shares with data, {len(problems)} not available")
+    if args.variants:
+        table, split = daytrade.explore(sessions)
+        text = daytrade.render_variants(table, split)
+        (config.REPORTS_DIR / "daytrade_variants.md").write_text(text)
+        table.round(4).to_csv(config.REPORTS_DIR / "daytrade_variants.csv", index=False)
+        print(text)
+        return
     settings = daytrade.DayTradeSettings()
     trades = daytrade.run(sessions, settings)
     share_days = sum(len(v) for v in sessions.values())
@@ -225,6 +232,7 @@ def main(argv: list[str] | None = None) -> None:
     t = sub.add_parser("daytrade", help="test the opening-range-breakout day trade on NSE shares")
     t.add_argument("--universe", type=int, default=200)
     t.add_argument("--refresh", action="store_true", help="download the 5-minute prices again")
+    t.add_argument("--variants", action="store_true", help="test every variant of the rule")
     t.set_defaults(func=cmd_daytrade)
 
     g = sub.add_parser("device", help="check whether a graphics card will be used")

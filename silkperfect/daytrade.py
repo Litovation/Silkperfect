@@ -42,6 +42,9 @@ OPEN_MINUTE = 9 * 60 + 15
 class DayTradeSettings:
     or_minutes: int = 15             # opening range length
     target_r: float = 1.0
+    stop_rule: str = "or_mid"        # "or_mid": middle of the range; "or_far": its far edge
+    side: str = "buy"                # "buy" above the range, or "sell" (short) below it
+    min_volume_x: float = 0.0        # entry bar volume needed, as a multiple of the range bars' average
     last_entry: str = "15:00"        # no new trades after this bar close (30 minutes before the close)
     flat_by: str = "15:20"           # close whatever is open at this time
     position: float = 10_000.0       # rupees per trade, used to work out fees
@@ -90,7 +93,7 @@ MAX_GAPS = 3                     # blank bars tolerated in a day
 
 
 def read_sessions(path: Path) -> dict[pd.Timestamp, np.ndarray]:
-    """Usable sessions: {date: array of 75 rows (open, high, low, close)}.
+    """Usable sessions: {date: array of 75 rows (open, high, low, close, volume)}.
 
     Yahoo often leaves a few bars blank, mostly the last ones of the day. Up
     to MAX_GAPS blank bars are filled flat at the last traded price; a day
@@ -102,7 +105,8 @@ def read_sessions(path: Path) -> dict[pd.Timestamp, np.ndarray]:
     offset = result["meta"]["gmtoffset"]
     when = pd.to_datetime(np.array(stamps) + offset, unit="s")
     df = pd.DataFrame({"o": quote["open"], "h": quote["high"], "l": quote["low"],
-                       "c": quote["close"]}, index=when).astype(float)
+                       "c": quote["close"], "v": quote.get("volume") or [0] * len(stamps)},
+                      index=when).astype(float)
     df["slot"] = (df.index.hour * 60 + df.index.minute - OPEN_MINUTE) // 5
     sessions = {}
     for day, bars in df.groupby(df.index.normalize()):
@@ -114,40 +118,51 @@ def read_sessions(path: Path) -> dict[pd.Timestamp, np.ndarray]:
         last = bars["c"].ffill()
         for col in ("o", "h", "l", "c"):
             bars[col] = bars[col].where(~blank, last)
-        sessions[day] = bars[["o", "h", "l", "c"]].to_numpy()
+        bars["v"] = bars["v"].fillna(0.0)
+        sessions[day] = bars[["o", "h", "l", "c", "v"]].to_numpy()
     return sessions
 
 
 def trade_session(bars: np.ndarray, s: DayTradeSettings) -> dict | None:
     """Apply the rule to one day's bars. Returns the trade, or None if it never triggered."""
     n = s.or_minutes // 5
+    long = s.side == "buy"
     last_entry, flat = _slot(s.last_entry), _slot(s.flat_by)
     high, low = bars[:n, 1].max(), bars[:n, 2].min()
-    entry_bar = next((i for i in range(n, last_entry + 1) if bars[i, 3] > high), None)
+    need_volume = s.min_volume_x * bars[:n, 4].mean() if s.min_volume_x and bars.shape[1] > 4 else 0.0
+
+    def triggers(i: int) -> bool:
+        beyond = bars[i, 3] > high if long else bars[i, 3] < low
+        return bool(beyond and (not need_volume or bars[i, 4] >= need_volume))
+
+    entry_bar = next((i for i in range(n, last_entry + 1) if triggers(i)), None)
     if entry_bar is None:
         return None
     entry = round(float(bars[entry_bar, 3]), 2)
-    stop = math.floor(round((high + low) / 2 * 100, 4)) / 100      # rounded away from the entry
-    risk = entry - stop
+    level = (high + low) / 2 if s.stop_rule == "or_mid" else (low if long else high)
+    cents = round(level * 100, 4)                                  # rounded away from the entry
+    stop = (math.floor(cents) if long else math.ceil(cents)) / 100
+    risk = entry - stop if long else stop - entry
     if risk <= 0:
         return None
-    target = round(entry + s.target_r * risk, 2)
+    target = round(entry + s.target_r * risk, 2) if long else round(entry - s.target_r * risk, 2)
     outcome, exit_price = "time", float(bars[flat, 3])
     for i in range(entry_bar + 1, flat + 1):
-        if bars[i, 2] <= stop:                                     # stop first, as the skill does
+        if (bars[i, 2] <= stop) if long else (bars[i, 1] >= stop):  # stop first, as the skill does
             outcome, exit_price = "stop", stop
             break
-        if bars[i, 1] >= target:
+        if (bars[i, 1] >= target) if long else (bars[i, 2] <= target):
             outcome, exit_price = "target", target
             break
-    gross = (exit_price - entry) / risk
+    move = exit_price - entry if long else entry - exit_price
     shares = s.position / entry
-    fees = s.costs.cost("buy", shares, entry) + s.costs.cost("sell", shares, exit_price)
+    first, second = ("buy", "sell") if long else ("sell", "buy")
+    fees = s.costs.cost(first, shares, entry) + s.costs.cost(second, shares, exit_price)
     return {"entry_bar": entry_bar, "entry": entry, "stop": stop, "target": target,
             "outcome": outcome, "exit": exit_price, "risk_pct": risk / entry * 100,
-            "gross_r": gross, "net_r": gross - fees / (shares * risk),
-            "gross_pct": (exit_price / entry - 1) * 100,
-            "net_pct": (exit_price / entry - 1) * 100 - fees / s.position * 100}
+            "gross_r": move / risk, "net_r": move / risk - fees / (shares * risk),
+            "gross_pct": move / entry * 100,
+            "net_pct": move / entry * 100 - fees / s.position * 100}
 
 
 def run(sessions_by_symbol: dict[str, dict], settings: DayTradeSettings | None = None) -> pd.DataFrame:
@@ -159,7 +174,9 @@ def run(sessions_by_symbol: dict[str, dict], settings: DayTradeSettings | None =
             trade = trade_session(bars, s)
             if trade:
                 rows.append({"symbol": symbol, "date": day, **trade})
-    return pd.DataFrame(rows)
+    columns = ["symbol", "date", "entry_bar", "entry", "stop", "target", "outcome", "exit",
+               "risk_pct", "gross_r", "net_r", "gross_pct", "net_pct"]
+    return pd.DataFrame(rows, columns=columns)
 
 
 def _t_stat(daily: pd.Series) -> float:
@@ -187,6 +204,87 @@ def summarise(trades: pd.DataFrame, share_days: int) -> dict:
         "winning_days_pct": (by_day_net > 0).mean() * 100,
         "start": trades["date"].min(), "end": trades["date"].max(),
     }
+
+
+def variants() -> list[tuple[str, DayTradeSettings]]:
+    """Every setting the original skill offers, on both sides of the market."""
+    out = []
+    for side in ("buy", "sell"):
+        for minutes in (15, 30):
+            for stop in ("or_mid", "or_far"):
+                for target in (1.0, 2.0, 3.0):
+                    for volume in (0.0, 1.5):
+                        label = (f"{'Buy' if side == 'buy' else 'Short'}, {minutes}-min range, stop at "
+                                 f"{'middle' if stop == 'or_mid' else 'far edge'}, target {target:g}R"
+                                 + (", volume 1.5x" if volume else ""))
+                        out.append((label, DayTradeSettings(or_minutes=minutes, stop_rule=stop,
+                                                            side=side, target_r=target,
+                                                            min_volume_x=volume)))
+    return out
+
+
+def explore(sessions_by_symbol: dict[str, dict]) -> pd.DataFrame:
+    """Run every variant, scored separately on the first and second half of the days.
+
+    The first half is for finding what looks good; the second half is the
+    check. With this many variants a few will look good on any one stretch
+    by luck alone, so only one that holds up in both halves means anything.
+    """
+    days = sorted({d for sessions in sessions_by_symbol.values() for d in sessions})
+    split = days[len(days) // 2]
+    rows = []
+    for label, settings in variants():
+        trades = run(sessions_by_symbol, settings)
+        row = {"variant": label, "trades": len(trades)}
+        for name, part in (("first", trades[trades["date"] < split]),
+                           ("second", trades[trades["date"] >= split])):
+            row[f"{name}_gross_r"] = part["gross_r"].mean()
+            row[f"{name}_net_r"] = part["net_r"].mean()
+            row[f"{name}_t_gross"] = _t_stat(part.groupby("date")["gross_r"].mean())
+            row[f"{name}_t_net"] = _t_stat(part.groupby("date")["net_r"].mean())
+        row["all_gross_r"], row["all_net_r"] = trades["gross_r"].mean(), trades["net_r"].mean()
+        row["all_t_net"] = _t_stat(trades.groupby("date")["net_r"].mean())
+        rows.append(row)
+    return pd.DataFrame(rows), split
+
+
+def render_variants(table: pd.DataFrame, split: pd.Timestamp) -> str:
+    n = len(table)
+    held_gross = table[(table["first_t_gross"] >= 2) & (table["second_t_gross"] >= 2)]
+    held_net = table[(table["first_net_r"] > 0) & (table["second_net_r"] > 0)]
+    best_first = table.sort_values("first_net_r", ascending=False).head(5)
+    lines = [
+        "# Day-trade rule: every variant",
+        "",
+        f"{n} variants of the opening-range breakout: buying or shorting, a 15- or 30-minute range,",
+        "the stop at the middle or far edge of the range, targets of 1, 2 or 3 times the risk, with",
+        "and without a volume filter. Same 200 shares, same costs.",
+        "",
+        f"The days are split at {split:%d %b %Y}. The first half is where a pattern is looked for;",
+        "the second half is the check. Trying this many variants guarantees a few look good by luck,",
+        "so only a variant that works in both halves counts.",
+        "",
+        f"- Variants that made money after costs in both halves: **{len(held_net)} of {n}**",
+        f"- Variants with a reliable edge before costs in both halves: **{len(held_gross)} of {n}**",
+        f"- Variants that made money after costs over all days: **{int((table['all_net_r'] > 0).sum())} of {n}**",
+        f"- Best result after costs over all days: {table['all_net_r'].max():+.3f} R a trade",
+        "",
+        "## The five that looked best in the first half, and what they did next",
+        "",
+        "| Variant | Trades | First half, after costs (R) | Second half, after costs (R) | Before costs, all days (R) |",
+        "| --- | ---: | ---: | ---: | ---: |",
+    ]
+    for _, r in best_first.iterrows():
+        lines.append(f"| {r['variant']} | {r['trades']:,} | {r['first_net_r']:+.3f} | "
+                     f"{r['second_net_r']:+.3f} | {r['all_gross_r']:+.3f} |")
+    lines += ["", "## All variants", "",
+              "| Variant | Trades | Before costs (R) | After costs (R) | Strength after costs (t) |",
+              "| --- | ---: | ---: | ---: | ---: |"]
+    for _, r in table.sort_values("all_net_r", ascending=False).iterrows():
+        lines.append(f"| {r['variant']} | {r['trades']:,} | {r['all_gross_r']:+.3f} | "
+                     f"{r['all_net_r']:+.3f} | {r['all_t_net']:+.2f} |")
+    lines.append("")
+    return "\n".join(lines)
 
 
 def render(trades: pd.DataFrame, m: dict, s: DayTradeSettings) -> str:

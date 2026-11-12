@@ -12,6 +12,7 @@
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Hold all equally | 16.1 | +0.0 | -23.5 | 0.95 | 20.5 | -2.7 | 7 | 690,096 |
 | Momentum (12-1 month) | 25.8 | +9.7 | -32.4 | 1.02 | 32.8 | -2.7 | 31 | 1,871,062 |
+| Momentum (NSE index style) | 26.6 | +10.5 | -30.0 | 1.13 | 33.4 | -1.4 | 36 | 2,379,964 |
 | Low volatility (12 month) | 10.4 | -5.7 | -18.8 | 0.91 | 13.4 | -2.7 | 14 | 519,998 |
 | TimesFM 2.5 | 13.0 | -3.1 | -29.4 | 0.71 | 18.5 | -10.2 | 68 | 2,617,363 |
 | Chronos-Bolt | 15.4 | -0.7 | -36.7 | 0.77 | 22.5 | -13.1 | 73 | 3,119,696 |
@@ -27,6 +28,7 @@ is unlikely to be luck.
 | Method | Avg rank correlation | t-statistic | Rebalances where its picks beat hold-all (%) |
 | --- | ---: | ---: | ---: |
 | Momentum (12-1 month) | +0.036 | +1.73 | 59 |
+| Momentum (NSE index style) | +0.030 | +1.51 | 62 |
 | Low volatility (12 month) | +0.011 | +0.41 | 47 |
 | TimesFM 2.5 | +0.012 | +0.99 | 47 |
 | Chronos-Bolt | -0.001 | -0.08 | 51 |

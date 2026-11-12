@@ -117,6 +117,24 @@ class Momentum(Signal):
         return close.iloc[-1 - self.skip] / close.iloc[-1 - self.lookback] - 1
 
 
+class IndexMomentum(Signal):
+    """Momentum the way NSE's Nifty200 Momentum 30 index scores it.
+
+    6-month and 12-month returns, each divided by the share's yearly
+    volatility, turned into z-scores across the universe and averaged. Used
+    as a second, independently defined version of momentum.
+    """
+    name = "Momentum (NSE index style)"
+
+    def score(self, close, horizon):
+        vol = np.log(close.iloc[-253:]).diff().std() * np.sqrt(252)
+        parts = []
+        for days in (126, 252):
+            ratio = (close.iloc[-1] / close.iloc[-1 - days] - 1) / vol
+            parts.append((ratio - ratio.mean()) / ratio.std())
+        return (parts[0] + parts[1]) / 2
+
+
 class LowVolatility(Signal):
     """Prefer the steadiest stocks over the past `lookback` days."""
 

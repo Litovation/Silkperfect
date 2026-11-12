@@ -26,6 +26,7 @@ BANK_RATE = 0.065             # assumed yearly interest on a bank deposit
 
 METHODS = {
     "momentum": "Shares that rose the most over the past year",
+    "index_momentum": "Momentum the way NSE's momentum index measures it",
     "low_volatility": "The steadiest shares",
     "timesfm": "TimesFM computer forecast",
     "chronos": "Chronos computer forecast",
@@ -49,6 +50,8 @@ class Plan:
 def make_signal(method: str, context: int) -> ranking.Signal:
     if method == "momentum":
         return ranking.Momentum()
+    if method == "index_momentum":
+        return ranking.IndexMomentum()
     if method == "low_volatility":
         return ranking.LowVolatility()
     if method == "timesfm":

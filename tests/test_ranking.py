@@ -175,3 +175,14 @@ def test_bar_methods_receive_only_past_bars():
     result = ranking.run(panel, [Bars()], s)
     assert [d for d, _, _ in seen] == list(result.holdings["bars"])
     assert all(d == h and n == s.context for d, h, n in seen)
+
+
+def test_index_style_momentum_prefers_strong_steady_risers():
+    idx = pd.bdate_range("2022-01-01", periods=300)
+    rng = np.random.default_rng(0)
+    steady = pd.Series(100 * np.exp(np.cumsum(rng.normal(0.002, 0.005, 300))), index=idx)
+    wild = pd.Series(100 * np.exp(np.cumsum(rng.normal(0.002, 0.04, 300))), index=idx)
+    faller = pd.Series(100 * np.exp(np.cumsum(rng.normal(-0.002, 0.005, 300))), index=idx)
+    score = ranking.IndexMomentum().score(pd.DataFrame({"STEADY": steady, "WILD": wild, "FALL": faller}), 21)
+    assert score["STEADY"] > score["WILD"] and score["STEADY"] > score["FALL"]
+    assert abs(score.mean()) < 1e-9                        # z-scores centre on zero
