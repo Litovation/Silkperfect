@@ -61,6 +61,21 @@ How shares are picked is a dropdown: momentum, steadiest shares, and TimesFM
 or Chronos when their packages are installed. Nothing in the dashboard places
 a real order.
 
+## Chinese rule-based methods
+
+```bash
+pip install -r requirements-chinese.txt
+```
+
+```bash
+python -m silkperfect chinese
+```
+
+Tests Chan theory (缠论) buy and sell points from
+[czsc](https://github.com/waditu/czsc) (Apache-2.0), RSRS timing, the turtle
+breakout and one-month reversal on the 200 most traded NSE shares, against
+simply holding the same shares. Results go to `reports/chinese_methods.md`.
+
 ## Day-trade rule test
 
 ```bash
@@ -172,6 +187,7 @@ python -m pytest -q
 | `silkperfect/paper.py` | Plans in plain terms and the pretend account |
 | `silkperfect/daytrade.py` | Opening-range-breakout day-trade test on 5-minute bars |
 | `silkperfect/kronos_signal.py` | Kronos as a share-picking method |
+| `silkperfect/chinese.py` | Chan theory (czsc), RSRS, turtle and reversal rules |
 | `silkperfect/qlib_signal.py` | Qlib's 158 features and LightGBM model as a share-picking method |
 | `dashboard.py` | Streamlit dashboard |
 

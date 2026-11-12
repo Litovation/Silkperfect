@@ -181,6 +181,29 @@ Microsoft Qlib's recipe (its 158 features and LightGBM settings, computed
 on NSE data and retrained walk-forward) is below hold-all at both speeds.
 Qlib's settings were tuned for Chinese shares and not re-tuned here.
 
+## Chinese rule-based methods (10 Feb 2021 to 9 Nov 2026)
+
+The 200 most traded shares as of the start, Rs 5 lakh each, each rule
+deciding when to hold a share and when to sit in cash. The bar is holding
+the same shares throughout. Settings are the published defaults.
+Table: [reports/chinese_methods.md](../reports/chinese_methods.md).
+
+| Rule | Per year | Worst drop | Shares where it beat holding |
+| --- | ---: | ---: | ---: |
+| Hold the same shares | 15.7% | -21.4% | |
+| Chan theory, third-class points only (czsc) | 11.7% | -13.8% | 28% |
+| RSRS timing | 5.7% | -11.4% | 16% |
+| Chan theory, all points (czsc) | 4.4% | -13.7% | 18% |
+| Chan theory, first-class points only (czsc) | 4.1% | -10.9% | 25% |
+| Turtle breakout | 3.9% | -12.6% | 16% |
+
+Every rule earned less than holding. All of them fell less at the worst,
+because they sit in cash about half the time. Chan theory's third-class
+points are the least bad: about three quarters of the return for two thirds
+of the drop. One-month reversal, the pattern reported for Chinese shares,
+returned 7.7% a year against 16.1% for holding all 200: on NSE the winners
+kept winning rather than the losers bouncing.
+
 ## Momentum under different definitions (Rs 1 crore, same period)
 
 To check that momentum's lead is not an accident of one setting, it was run

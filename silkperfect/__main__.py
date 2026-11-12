@@ -212,6 +212,23 @@ def cmd_daily(args) -> None:
     cmd_paper(args)
 
 
+def cmd_chinese(args) -> None:
+    from . import chinese, ranking
+    print("Loading prices ...", flush=True)
+    prices, panel = _load_market()
+    settings = ranking.RankSettings()
+    start_i = settings.min_history - 1
+    symbols = ranking.eligible(panel, start_i, settings)
+    print(f"Running Chan theory (czsc), RSRS and turtle rules on {len(symbols)} shares ...", flush=True)
+    result = chinese.run_timing(panel, symbols, panel.close.index[start_i],
+                                progress=lambda msg: print(f"  {msg}", flush=True))
+    picks = ranking.run(panel, [ranking.Momentum(), chinese.ShortTermReversal()], settings)
+    text = chinese.render(result, picks.summary)
+    chinese.save(result, text)
+    print(text)
+    print(f"Saved to {config.REPORTS_DIR}/chinese_methods.md")
+
+
 def cmd_daytrade(args) -> None:
     from . import daytrade, ranking
     print("Loading prices ...", flush=True)
@@ -330,6 +347,9 @@ def main(argv: list[str] | None = None) -> None:
 
     dy = sub.add_parser("daily", help="once-a-day job: new prices and the pretend account")
     dy.set_defaults(func=cmd_daily)
+
+    cn = sub.add_parser("chinese", help="test Chan theory (czsc), RSRS, turtle and reversal rules")
+    cn.set_defaults(func=cmd_chinese)
 
     t = sub.add_parser("daytrade", help="test the opening-range-breakout day trade on NSE shares")
     t.add_argument("--universe", type=int, default=200)

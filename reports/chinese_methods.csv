@@ -1,0 +1,7 @@
+rule,total_return_pct,cagr_pct,max_drawdown_pct,volatility_pct,sharpe,trades,costs_rupees,time_invested_pct,shares_beating_hold_pct
+Hold the same shares,130.672,15.6632,-21.3523,15.9304,1.0082,200,520816.6533,99.8525,
+Chan theory: all buy and sell points,28.0528,4.3989,-13.7029,7.8757,0.5948,8847,16426023.2916,52.5511,17.5
+Chan theory: first-class points only,25.9785,4.1025,-10.9161,6.3411,0.6758,662,1255493.3447,39.1324,25.0
+Chan theory: third-class points only,88.4379,11.662,-13.8095,11.2442,1.0533,513,1130563.4443,62.9726,28.5
+"RSRS timing (18, 600, 0.7)",37.2314,5.6647,-11.4013,7.3269,0.8007,4898,9417698.265,51.4576,16.0
+"Turtle breakout (20, 10)",24.5387,3.8944,-12.6241,6.6208,0.6195,4415,8184987.0689,42.3974,16.5
