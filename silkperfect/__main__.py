@@ -124,6 +124,34 @@ def cmd_rank(args) -> None:
     print(f"Saved to {config.REPORTS_DIR}/ranking.md")
 
 
+def cmd_daytrade(args) -> None:
+    from . import daytrade, ranking
+    print("Loading prices ...", flush=True)
+    prices = dataset.load_prices()
+    panel = ranking.make_panel(prices, exclude=ranking.etf_symbols())
+    # The liquid list as it stood 60 trading days ago, so it is not chosen with hindsight.
+    start = max(len(panel.close) - 61, 0)
+    universe = ranking.eligible(panel, start, ranking.RankSettings(universe_size=args.universe))
+    print(f"Downloading 5-minute prices for {len(universe)} shares from Yahoo Finance ...", flush=True)
+    problems = daytrade.fetch(universe, refresh=args.refresh,
+                              progress=lambda msg: print(f"  {msg}", flush=True))
+    sessions = {}
+    for symbol in universe:
+        path = config.INTRADAY_DIR / f"{symbol}.json"
+        if path.exists():
+            found = daytrade.read_sessions(path)
+            if found:
+                sessions[symbol] = found
+    print(f"  {len(sessions)} shares with data, {len(problems)} not available")
+    settings = daytrade.DayTradeSettings()
+    trades = daytrade.run(sessions, settings)
+    share_days = sum(len(v) for v in sessions.values())
+    text = daytrade.render(trades, daytrade.summarise(trades, share_days), settings)
+    daytrade.save(trades, text)
+    print(text)
+    print(f"Saved to {config.REPORTS_DIR}/daytrade.md")
+
+
 def cmd_device(args) -> None:
     """Say whether the forecasting models will use a graphics card."""
     try:
@@ -193,6 +221,11 @@ def main(argv: list[str] | None = None) -> None:
     k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
     k.add_argument("--kronos", action="store_true", help="also rank with Kronos (slow)")
     k.set_defaults(func=cmd_rank)
+
+    t = sub.add_parser("daytrade", help="test the opening-range-breakout day trade on NSE shares")
+    t.add_argument("--universe", type=int, default=200)
+    t.add_argument("--refresh", action="store_true", help="download the 5-minute prices again")
+    t.set_defaults(func=cmd_daytrade)
 
     g = sub.add_parser("device", help="check whether a graphics card will be used")
     g.set_defaults(func=cmd_device)

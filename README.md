@@ -61,6 +61,19 @@ How shares are picked is a dropdown: momentum, steadiest shares, and TimesFM
 or Chronos when their packages are installed. Nothing in the dashboard places
 a real order.
 
+## Day-trade rule test
+
+```bash
+python -m silkperfect daytrade
+```
+
+Tests the opening-range-breakout day trade from the
+[day-trader-skill](https://github.com/jakeschincariol/day-trader-skill) pack
+(MIT) on the 200 most traded NSE shares, using Yahoo Finance 5-minute bars
+(the last 60 trading days, which is all Yahoo offers) and Indian intraday
+costs. Results go to `reports/daytrade.md` and the dashboard's
+"Day-trade rule test" page.
+
 ## Using a graphics card
 
 TimesFM, Chronos and Kronos use an NVIDIA graphics card automatically when
@@ -127,6 +140,8 @@ python -m pytest -q
 | `silkperfect/scoreboard.py` | Puts it together and writes the report |
 | `silkperfect/ranking.py` | Pick-the-best test on the 200 most traded shares |
 | `silkperfect/paper.py` | Plans in plain terms and the pretend account |
+| `silkperfect/daytrade.py` | Opening-range-breakout day-trade test on 5-minute bars |
+| `silkperfect/kronos_signal.py` | Kronos as a share-picking method |
 | `dashboard.py` | Streamlit dashboard |
 
 Downloaded data is not stored in git. `data/manifest.csv` lists the SHA-256

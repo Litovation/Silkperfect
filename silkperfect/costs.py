@@ -14,6 +14,7 @@ class CostModel:
     brokerage_flat: float = 20.0       # rupees per order ...
     brokerage_pct: float = 0.025       # ... or this share of turnover, whichever is lower
     stt: float = 0.001                 # securities transaction tax, buy and sell
+    stt_buy: float | None = None       # set when the buy side differs (zero for intraday)
     exchange_txn: float = 0.0000297    # NSE transaction charge
     sebi_fee: float = 0.000001         # 10 rupees per crore
     stamp_duty_buy: float = 0.00015    # buy side only
@@ -30,7 +31,8 @@ class CostModel:
         exchange = self.exchange_txn * turnover
         sebi = self.sebi_fee * turnover
         taxable = brokerage + exchange + sebi
-        total = taxable + self.stt * turnover + self.slippage_bps / 10_000 * turnover
+        stt = self.stt_buy if side == "buy" and self.stt_buy is not None else self.stt
+        total = taxable + stt * turnover + self.slippage_bps / 10_000 * turnover
         if side == "buy":
             total += self.stamp_duty_buy * turnover
         elif side == "sell":
@@ -39,6 +41,13 @@ class CostModel:
         else:
             raise ValueError("side must be 'buy' or 'sell'")
         return total + self.gst * taxable
+
+    @classmethod
+    def intraday(cls, **overrides) -> "CostModel":
+        """Costs for a trade bought and sold the same day (no shares delivered)."""
+        base = dict(brokerage_flat=20.0, brokerage_pct=0.0005, stt=0.00025, stt_buy=0.0,
+                    stamp_duty_buy=0.00003, dp_charge_sell=0.0)
+        return cls(**{**base, **overrides})
 
     def round_trip(self, quantity: float, price: float) -> float:
         return self.cost("buy", quantity, price) + self.cost("sell", quantity, price)

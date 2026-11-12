@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT / "data"
 RAW_DIR = DATA_DIR / "raw"
 PR_DIR = RAW_DIR / "pr"
+INTRADAY_DIR = RAW_DIR / "intraday"
 CROSSCHECK_DIR = RAW_DIR / "crosscheck"
 PROCESSED_DIR = DATA_DIR / "processed"
 MANIFEST_PATH = DATA_DIR / "manifest.csv"

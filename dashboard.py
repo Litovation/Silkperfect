@@ -570,7 +570,29 @@ def page_ranking() -> None:
         hide_index=True, use_container_width=True)
 
 
+def page_daytrade() -> None:
+    st.title("Day-trade rule test")
+    report = config.REPORTS_DIR / "daytrade.md"
+    daily_path = config.REPORTS_DIR / "daytrade_daily.csv"
+    if not report.exists() or not daily_path.exists():
+        st.info("No results yet. In a terminal run:  python -m silkperfect daytrade")
+        return
+    daily = pd.read_csv(daily_path, parse_dates=["date"])
+    lines = {"Before costs": daily["gross_r"].cumsum(), "After costs": daily["net_r"].cumsum()}
+    df = pd.concat([pd.DataFrame({"date": daily["date"], "series": k, "value": v})
+                    for k, v in lines.items()], ignore_index=True)
+    st.caption("Running total of each day's average result per trade, in R (the amount risked on a "
+               "trade). A rule that works climbs; this one should be read against the zero line.")
+    st.altair_chart(line_chart(df, "value", "Running total (R)", "+.2f",
+                               {"Before costs": SLOTS[0], "After costs": SLOTS[1]}),
+                    use_container_width=True)
+    text = report.read_text().split("\n", 1)[1]        # the page already has a title
+    st.markdown(text)
+    st.caption("Refresh with `python -m silkperfect daytrade --refresh`.")
+
+
 PAGES = {"Simple view": page_simple, "Pick-the-best test": page_ranking,
+         "Day-trade rule test": page_daytrade,
          "Single-share forecast test": page_stock_test}
 
 

@@ -53,6 +53,7 @@ first one on stock prices, so that is checked before anything else.
 | Job | Tool | Note |
 | --- | --- | --- |
 | History | NSE PR bundle | Free, no login |
+| 5-minute prices | Yahoo Finance chart data | Free and unofficial; last 60 trading days only |
 | Cross-check | NSE bhavcopy (old and UDiFF) | 12 random days, 23,392 prices, 0 differences |
 | Live and intraday prices | Upstox API, Analytics Token | Phase 2 onward |
 | Forecasting | TimesFM 2.5 | Apache-2.0 |
@@ -132,6 +133,25 @@ holding all 200 equally: 16.1% a year. Full table: [reports/ranking.md](../repor
 - Kronos was run with its small model on 5-day bars, 5 averaged draws, because
   daily bars take over 9 hours without a graphics card. The larger model on
   daily bars is untested.
+
+## Day-trade rule test (14 Aug to 11 Nov 2026)
+
+The opening-range-breakout rule from the day-trader-skill pack
+(github.com/jakeschincariol/day-trader-skill, MIT): buy the first 5-minute
+close above the first 15 minutes' high, stop at the middle of that range,
+target the same distance above, out before the close. Its own example
+(Tesla, 19 Oct 2026) was reproduced exactly from its test data first. Then
+the rule was run unchanged on the 200 most traded NSE shares with NSE hours
+and Indian intraday costs. Full table: [reports/daytrade.md](../reports/daytrade.md).
+
+- 6,529 trades over 58 days. Hit the target 42.5%, hit the stop 42.3%.
+- Average result before costs: -0.001 R, which is a coin toss.
+- Costs are 0.43 R a trade, because the stop sits only 0.76% away and a
+  round trip costs about 0.25%. After costs: -0.43 R a trade, and only 3% of
+  days made money.
+- Verdict: no edge before costs, a steady loss after them.
+- Limits: 60 days is all Yahoo's free 5-minute data offers, and stops are
+  assumed to fill exactly at their price.
 
 ## Small money (Rs 10,000)
 
