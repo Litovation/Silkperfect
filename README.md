@@ -94,14 +94,44 @@ pip uninstall -y torch
 pip install torch --index-url https://download.pytorch.org/whl/cu124
 ```
 
+## Running it live (pretend money)
+
+"Live" here means a pretend account that updates every day on real NSE
+prices. No real order is ever placed.
+
+Start the account once (Rs 10,000, NSE-style momentum, 5 shares, swapped
+every 63 market days unless you pass other values):
+
+```bash
+python -m silkperfect paper start --amount 10000
+```
+
+Then once a day after about 7 pm, when NSE has published the day's prices:
+
+```bash
+python -m silkperfect daily
+```
+
+That downloads the new prices, rebuilds the table, updates the account and
+writes `reports/live.md`. To have Windows do it automatically every evening,
+run this once (adjust the path if the project is elsewhere):
+
+```bash
+schtasks /Create /SC DAILY /ST 19:30 /TN "Silkperfect daily" /TR "C:\Users\krish\Silkperfect\scripts\run_daily.bat"
+```
+
+`python -m silkperfect paper status` shows the account; `paper close` ends it.
+
 ## Ranking test
 
 ```bash
 python -m silkperfect rank
 ```
 
-Add `--models` to include TimesFM and Chronos, and `--kronos` to include
-Kronos (about 2 hours without a graphics card; all are saved after the first run). Results go to `reports/ranking.md`.
+Add `--models` to include TimesFM and Chronos, `--kronos` for Kronos (about
+2 hours without a graphics card) and `--qlib` for Microsoft Qlib's Alpha158 +
+LightGBM recipe (about 5 minutes). All are saved after the first run.
+`--every 5` swaps weekly and `--every 1` daily instead of monthly. Results go to `reports/ranking.md`.
 
 Optional check against NSE's official bhavcopy files:
 
@@ -142,6 +172,7 @@ python -m pytest -q
 | `silkperfect/paper.py` | Plans in plain terms and the pretend account |
 | `silkperfect/daytrade.py` | Opening-range-breakout day-trade test on 5-minute bars |
 | `silkperfect/kronos_signal.py` | Kronos as a share-picking method |
+| `silkperfect/qlib_signal.py` | Qlib's 158 features and LightGBM model as a share-picking method |
 | `dashboard.py` | Streamlit dashboard |
 
 Downloaded data is not stored in git. `data/manifest.csv` lists the SHA-256

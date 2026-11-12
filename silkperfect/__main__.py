@@ -101,7 +101,8 @@ def cmd_scoreboard(args) -> None:
 
 def cmd_rank(args) -> None:
     from . import ranking
-    settings = ranking.RankSettings(universe_size=args.universe, top_n=args.top)
+    settings = ranking.RankSettings(universe_size=args.universe, top_n=args.top,
+                                    rebalance_days=args.every)
     print("Loading prices ...", flush=True)
     prices = dataset.load_prices()
     panel = ranking.make_panel(prices, exclude=ranking.etf_symbols())
@@ -110,6 +111,13 @@ def cmd_rank(args) -> None:
         signals += [ranking.ForecastSignal(TimesFM(max_context=settings.context)),
                     ranking.ForecastSignal(Chronos(max_context=settings.context))]
         print("Running forecasting models. The first run is slow; results are saved.")
+    if args.qlib:
+        from .qlib_signal import QlibSignal
+        members = {panel.close.index[i]: ranking.eligible(panel, i, settings)
+                   for i in range(settings.context - 1, len(panel.close), 21)}
+        # Retrain about every three months whatever the swap schedule.
+        signals.append(QlibSignal(panel, members, retrain_every=max(1, round(63 / args.every))))
+        print("Running Qlib's Alpha158 + LightGBM recipe (a few minutes; saved afterwards).")
     if args.kronos:
         from .kronos_signal import KronosSignal
         signals.append(KronosSignal())
@@ -119,9 +127,89 @@ def cmd_rank(args) -> None:
                          progress=lambda msg: print(f"  {msg}", flush=True) if "scored" in msg else None)
     bench = dataset.ohlcv(prices, config.BENCHMARK)["Close"].loc[result.start:result.end]
     text = ranking.render(result, bench)
-    ranking.save(result, text)
+    suffix = "" if args.every == 21 else f"_every{args.every}"
+    ranking.save(result, text, suffix=suffix)
     print(text)
-    print(f"Saved to {config.REPORTS_DIR}/ranking.md")
+    print(f"Saved to {config.REPORTS_DIR}/ranking{suffix}.md")
+
+
+def _paper_status_text(o, account) -> str:
+    """A short plain-language status of the pretend account."""
+    from . import paper
+    plan = account["plan"]
+    now = o.equity.iloc[-1]
+    lines = [
+        "# Pretend account today",
+        "",
+        f"- Prices up to: {o.end:%d %b %Y}",
+        f"- Started: {account['start']:%d %b %Y} with Rs {plan.amount:,.0f}",
+        f"- Plan: hold {plan.shares_held} shares, picked as \"{paper.METHODS[plan.method].lower()}\", "
+        f"swapped every {plan.swap_every_days} market days",
+        f"- Worth now: Rs {now:,.0f} ({now - plan.amount:+,.0f})",
+        f"- Fees paid so far: Rs {o.fees:,.0f}",
+        f"- Cash not invested: Rs {(o.cash if len(o.trades) else plan.amount):,.0f}",
+        f"- Market days until the next swap: {max(o.days_to_next_swap, 0)}",
+        "",
+    ]
+    if o.picks_waiting:
+        lines += ["Shares to buy at the next market open: " + ", ".join(o.picks_waiting), ""]
+    if len(o.holdings):
+        lines += ["| Share | How many | Price now (Rs) | Worth now (Rs) |", "| --- | ---: | ---: | ---: |"]
+        for _, r in o.holdings.iterrows():
+            lines.append(f"| {r['Share']} | {r['How many']} | {r['Price now (Rs)']:,.2f} | "
+                         f"{r['Worth now (Rs)']:,.0f} |")
+        lines.append("")
+    lines.append("No real orders are placed. This is a pretend account on real prices.")
+    return "\n".join(lines) + "\n"
+
+
+def _load_market():
+    from . import ranking
+    prices = dataset.load_prices()
+    return prices, ranking.make_panel(prices, exclude=ranking.etf_symbols())
+
+
+def cmd_paper(args) -> None:
+    """Start, show or close the pretend account from the terminal."""
+    from . import paper
+    if args.action == "close":
+        paper.close_account()
+        print("Pretend account closed.")
+        return
+    prices, panel = _load_market()
+    if args.action == "start":
+        if paper.load_account() is not None:
+            raise SystemExit("A pretend account already exists. Close it first: "
+                             "python -m silkperfect paper close")
+        plan = paper.Plan(amount=args.amount, method=args.method, shares_held=args.hold,
+                          swap_every_days=args.swap)
+        paper.start_account(plan, panel.close.index[-1])
+        print(f"Started a pretend account with Rs {args.amount:,.0f}.")
+    account = paper.load_account()
+    if account is None:
+        raise SystemExit("No pretend account yet. Start one: python -m silkperfect paper start")
+    outcome = paper.run_plan(panel, prices, account["plan"], start=account["start"],
+                             cache_dir=config.FORECAST_CACHE_DIR)
+    text = _paper_status_text(outcome, account)
+    config.REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    (config.REPORTS_DIR / "live.md").write_text(text)
+    print(text)
+
+
+def cmd_daily(args) -> None:
+    """The once-a-day job: get new prices, rebuild, update the pretend account."""
+    print(f"Daily update, {date.today():%d %b %Y}")
+    counts = nse.fetch_range(date.fromisoformat(config.DEFAULT_START), date.today())
+    print(f"  {counts['ok']} new day(s) of prices")
+    if counts["ok"] or not config.PRICES_PATH.exists():
+        nse.fetch_symbol_changes()
+        cmd_build(args)
+    from . import paper
+    if paper.load_account() is None:
+        print("No pretend account yet. Start one: python -m silkperfect paper start")
+        return
+    args.action = "status"
+    cmd_paper(args)
 
 
 def cmd_daytrade(args) -> None:
@@ -227,7 +315,21 @@ def main(argv: list[str] | None = None) -> None:
     k.add_argument("--top", type=int, default=20)
     k.add_argument("--models", action="store_true", help="also rank with TimesFM and Chronos")
     k.add_argument("--kronos", action="store_true", help="also rank with Kronos (slow)")
+    k.add_argument("--qlib", action="store_true", help="also rank with Qlib's Alpha158 + LightGBM")
+    k.add_argument("--every", type=int, default=21, help="trading days between swaps (21 is monthly)")
     k.set_defaults(func=cmd_rank)
+
+    pa = sub.add_parser("paper", help="start, show or close the pretend account")
+    pa.add_argument("action", choices=["start", "status", "close"])
+    pa.add_argument("--amount", type=float, default=10_000.0)
+    pa.add_argument("--method", default="index_momentum",
+                    choices=["momentum", "index_momentum", "low_volatility", "timesfm", "chronos", "kronos"])
+    pa.add_argument("--hold", type=int, default=5, help="how many shares to hold")
+    pa.add_argument("--swap", type=int, default=63, help="market days between swaps")
+    pa.set_defaults(func=cmd_paper)
+
+    dy = sub.add_parser("daily", help="once-a-day job: new prices and the pretend account")
+    dy.set_defaults(func=cmd_daily)
 
     t = sub.add_parser("daytrade", help="test the opening-range-breakout day trade on NSE shares")
     t.add_argument("--universe", type=int, default=200)

@@ -9,3 +9,4 @@ data/processed/
 .env
 *.token
 data/paper_account.json
+reports/live.md

@@ -186,3 +186,59 @@ def test_index_style_momentum_prefers_strong_steady_risers():
     score = ranking.IndexMomentum().score(pd.DataFrame({"STEADY": steady, "WILD": wild, "FALL": faller}), 21)
     assert score["STEADY"] > score["WILD"] and score["STEADY"] > score["FALL"]
     assert abs(score.mean()) < 1e-9                        # z-scores centre on zero
+
+
+def _bars_panel(n_days=420, n_stocks=25, seed=0):
+    panel = make_panel(n_days=n_days, n_stocks=n_stocks, seed=seed)
+    rng = np.random.default_rng(seed + 1)
+    panel.open = panel.close.shift(1).fillna(panel.close.iloc[0])
+    panel.high = np.maximum(panel.open, panel.close) * (1 + rng.uniform(0, 0.01, panel.close.shape))
+    panel.low = np.minimum(panel.open, panel.close) * (1 - rng.uniform(0, 0.01, panel.close.shape))
+    panel.volume = pd.DataFrame(rng.uniform(1e4, 2e4, panel.close.shape), index=panel.close.index,
+                                columns=panel.close.columns)
+    panel.value = panel.volume * panel.close
+    return panel
+
+
+def test_alpha158_has_all_features_and_matches_qlib_formulas():
+    from silkperfect.qlib_signal import alpha158
+    panel = _bars_panel()
+    f = alpha158(panel)
+    assert len(f) == 158
+    c, o, h, l, v = (getattr(panel, k)["S03"] for k in ("close", "open", "high", "low", "volume"))
+    t = 300
+    assert f["KMID"]["S03"].iloc[t] == pytest.approx((c.iloc[t] - o.iloc[t]) / o.iloc[t])
+    assert f["ROC20"]["S03"].iloc[t] == pytest.approx(c.iloc[t - 20] / c.iloc[t])
+    assert f["MA10"]["S03"].iloc[t] == pytest.approx(c.iloc[t - 9:t + 1].mean() / c.iloc[t])
+    assert f["MAX5"]["S03"].iloc[t] == pytest.approx(h.iloc[t - 4:t + 1].max() / c.iloc[t])
+    window = c.iloc[t - 29:t + 1].to_numpy()
+    slope, intercept = np.polyfit(np.arange(30), window, 1)
+    assert f["BETA30"]["S03"].iloc[t] == pytest.approx(slope / c.iloc[t])
+    assert f["RESI30"]["S03"].iloc[t] == pytest.approx((window[-1] - (intercept + slope * 29)) / c.iloc[t])
+    assert f["RSQR30"]["S03"].iloc[t] == pytest.approx(np.corrcoef(np.arange(30), window)[0, 1] ** 2)
+    assert f["IMAX10"]["S03"].iloc[t] == pytest.approx((h.iloc[t - 9:t + 1].to_numpy().argmax() + 1) / 10)
+    assert f["VMA5"]["S03"].iloc[t] == pytest.approx(v.iloc[t - 4:t + 1].mean() / v.iloc[t])
+    ups = (c.diff() > 0).iloc[t - 19:t + 1].mean()
+    assert f["CNTP20"]["S03"].iloc[t] == pytest.approx(ups)
+    assert f["VWAP0"]["S03"].iloc[t] == pytest.approx(1.0)       # value/volume equals close here
+
+
+def test_alpha158_and_the_model_use_only_the_past():
+    from silkperfect.qlib_signal import QlibSignal, alpha158
+    panel = _bars_panel()
+    changed = _bars_panel()
+    for df in (changed.close, changed.open, changed.high, changed.low, changed.volume, changed.value):
+        df.iloc[351:] *= 3.0
+    a, b = alpha158(panel), alpha158(changed)
+    for name in a:
+        pd.testing.assert_frame_equal(a[name].iloc[:351], b[name].iloc[:351])
+
+    names = list(panel.close.columns)
+    members = {panel.close.index[i]: names for i in range(60, 420, 21)}
+    day = 350
+    scores = []
+    for p in (panel, changed):
+        sig = QlibSignal(p, members, sample_step=2)
+        scores.append(sig.score_bars(p.window(day - 259, day + 1, names), 21))
+    assert scores[0].abs().sum() > 0                               # a model was trained
+    pd.testing.assert_series_equal(scores[0], scores[1])          # and the future did not reach it

@@ -376,7 +376,7 @@ def render(result: RankResult, benchmark: pd.Series | None = None) -> str:
         "# Ranking test",
         "",
         f"- Period: {result.start:%d %b %Y} to {result.end:%d %b %Y}, {result.rebalances} rebalances",
-        f"- Every {s.rebalance_days} trading days: take the {s.universe_size} most liquid NSE stocks "
+        f"- Every {s.rebalance_days} trading day(s): take the {s.universe_size} most liquid NSE stocks "
         f"(no ETFs), buy the top {s.top_n} by score in equal amounts at the next open",
         f"- Starting money Rs {s.capital:,.0f}; full Indian delivery costs on every trade",
         f"- The bar: holding all {s.universe_size} equally, which returned {base['cagr_pct']:.1f}% a year",
@@ -417,10 +417,12 @@ def render(result: RankResult, benchmark: pd.Series | None = None) -> str:
     return "\n".join(lines)
 
 
-def save(result: RankResult, text: str, out_dir: Path = config.REPORTS_DIR) -> None:
+def save(result: RankResult, text: str, out_dir: Path = config.REPORTS_DIR, suffix: str = "") -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "ranking.md").write_text(text)
-    result.summary.round(4).to_csv(out_dir / "ranking_summary.csv", index=False)
+    (out_dir / f"ranking{suffix}.md").write_text(text)
+    result.summary.round(4).to_csv(out_dir / f"ranking_summary{suffix}.csv", index=False)
+    if suffix:
+        return      # other schedules keep only the summary; the monthly run feeds the dashboard
     result.periods.round(4).to_csv(out_dir / "ranking_periods.csv", index=False)
     pd.DataFrame(result.equity).round(0).to_csv(out_dir / "ranking_equity.csv", index_label="date")
     rows = [{"method": m, "date": d, "symbols": " ".join(names)}

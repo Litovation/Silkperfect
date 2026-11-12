@@ -5,3 +5,4 @@ requests>=2.31
 backtesting>=0.6.5
 pytest>=8
 streamlit>=1.40
+lightgbm>=4.0
