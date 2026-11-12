@@ -1,0 +1,6 @@
+method,cagr_pct,max_drawdown_pct,sharpe,turnover_pct,costs_rupees,cagr_before_pct,return_holdout_pct,rank_correlation,rank_t_stat,periods_won_pct
+Hold all equally,14.2546,-24.4274,0.8568,2.6579,1973713.6857,18.4008,-3.5732,,,
+Momentum (12-1 month),24.8493,-37.1293,0.9861,15.2605,3902104.7378,31.5252,-2.3179,0.0183,1.84,57.193
+Momentum (NSE index style),23.17,-33.7845,1.004,18.0377,4858689.471,29.3693,-2.1196,0.015,1.5764,57.193
+Low volatility (12 month),9.2687,-18.8867,0.8209,6.5039,1045894.546,12.673,-5.397,0.0185,1.3207,47.3684
+Qlib Alpha158 + LightGBM,2.3124,-35.0886,0.2161,52.5648,6467215.0915,7.9821,-21.7699,0.0128,1.8811,48.0702

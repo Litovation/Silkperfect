@@ -124,6 +124,8 @@ holding all 200 equally: 16.1% a year. Full table: [reports/ranking.md](../repor
 | TimesFM 2.5 | 13.0% | 0.99 | -10.2% |
 | Chronos-Bolt | 15.4% | -0.08 | -13.1% |
 | Kronos (small, 5-day bars) | 12.8% | -1.42 | +1.6% |
+| Qlib Alpha158 + LightGBM | 13.3% | -0.45 | +4.6% |
+| Momentum (NSE index style) | 26.6% | 1.51 | -1.4% |
 | Hold all 200 | 16.1% | | -2.7% |
 
 - TimesFM, Chronos and Kronos all fail as rankers: below hold-all, no reliable
@@ -164,6 +166,20 @@ lucky first half could be caught by the second. Table:
 - 0 of 48 made money after costs, in either half or overall.
 - The best lost 0.12 R a trade. Shorting showed about +0.1 R before costs
   in a falling stretch, less than half of what costs take.
+
+## Trading more often (same test, Rs 1 crore)
+
+| Swap | Hold all 200 | Momentum (12-1) | Momentum (NSE style) | Qlib recipe | Momentum's costs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Monthly | 16.1% | 25.8% | 26.6% | 13.3% | Rs 18.7 lakh |
+| Weekly | 14.3% | 24.8% | 23.2% | 2.3% | Rs 39.0 lakh |
+| Daily | 8.5% | 20.2% | 16.8% | not run | Rs 86.5 lakh |
+
+Swapping more often lowers every result and deepens the worst drop (momentum:
+-32% monthly, -37% weekly, -40% daily). The same picks cost more to hold.
+Microsoft Qlib's recipe (its 158 features and LightGBM settings, computed
+on NSE data and retrained walk-forward) is below hold-all at both speeds.
+Qlib's settings were tuned for Chinese shares and not re-tuned here.
 
 ## Momentum under different definitions (Rs 1 crore, same period)
 

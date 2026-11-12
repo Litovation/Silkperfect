@@ -1,7 +1,7 @@
 # Ranking test
 
 - Period: 10 Feb 2021 to 09 Nov 2026, 68 rebalances
-- Every 21 trading days: take the 200 most liquid NSE stocks (no ETFs), buy the top 20 by score in equal amounts at the next open
+- Every 21 trading day(s): take the 200 most liquid NSE stocks (no ETFs), buy the top 20 by score in equal amounts at the next open
 - Starting money Rs 10,000,000; full Indian delivery costs on every trade
 - The bar: holding all 200 equally, which returned 16.1% a year
 - Last 252 trading days (from 03 Nov 2025) are shown separately as a check on recent behaviour
@@ -16,6 +16,7 @@
 | Low volatility (12 month) | 10.4 | -5.7 | -18.8 | 0.91 | 13.4 | -2.7 | 14 | 519,998 |
 | TimesFM 2.5 | 13.0 | -3.1 | -29.4 | 0.71 | 18.5 | -10.2 | 68 | 2,617,363 |
 | Chronos-Bolt | 15.4 | -0.7 | -36.7 | 0.77 | 22.5 | -13.1 | 73 | 3,119,696 |
+| Qlib Alpha158 + LightGBM | 13.3 | -2.8 | -32.8 | 0.69 | 15.1 | 4.6 | 64 | 2,405,001 |
 | Kronos | 12.8 | -3.3 | -29.4 | 0.71 | 15.2 | 1.6 | 60 | 2,032,459 |
 | Nifty 50 index (no costs, no dividends) | 9.2 | -6.9 | -17.2 | 0.71 | n/a | n/a | 0 | 0 |
 
@@ -32,4 +33,5 @@ is unlikely to be luck.
 | Low volatility (12 month) | +0.011 | +0.41 | 47 |
 | TimesFM 2.5 | +0.012 | +0.99 | 47 |
 | Chronos-Bolt | -0.001 | -0.08 | 51 |
+| Qlib Alpha158 + LightGBM | -0.006 | -0.45 | 47 |
 | Kronos | -0.025 | -1.42 | 49 |

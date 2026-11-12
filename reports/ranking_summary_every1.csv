@@ -1,0 +1,5 @@
+method,cagr_pct,max_drawdown_pct,sharpe,turnover_pct,costs_rupees,cagr_before_pct,return_holdout_pct,rank_correlation,rank_t_stat,periods_won_pct
+Hold all equally,8.4585,-27.6684,0.5541,1.0298,6457420.687,12.3641,-8.4454,,,
+Momentum (12-1 month),20.1741,-39.6355,0.8357,7.0425,8654136.8255,27.2538,-8.3898,0.0051,1.2185,52.2807
+Momentum (NSE index style),16.8097,-42.9371,0.7837,8.3176,10412535.7015,23.7163,-10.8262,0.0046,1.1213,51.5789
+Low volatility (12 month),8.2492,-20.4243,0.741,2.4379,2427095.8578,11.6844,-6.5803,0.0232,3.9273,44.9825
