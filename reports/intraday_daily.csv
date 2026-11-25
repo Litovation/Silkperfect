@@ -1,0 +1,850 @@
+strategy,date,trades,gross_pct,net_pct
+"Bollinger reversion (20, 2)",2026-08-17,366,-0.0843,-0.3377
+"Bollinger reversion (20, 2)",2026-08-18,370,-0.0096,-0.2629
+"Bollinger reversion (20, 2)",2026-08-19,367,0.0661,-0.1872
+"Bollinger reversion (20, 2)",2026-08-20,359,-0.0449,-0.2981
+"Bollinger reversion (20, 2)",2026-08-21,341,0.0056,-0.2476
+"Bollinger reversion (20, 2)",2026-08-24,387,-0.0432,-0.2964
+"Bollinger reversion (20, 2)",2026-08-25,422,-0.1151,-0.3686
+"Bollinger reversion (20, 2)",2026-08-26,360,-0.0632,-0.3163
+"Bollinger reversion (20, 2)",2026-08-27,362,0.0458,-0.2075
+"Bollinger reversion (20, 2)",2026-08-28,390,0.0481,-0.2051
+"Bollinger reversion (20, 2)",2026-08-31,405,-0.0728,-0.3262
+"Bollinger reversion (20, 2)",2026-09-01,368,-0.073,-0.326
+"Bollinger reversion (20, 2)",2026-09-02,363,-0.0826,-0.336
+"Bollinger reversion (20, 2)",2026-09-03,358,0.0693,-0.1839
+"Bollinger reversion (20, 2)",2026-09-04,366,-0.0123,-0.2654
+"Bollinger reversion (20, 2)",2026-09-07,355,0.0583,-0.1949
+"Bollinger reversion (20, 2)",2026-09-08,361,0.0264,-0.2268
+"Bollinger reversion (20, 2)",2026-09-09,371,0.0571,-0.1961
+"Bollinger reversion (20, 2)",2026-09-10,374,0.038,-0.2152
+"Bollinger reversion (20, 2)",2026-09-11,362,0.0083,-0.2451
+"Bollinger reversion (20, 2)",2026-09-15,348,-0.3394,-0.5921
+"Bollinger reversion (20, 2)",2026-09-16,340,0.0669,-0.1863
+"Bollinger reversion (20, 2)",2026-09-17,388,0.0802,-0.1731
+"Bollinger reversion (20, 2)",2026-09-18,390,-0.0259,-0.2793
+"Bollinger reversion (20, 2)",2026-09-21,342,0.0191,-0.2342
+"Bollinger reversion (20, 2)",2026-09-22,379,0.0402,-0.213
+"Bollinger reversion (20, 2)",2026-09-23,357,0.0196,-0.2337
+"Bollinger reversion (20, 2)",2026-09-24,367,-0.1555,-0.4085
+"Bollinger reversion (20, 2)",2026-09-25,385,0.0938,-0.1594
+"Bollinger reversion (20, 2)",2026-09-28,369,-0.0038,-0.257
+"Bollinger reversion (20, 2)",2026-09-29,380,-0.1449,-0.3981
+"Bollinger reversion (20, 2)",2026-09-30,389,-0.1411,-0.3941
+"Bollinger reversion (20, 2)",2026-10-01,360,-0.4116,-0.6643
+"Bollinger reversion (20, 2)",2026-10-05,336,0.0588,-0.1945
+"Bollinger reversion (20, 2)",2026-10-06,363,-0.042,-0.2953
+"Bollinger reversion (20, 2)",2026-10-07,385,0.1002,-0.1529
+"Bollinger reversion (20, 2)",2026-10-08,362,-0.2028,-0.4556
+"Bollinger reversion (20, 2)",2026-10-09,350,0.1107,-0.1425
+"Bollinger reversion (20, 2)",2026-10-12,353,0.0421,-0.2111
+"Bollinger reversion (20, 2)",2026-10-13,400,-0.1418,-0.3954
+"Bollinger reversion (20, 2)",2026-10-14,349,0.144,-0.1092
+"Bollinger reversion (20, 2)",2026-10-15,273,-0.0234,-0.2765
+"Bollinger reversion (20, 2)",2026-10-16,370,0.0197,-0.2335
+"Bollinger reversion (20, 2)",2026-10-19,337,-0.1505,-0.4034
+"Bollinger reversion (20, 2)",2026-10-21,332,-0.132,-0.385
+"Bollinger reversion (20, 2)",2026-10-22,342,0.2879,0.0346
+"Bollinger reversion (20, 2)",2026-10-23,346,0.256,0.0027
+"Bollinger reversion (20, 2)",2026-10-26,325,-0.0428,-0.2964
+"Bollinger reversion (20, 2)",2026-10-27,402,0.0064,-0.2467
+"Bollinger reversion (20, 2)",2026-10-28,353,-0.0415,-0.295
+"Bollinger reversion (20, 2)",2026-10-29,389,-0.0745,-0.3281
+"Bollinger reversion (20, 2)",2026-10-30,376,-0.0091,-0.2622
+"Bollinger reversion (20, 2)",2026-11-02,376,0.0701,-0.1831
+"Bollinger reversion (20, 2)",2026-11-03,359,-0.0437,-0.2969
+"Bollinger reversion (20, 2)",2026-11-04,346,-0.12,-0.3736
+"Bollinger reversion (20, 2)",2026-11-05,344,-0.0256,-0.2789
+"Bollinger reversion (20, 2)",2026-11-06,341,-0.2878,-0.5416
+"Bollinger reversion (20, 2)",2026-11-09,368,0.0709,-0.1825
+"Bollinger reversion (20, 2)",2026-11-11,370,-0.0724,-0.3254
+First half-hour momentum,2026-08-17,199,0.0083,-0.2448
+First half-hour momentum,2026-08-18,198,0.112,-0.1411
+First half-hour momentum,2026-08-19,200,-0.0453,-0.2987
+First half-hour momentum,2026-08-20,199,-0.0983,-0.3514
+First half-hour momentum,2026-08-21,199,-0.0243,-0.2776
+First half-hour momentum,2026-08-24,198,-0.0256,-0.279
+First half-hour momentum,2026-08-25,198,-0.1735,-0.4272
+First half-hour momentum,2026-08-26,198,-0.1078,-0.3607
+First half-hour momentum,2026-08-27,199,-0.0583,-0.3115
+First half-hour momentum,2026-08-28,198,-0.0317,-0.285
+First half-hour momentum,2026-08-31,200,-0.2202,-0.4737
+First half-hour momentum,2026-09-01,200,-0.0491,-0.3027
+First half-hour momentum,2026-09-02,200,-0.1204,-0.3738
+First half-hour momentum,2026-09-03,197,0.0029,-0.2505
+First half-hour momentum,2026-09-04,198,-0.0132,-0.2664
+First half-hour momentum,2026-09-07,200,-0.0461,-0.2993
+First half-hour momentum,2026-09-08,198,-0.0002,-0.2535
+First half-hour momentum,2026-09-09,200,0.0262,-0.2269
+First half-hour momentum,2026-09-10,198,-0.0035,-0.2568
+First half-hour momentum,2026-09-11,200,-0.0987,-0.352
+First half-hour momentum,2026-09-15,199,0.0698,-0.1832
+First half-hour momentum,2026-09-16,200,0.0643,-0.1888
+First half-hour momentum,2026-09-17,200,0.0106,-0.2426
+First half-hour momentum,2026-09-18,200,-0.0045,-0.2578
+First half-hour momentum,2026-09-21,199,-0.0129,-0.2658
+First half-hour momentum,2026-09-22,198,0.0101,-0.243
+First half-hour momentum,2026-09-23,199,-0.02,-0.2733
+First half-hour momentum,2026-09-24,200,0.0924,-0.1607
+First half-hour momentum,2026-09-25,198,0.0119,-0.2415
+First half-hour momentum,2026-09-28,200,0.0664,-0.1868
+First half-hour momentum,2026-09-29,198,0.3453,0.0925
+First half-hour momentum,2026-09-30,200,-0.1498,-0.4026
+First half-hour momentum,2026-10-01,199,-0.1015,-0.3552
+First half-hour momentum,2026-10-05,200,0.0493,-0.2041
+First half-hour momentum,2026-10-06,200,0.0825,-0.1711
+First half-hour momentum,2026-10-07,199,0.0164,-0.2368
+First half-hour momentum,2026-10-08,200,0.0576,-0.1955
+First half-hour momentum,2026-10-09,200,-0.03,-0.2831
+First half-hour momentum,2026-10-12,199,-0.0524,-0.3056
+First half-hour momentum,2026-10-13,200,0.0296,-0.2239
+First half-hour momentum,2026-10-14,199,-0.0254,-0.2786
+First half-hour momentum,2026-10-15,150,0.0606,-0.1925
+First half-hour momentum,2026-10-16,200,0.0707,-0.1823
+First half-hour momentum,2026-10-19,200,0.0856,-0.1674
+First half-hour momentum,2026-10-21,200,0.0197,-0.2341
+First half-hour momentum,2026-10-22,198,-0.0207,-0.274
+First half-hour momentum,2026-10-23,200,-0.2192,-0.4727
+First half-hour momentum,2026-10-26,199,-0.0004,-0.2538
+First half-hour momentum,2026-10-27,200,0.0496,-0.2038
+First half-hour momentum,2026-10-28,200,0.0188,-0.2345
+First half-hour momentum,2026-10-29,200,0.0608,-0.1926
+First half-hour momentum,2026-10-30,200,0.1498,-0.1032
+First half-hour momentum,2026-11-02,199,-0.017,-0.2702
+First half-hour momentum,2026-11-03,200,0.0253,-0.228
+First half-hour momentum,2026-11-04,199,0.0864,-0.167
+First half-hour momentum,2026-11-05,200,-0.1126,-0.3656
+First half-hour momentum,2026-11-06,199,-0.1409,-0.3944
+First half-hour momentum,2026-11-09,199,-0.0283,-0.2817
+First half-hour momentum,2026-11-11,200,-0.1753,-0.4283
+Gap and go (follow a 1% gap),2026-08-17,9,-0.2467,-0.5006
+Gap and go (follow a 1% gap),2026-08-18,13,0.2656,0.0125
+Gap and go (follow a 1% gap),2026-08-19,17,-0.4527,-0.7054
+Gap and go (follow a 1% gap),2026-08-20,25,0.2161,-0.0375
+Gap and go (follow a 1% gap),2026-08-21,7,0.445,0.1908
+Gap and go (follow a 1% gap),2026-08-24,9,-0.3203,-0.5728
+Gap and go (follow a 1% gap),2026-08-25,8,-0.0613,-0.3142
+Gap and go (follow a 1% gap),2026-08-26,12,-0.212,-0.4657
+Gap and go (follow a 1% gap),2026-08-27,13,0.6422,0.3886
+Gap and go (follow a 1% gap),2026-08-28,14,0.1311,-0.1219
+Gap and go (follow a 1% gap),2026-08-31,13,-0.5932,-0.8467
+Gap and go (follow a 1% gap),2026-09-01,72,0.0842,-0.1686
+Gap and go (follow a 1% gap),2026-09-02,59,-0.5786,-0.8324
+Gap and go (follow a 1% gap),2026-09-03,24,0.6123,0.3581
+Gap and go (follow a 1% gap),2026-09-04,12,0.0413,-0.2107
+Gap and go (follow a 1% gap),2026-09-07,14,0.5782,0.3261
+Gap and go (follow a 1% gap),2026-09-08,12,-0.1444,-0.3981
+Gap and go (follow a 1% gap),2026-09-09,20,0.0969,-0.1564
+Gap and go (follow a 1% gap),2026-09-10,4,0.1961,-0.0549
+Gap and go (follow a 1% gap),2026-09-11,78,-0.7247,-0.9787
+Gap and go (follow a 1% gap),2026-09-15,28,-0.8652,-1.1165
+Gap and go (follow a 1% gap),2026-09-16,10,-0.9604,-1.2138
+Gap and go (follow a 1% gap),2026-09-17,5,-0.1301,-0.3848
+Gap and go (follow a 1% gap),2026-09-18,15,0.5665,0.3124
+Gap and go (follow a 1% gap),2026-09-21,42,0.1607,-0.0922
+Gap and go (follow a 1% gap),2026-09-22,15,-0.4437,-0.6967
+Gap and go (follow a 1% gap),2026-09-23,5,0.0225,-0.231
+Gap and go (follow a 1% gap),2026-09-24,76,0.5504,0.2978
+Gap and go (follow a 1% gap),2026-09-25,6,0.7422,0.4899
+Gap and go (follow a 1% gap),2026-09-28,13,0.0855,-0.1674
+Gap and go (follow a 1% gap),2026-09-29,10,-1.0102,-1.2641
+Gap and go (follow a 1% gap),2026-09-30,42,-0.2411,-0.4935
+Gap and go (follow a 1% gap),2026-10-01,22,0.7671,0.514
+Gap and go (follow a 1% gap),2026-10-05,64,-0.0616,-0.3148
+Gap and go (follow a 1% gap),2026-10-06,11,-0.1262,-0.3798
+Gap and go (follow a 1% gap),2026-10-07,12,-0.009,-0.2619
+Gap and go (follow a 1% gap),2026-10-08,9,-0.1826,-0.4354
+Gap and go (follow a 1% gap),2026-10-09,23,0.6486,0.3943
+Gap and go (follow a 1% gap),2026-10-12,13,-0.1464,-0.3994
+Gap and go (follow a 1% gap),2026-10-13,24,0.4465,0.1919
+Gap and go (follow a 1% gap),2026-10-14,8,-0.1917,-0.444
+Gap and go (follow a 1% gap),2026-10-15,22,0.2213,-0.0318
+Gap and go (follow a 1% gap),2026-10-16,33,0.0174,-0.2365
+Gap and go (follow a 1% gap),2026-10-19,16,-0.3212,-0.5752
+Gap and go (follow a 1% gap),2026-10-21,17,0.6639,0.4121
+Gap and go (follow a 1% gap),2026-10-22,72,-0.8164,-1.0706
+Gap and go (follow a 1% gap),2026-10-23,28,0.5641,0.3119
+Gap and go (follow a 1% gap),2026-10-26,51,-0.7196,-0.9739
+Gap and go (follow a 1% gap),2026-10-27,24,-0.6373,-0.8902
+Gap and go (follow a 1% gap),2026-10-28,50,-0.2911,-0.5446
+Gap and go (follow a 1% gap),2026-10-29,18,0.2401,-0.0132
+Gap and go (follow a 1% gap),2026-10-30,27,0.6876,0.435
+Gap and go (follow a 1% gap),2026-11-02,49,0.537,0.2828
+Gap and go (follow a 1% gap),2026-11-03,36,-0.2118,-0.4649
+Gap and go (follow a 1% gap),2026-11-04,19,-0.5682,-0.8221
+Gap and go (follow a 1% gap),2026-11-05,141,0.4954,0.2415
+Gap and go (follow a 1% gap),2026-11-06,90,-0.5842,-0.838
+Gap and go (follow a 1% gap),2026-11-09,48,-0.4595,-0.7121
+Gap and go (follow a 1% gap),2026-11-11,53,0.0176,-0.2357
+Gap fade (bet a 1% gap closes),2026-08-17,9,-0.2852,-0.5386
+Gap fade (bet a 1% gap closes),2026-08-18,13,-0.3781,-0.6313
+Gap fade (bet a 1% gap closes),2026-08-19,17,0.3723,0.119
+Gap fade (bet a 1% gap closes),2026-08-20,25,-0.234,-0.4875
+Gap fade (bet a 1% gap closes),2026-08-21,7,-0.5317,-0.7853
+Gap fade (bet a 1% gap closes),2026-08-24,9,-0.3942,-0.6478
+Gap fade (bet a 1% gap closes),2026-08-25,8,0.1056,-0.1478
+Gap fade (bet a 1% gap closes),2026-08-26,12,-0.0963,-0.3493
+Gap fade (bet a 1% gap closes),2026-08-27,13,0.0401,-0.2129
+Gap fade (bet a 1% gap closes),2026-08-28,14,-0.1893,-0.4427
+Gap fade (bet a 1% gap closes),2026-08-31,13,0.409,0.1556
+Gap fade (bet a 1% gap closes),2026-09-01,72,-0.1271,-0.3799
+Gap fade (bet a 1% gap closes),2026-09-02,59,0.4743,0.2204
+Gap fade (bet a 1% gap closes),2026-09-03,24,-0.1494,-0.403
+Gap fade (bet a 1% gap closes),2026-09-04,12,-0.2757,-0.5282
+Gap fade (bet a 1% gap closes),2026-09-07,14,-0.3435,-0.5959
+Gap fade (bet a 1% gap closes),2026-09-08,12,0.2281,-0.025
+Gap fade (bet a 1% gap closes),2026-09-09,20,-0.0832,-0.3361
+Gap fade (bet a 1% gap closes),2026-09-10,4,0.6222,0.3698
+Gap fade (bet a 1% gap closes),2026-09-11,78,0.6967,0.4426
+Gap fade (bet a 1% gap closes),2026-09-15,28,1.116,0.8642
+Gap fade (bet a 1% gap closes),2026-09-16,10,-0.1566,-0.4098
+Gap fade (bet a 1% gap closes),2026-09-17,5,0.6992,0.4456
+Gap fade (bet a 1% gap closes),2026-09-18,15,0.0721,-0.1815
+Gap fade (bet a 1% gap closes),2026-09-21,42,-0.2008,-0.4538
+Gap fade (bet a 1% gap closes),2026-09-22,15,0.4106,0.158
+Gap fade (bet a 1% gap closes),2026-09-23,5,-0.5925,-0.8461
+Gap fade (bet a 1% gap closes),2026-09-24,76,-0.3718,-0.6246
+Gap fade (bet a 1% gap closes),2026-09-25,6,-1.3374,-1.5888
+Gap fade (bet a 1% gap closes),2026-09-28,13,-0.4287,-0.6811
+Gap fade (bet a 1% gap closes),2026-09-29,10,0.0518,-0.2012
+Gap fade (bet a 1% gap closes),2026-09-30,42,-0.189,-0.4422
+Gap fade (bet a 1% gap closes),2026-10-01,22,-0.6195,-0.8729
+Gap fade (bet a 1% gap closes),2026-10-05,64,-0.0056,-0.2588
+Gap fade (bet a 1% gap closes),2026-10-06,11,0.1609,-0.0928
+Gap fade (bet a 1% gap closes),2026-10-07,12,-0.2058,-0.459
+Gap fade (bet a 1% gap closes),2026-10-08,9,0.618,0.3646
+Gap fade (bet a 1% gap closes),2026-10-09,23,-0.3311,-0.5852
+Gap fade (bet a 1% gap closes),2026-10-12,13,0.3609,0.108
+Gap fade (bet a 1% gap closes),2026-10-13,24,-0.0053,-0.2592
+Gap fade (bet a 1% gap closes),2026-10-14,8,-0.065,-0.3187
+Gap fade (bet a 1% gap closes),2026-10-15,22,0.0362,-0.2169
+Gap fade (bet a 1% gap closes),2026-10-16,33,-0.0689,-0.3225
+Gap fade (bet a 1% gap closes),2026-10-19,16,0.398,0.144
+Gap fade (bet a 1% gap closes),2026-10-21,17,-0.2023,-0.4546
+Gap fade (bet a 1% gap closes),2026-10-22,72,0.5314,0.2773
+Gap fade (bet a 1% gap closes),2026-10-23,28,-0.1582,-0.41
+Gap fade (bet a 1% gap closes),2026-10-26,51,1.1482,0.8934
+Gap fade (bet a 1% gap closes),2026-10-27,24,-0.0792,-0.3327
+Gap fade (bet a 1% gap closes),2026-10-28,50,0.4155,0.1619
+Gap fade (bet a 1% gap closes),2026-10-29,18,-0.0809,-0.3342
+Gap fade (bet a 1% gap closes),2026-10-30,27,-0.3013,-0.5543
+Gap fade (bet a 1% gap closes),2026-11-02,49,-0.1488,-0.4022
+Gap fade (bet a 1% gap closes),2026-11-03,36,0.2968,0.0439
+Gap fade (bet a 1% gap closes),2026-11-04,19,0.8064,0.5521
+Gap fade (bet a 1% gap closes),2026-11-05,141,-0.2239,-0.4772
+Gap fade (bet a 1% gap closes),2026-11-06,90,0.6604,0.4065
+Gap fade (bet a 1% gap closes),2026-11-09,48,0.3332,0.0802
+Gap fade (bet a 1% gap closes),2026-11-11,53,-0.2841,-0.5377
+ML classifier (LightGBM),2026-10-08,436,0.1135,-0.1397
+ML classifier (LightGBM),2026-10-09,242,-0.0758,-0.3292
+ML classifier (LightGBM),2026-10-12,5,-0.0011,-0.2544
+ML classifier (LightGBM),2026-10-13,18,-0.023,-0.2764
+ML classifier (LightGBM),2026-10-14,195,-0.1134,-0.3668
+ML classifier (LightGBM),2026-10-15,31,-0.2027,-0.4556
+ML classifier (LightGBM),2026-10-16,15,-0.2226,-0.4761
+ML classifier (LightGBM),2026-10-19,149,-0.0043,-0.2576
+ML classifier (LightGBM),2026-10-21,507,-0.0491,-0.3023
+ML classifier (LightGBM),2026-10-22,398,-0.259,-0.5123
+ML classifier (LightGBM),2026-10-23,623,-0.2462,-0.4994
+ML classifier (LightGBM),2026-10-26,32,0.0361,-0.2172
+ML classifier (LightGBM),2026-10-27,22,0.366,0.1131
+ML classifier (LightGBM),2026-10-28,26,-0.1626,-0.4159
+ML classifier (LightGBM),2026-10-29,37,-0.0542,-0.3078
+ML classifier (LightGBM),2026-10-30,162,0.0758,-0.1774
+ML classifier (LightGBM),2026-11-02,195,0.0284,-0.2248
+ML classifier (LightGBM),2026-11-03,7,-0.1647,-0.4177
+ML classifier (LightGBM),2026-11-04,9,-0.4282,-0.6821
+ML classifier (LightGBM),2026-11-05,5,-0.1274,-0.3801
+ML classifier (LightGBM),2026-11-06,78,-0.0328,-0.286
+ML classifier (LightGBM),2026-11-09,9,0.1154,-0.1377
+ML classifier (LightGBM),2026-11-11,55,0.0002,-0.2532
+"Morning laggards, short",2026-08-17,20,-0.4765,-0.7303
+"Morning laggards, short",2026-08-18,20,-0.1656,-0.4191
+"Morning laggards, short",2026-08-19,20,0.3097,0.0568
+"Morning laggards, short",2026-08-20,20,0.0322,-0.2211
+"Morning laggards, short",2026-08-21,20,-0.2144,-0.4679
+"Morning laggards, short",2026-08-24,20,0.2681,0.0152
+"Morning laggards, short",2026-08-25,20,-0.3403,-0.594
+"Morning laggards, short",2026-08-26,20,0.4098,0.157
+"Morning laggards, short",2026-08-27,20,0.4377,0.1849
+"Morning laggards, short",2026-08-28,20,-0.0324,-0.2857
+"Morning laggards, short",2026-08-31,20,-0.1173,-0.3707
+"Morning laggards, short",2026-09-01,20,0.2632,0.0102
+"Morning laggards, short",2026-09-02,20,-0.7861,-1.0402
+"Morning laggards, short",2026-09-03,20,-0.2216,-0.4751
+"Morning laggards, short",2026-09-04,20,0.579,0.3265
+"Morning laggards, short",2026-09-07,20,0.2343,-0.0187
+"Morning laggards, short",2026-09-08,20,-0.1549,-0.4083
+"Morning laggards, short",2026-09-09,20,0.2238,-0.0292
+"Morning laggards, short",2026-09-10,20,0.3075,0.0546
+"Morning laggards, short",2026-09-11,20,-1.4716,-1.7265
+"Morning laggards, short",2026-09-15,20,2.5955,2.3452
+"Morning laggards, short",2026-09-16,20,-1.701,-1.9562
+"Morning laggards, short",2026-09-17,20,0.1272,-0.1259
+"Morning laggards, short",2026-09-18,20,0.1467,-0.1064
+"Morning laggards, short",2026-09-21,20,-0.0282,-0.2815
+"Morning laggards, short",2026-09-22,20,0.6289,0.3764
+"Morning laggards, short",2026-09-23,20,0.0362,-0.2171
+"Morning laggards, short",2026-09-24,20,1.8683,1.6172
+"Morning laggards, short",2026-09-25,20,-0.2433,-0.4968
+"Morning laggards, short",2026-09-28,20,0.9938,0.7417
+"Morning laggards, short",2026-09-29,20,-0.1095,-0.3629
+"Morning laggards, short",2026-09-30,20,0.6913,0.4389
+"Morning laggards, short",2026-10-01,20,1.1831,0.9312
+"Morning laggards, short",2026-10-05,20,0.2912,0.0383
+"Morning laggards, short",2026-10-06,20,-0.4539,-0.7077
+"Morning laggards, short",2026-10-07,20,0.0979,-0.1552
+"Morning laggards, short",2026-10-08,20,1.7244,1.4731
+"Morning laggards, short",2026-10-09,20,0.0537,-0.1995
+"Morning laggards, short",2026-10-12,20,0.4546,0.2019
+"Morning laggards, short",2026-10-13,20,-0.4617,-0.7154
+"Morning laggards, short",2026-10-14,20,0.0458,-0.2074
+"Morning laggards, short",2026-10-15,15,1.067,0.8149
+"Morning laggards, short",2026-10-16,20,-0.2117,-0.4651
+"Morning laggards, short",2026-10-19,20,0.366,0.1132
+"Morning laggards, short",2026-10-21,20,1.503,1.2515
+"Morning laggards, short",2026-10-22,20,-0.4644,-0.7182
+"Morning laggards, short",2026-10-23,20,-1.4843,-1.7393
+"Morning laggards, short",2026-10-26,20,-0.3113,-0.5649
+"Morning laggards, short",2026-10-27,20,-0.7626,-1.0168
+"Morning laggards, short",2026-10-28,20,-0.6702,-0.9242
+"Morning laggards, short",2026-10-29,20,-0.4986,-0.7524
+"Morning laggards, short",2026-10-30,20,1.0185,0.7664
+"Morning laggards, short",2026-11-02,20,0.7535,0.5012
+"Morning laggards, short",2026-11-03,20,-0.0486,-0.3019
+"Morning laggards, short",2026-11-04,20,-1.35,-1.6049
+"Morning laggards, short",2026-11-05,20,1.379,1.1274
+"Morning laggards, short",2026-11-06,20,-1.98,-2.2355
+"Morning laggards, short",2026-11-09,20,-0.5408,-0.7947
+"Morning laggards, short",2026-11-11,20,0.4073,0.1546
+"Morning leaders, buy",2026-08-17,20,0.5062,0.2523
+"Morning leaders, buy",2026-08-18,20,0.0745,-0.1789
+"Morning leaders, buy",2026-08-19,20,0.0255,-0.2278
+"Morning leaders, buy",2026-08-20,20,0.3523,0.0986
+"Morning leaders, buy",2026-08-21,20,-0.0794,-0.3325
+"Morning leaders, buy",2026-08-24,20,-0.6512,-0.9035
+"Morning leaders, buy",2026-08-25,20,0.3834,0.1296
+"Morning leaders, buy",2026-08-26,20,-0.2868,-0.5397
+"Morning leaders, buy",2026-08-27,20,0.2699,0.0163
+"Morning leaders, buy",2026-08-28,20,0.1413,-0.1121
+"Morning leaders, buy",2026-08-31,20,0.2916,0.038
+"Morning leaders, buy",2026-09-01,20,-0.0459,-0.2991
+"Morning leaders, buy",2026-09-02,20,0.4422,0.1884
+"Morning leaders, buy",2026-09-03,20,0.0312,-0.2221
+"Morning leaders, buy",2026-09-04,20,-0.8242,-1.0763
+"Morning leaders, buy",2026-09-07,20,-0.1105,-0.3636
+"Morning leaders, buy",2026-09-08,20,-0.3018,-0.5546
+"Morning leaders, buy",2026-09-09,20,0.224,-0.0296
+"Morning leaders, buy",2026-09-10,20,0.2831,0.0294
+"Morning leaders, buy",2026-09-11,20,-0.1026,-0.3557
+"Morning leaders, buy",2026-09-15,20,-1.8341,-2.0848
+"Morning leaders, buy",2026-09-16,20,0.433,0.1791
+"Morning leaders, buy",2026-09-17,20,0.0633,-0.1901
+"Morning leaders, buy",2026-09-18,20,0.7035,0.4493
+"Morning leaders, buy",2026-09-21,20,-0.1378,-0.3909
+"Morning leaders, buy",2026-09-22,20,-0.4567,-0.7093
+"Morning leaders, buy",2026-09-23,20,0.1216,-0.1318
+"Morning leaders, buy",2026-09-24,20,-0.4679,-0.7205
+"Morning leaders, buy",2026-09-25,20,0.5373,0.2834
+"Morning leaders, buy",2026-09-28,20,-0.8461,-1.0982
+"Morning leaders, buy",2026-09-29,20,0.5892,0.3352
+"Morning leaders, buy",2026-09-30,20,-1.4294,-1.6807
+"Morning leaders, buy",2026-10-01,20,-0.3765,-0.6292
+"Morning leaders, buy",2026-10-05,20,-0.3801,-0.6328
+"Morning leaders, buy",2026-10-06,20,0.6163,0.3622
+"Morning leaders, buy",2026-10-07,20,0.1374,-0.116
+"Morning leaders, buy",2026-10-08,20,-2.0466,-2.297
+"Morning leaders, buy",2026-10-09,20,0.1472,-0.1062
+"Morning leaders, buy",2026-10-12,20,-0.2724,-0.5252
+"Morning leaders, buy",2026-10-13,20,1.0284,0.7737
+"Morning leaders, buy",2026-10-14,20,0.5678,0.3138
+"Morning leaders, buy",2026-10-15,15,-0.0062,-0.2594
+"Morning leaders, buy",2026-10-16,20,0.298,0.0443
+"Morning leaders, buy",2026-10-19,20,-0.7867,-1.0389
+"Morning leaders, buy",2026-10-21,20,-0.488,-0.7406
+"Morning leaders, buy",2026-10-22,20,-0.2743,-0.5271
+"Morning leaders, buy",2026-10-23,20,-0.2111,-0.4641
+"Morning leaders, buy",2026-10-26,20,0.5496,0.2956
+"Morning leaders, buy",2026-10-27,20,-0.0589,-0.312
+"Morning leaders, buy",2026-10-28,20,0.6063,0.3522
+"Morning leaders, buy",2026-10-29,20,1.0854,0.8307
+"Morning leaders, buy",2026-10-30,20,0.9009,0.6464
+"Morning leaders, buy",2026-11-02,20,0.6997,0.4455
+"Morning leaders, buy",2026-11-03,20,-0.5585,-0.811
+"Morning leaders, buy",2026-11-04,20,1.1543,0.8995
+"Morning leaders, buy",2026-11-05,20,0.4131,0.1592
+"Morning leaders, buy",2026-11-06,20,0.0601,-0.1932
+"Morning leaders, buy",2026-11-09,20,-0.5624,-0.8149
+"Morning leaders, buy",2026-11-11,20,-0.2222,-0.4752
+Moving-average crossover (9/21),2026-08-17,554,0.0789,-0.1746
+Moving-average crossover (9/21),2026-08-18,603,0.0109,-0.2423
+Moving-average crossover (9/21),2026-08-19,593,-0.0565,-0.3098
+Moving-average crossover (9/21),2026-08-20,594,0.0297,-0.2234
+Moving-average crossover (9/21),2026-08-21,585,-0.0224,-0.2756
+Moving-average crossover (9/21),2026-08-24,557,0.026,-0.2272
+Moving-average crossover (9/21),2026-08-25,617,0.0891,-0.1644
+Moving-average crossover (9/21),2026-08-26,523,0.1117,-0.1414
+Moving-average crossover (9/21),2026-08-27,601,-0.037,-0.2902
+Moving-average crossover (9/21),2026-08-28,588,-0.0348,-0.288
+Moving-average crossover (9/21),2026-08-31,608,0.0834,-0.1701
+Moving-average crossover (9/21),2026-09-01,533,0.0666,-0.1865
+Moving-average crossover (9/21),2026-09-02,593,0.061,-0.1926
+Moving-average crossover (9/21),2026-09-03,578,-0.0184,-0.2716
+Moving-average crossover (9/21),2026-09-04,556,0.0339,-0.2191
+Moving-average crossover (9/21),2026-09-07,611,-0.049,-0.3022
+Moving-average crossover (9/21),2026-09-08,607,-0.0274,-0.2807
+Moving-average crossover (9/21),2026-09-09,631,-0.0322,-0.2854
+Moving-average crossover (9/21),2026-09-10,562,-0.0174,-0.2707
+Moving-average crossover (9/21),2026-09-11,611,0.0255,-0.228
+Moving-average crossover (9/21),2026-09-15,436,0.4898,0.2373
+Moving-average crossover (9/21),2026-09-16,619,-0.0659,-0.3191
+Moving-average crossover (9/21),2026-09-17,615,-0.0605,-0.3139
+Moving-average crossover (9/21),2026-09-18,642,0.0264,-0.227
+Moving-average crossover (9/21),2026-09-21,583,-0.0071,-0.2603
+Moving-average crossover (9/21),2026-09-22,534,-0.0055,-0.2587
+Moving-average crossover (9/21),2026-09-23,588,0.0018,-0.2515
+Moving-average crossover (9/21),2026-09-24,531,0.1156,-0.1372
+Moving-average crossover (9/21),2026-09-25,627,-0.059,-0.3124
+Moving-average crossover (9/21),2026-09-28,553,0.0337,-0.2193
+Moving-average crossover (9/21),2026-09-29,613,0.0523,-0.201
+Moving-average crossover (9/21),2026-09-30,594,0.0929,-0.1601
+Moving-average crossover (9/21),2026-10-01,512,0.2632,0.0103
+Moving-average crossover (9/21),2026-10-05,592,-0.0497,-0.303
+Moving-average crossover (9/21),2026-10-06,546,0.0493,-0.2042
+Moving-average crossover (9/21),2026-10-07,642,-0.0733,-0.3264
+Moving-average crossover (9/21),2026-10-08,380,0.502,0.2497
+Moving-average crossover (9/21),2026-10-09,630,-0.0853,-0.3386
+Moving-average crossover (9/21),2026-10-12,590,0.0001,-0.253
+Moving-average crossover (9/21),2026-10-13,615,0.1228,-0.1308
+Moving-average crossover (9/21),2026-10-14,643,-0.0869,-0.3401
+Moving-average crossover (9/21),2026-10-15,456,0.0017,-0.2513
+Moving-average crossover (9/21),2026-10-16,660,-0.0206,-0.2739
+Moving-average crossover (9/21),2026-10-19,492,0.2016,-0.0512
+Moving-average crossover (9/21),2026-10-21,356,0.5196,0.2671
+Moving-average crossover (9/21),2026-10-22,727,-0.2072,-0.4602
+Moving-average crossover (9/21),2026-10-23,578,-0.2535,-0.5069
+Moving-average crossover (9/21),2026-10-26,619,0.0269,-0.2267
+Moving-average crossover (9/21),2026-10-27,616,-0.0127,-0.266
+Moving-average crossover (9/21),2026-10-28,525,0.0241,-0.2293
+Moving-average crossover (9/21),2026-10-29,597,0.0844,-0.1691
+Moving-average crossover (9/21),2026-10-30,601,0.0332,-0.2199
+Moving-average crossover (9/21),2026-11-02,585,-0.0234,-0.2766
+Moving-average crossover (9/21),2026-11-03,594,0.0077,-0.2454
+Moving-average crossover (9/21),2026-11-04,516,0.2265,-0.0272
+Moving-average crossover (9/21),2026-11-05,553,0.0515,-0.2019
+Moving-average crossover (9/21),2026-11-06,540,0.2314,-0.0224
+Moving-average crossover (9/21),2026-11-09,694,-0.0708,-0.3243
+Moving-average crossover (9/21),2026-11-11,536,0.1385,-0.1144
+"Opening-range breakout, buy",2026-08-17,121,0.161,-0.0925
+"Opening-range breakout, buy",2026-08-18,92,0.027,-0.2262
+"Opening-range breakout, buy",2026-08-19,85,-0.0376,-0.2908
+"Opening-range breakout, buy",2026-08-20,123,-0.0876,-0.3407
+"Opening-range breakout, buy",2026-08-21,108,0.1123,-0.1411
+"Opening-range breakout, buy",2026-08-24,96,-0.096,-0.3491
+"Opening-range breakout, buy",2026-08-25,114,0.0993,-0.1541
+"Opening-range breakout, buy",2026-08-26,96,-0.131,-0.384
+"Opening-range breakout, buy",2026-08-27,74,-0.1363,-0.3894
+"Opening-range breakout, buy",2026-08-28,102,-0.1251,-0.3782
+"Opening-range breakout, buy",2026-08-31,87,0.1472,-0.1063
+"Opening-range breakout, buy",2026-09-01,95,-0.1434,-0.3965
+"Opening-range breakout, buy",2026-09-02,133,0.2524,-0.0012
+"Opening-range breakout, buy",2026-09-03,105,-0.0613,-0.3145
+"Opening-range breakout, buy",2026-09-04,119,-0.0473,-0.3005
+"Opening-range breakout, buy",2026-09-07,78,-0.1082,-0.3613
+"Opening-range breakout, buy",2026-09-08,126,0.0754,-0.1779
+"Opening-range breakout, buy",2026-09-09,96,-0.0172,-0.2704
+"Opening-range breakout, buy",2026-09-10,94,-0.0882,-0.3413
+"Opening-range breakout, buy",2026-09-11,140,0.2599,0.0063
+"Opening-range breakout, buy",2026-09-15,23,-0.731,-0.9832
+"Opening-range breakout, buy",2026-09-16,96,0.0556,-0.1977
+"Opening-range breakout, buy",2026-09-17,161,0.0044,-0.2488
+"Opening-range breakout, buy",2026-09-18,137,0.3499,0.0962
+"Opening-range breakout, buy",2026-09-21,103,0.0706,-0.1827
+"Opening-range breakout, buy",2026-09-22,86,-0.2069,-0.4599
+"Opening-range breakout, buy",2026-09-23,144,-0.0219,-0.2751
+"Opening-range breakout, buy",2026-09-24,105,-0.324,-0.5768
+"Opening-range breakout, buy",2026-09-25,105,-0.1117,-0.3648
+"Opening-range breakout, buy",2026-09-28,49,-0.561,-0.8135
+"Opening-range breakout, buy",2026-09-29,107,0.025,-0.2283
+"Opening-range breakout, buy",2026-09-30,92,-0.1792,-0.4322
+"Opening-range breakout, buy",2026-10-01,107,-0.4333,-0.686
+"Opening-range breakout, buy",2026-10-05,87,-0.0767,-0.3298
+"Opening-range breakout, buy",2026-10-06,138,0.1471,-0.1064
+"Opening-range breakout, buy",2026-10-07,115,-0.2766,-0.5295
+"Opening-range breakout, buy",2026-10-08,40,-0.1062,-0.3593
+"Opening-range breakout, buy",2026-10-09,144,0.1057,-0.1477
+"Opening-range breakout, buy",2026-10-12,81,-0.156,-0.409
+"Opening-range breakout, buy",2026-10-13,162,0.0504,-0.2029
+"Opening-range breakout, buy",2026-10-14,132,-0.0301,-0.2833
+"Opening-range breakout, buy",2026-10-15,101,0.0312,-0.2221
+"Opening-range breakout, buy",2026-10-16,125,0.0766,-0.1768
+"Opening-range breakout, buy",2026-10-19,62,-0.5144,-0.767
+"Opening-range breakout, buy",2026-10-21,43,-0.5326,-0.7851
+"Opening-range breakout, buy",2026-10-22,152,0.0321,-0.2211
+"Opening-range breakout, buy",2026-10-23,10,-0.2696,-0.5224
+"Opening-range breakout, buy",2026-10-26,181,0.4362,0.1824
+"Opening-range breakout, buy",2026-10-27,156,-0.112,-0.3651
+"Opening-range breakout, buy",2026-10-28,155,0.1117,-0.1417
+"Opening-range breakout, buy",2026-10-29,147,0.2026,-0.051
+"Opening-range breakout, buy",2026-10-30,93,-0.0276,-0.2808
+"Opening-range breakout, buy",2026-11-02,140,0.2668,0.0132
+"Opening-range breakout, buy",2026-11-03,114,-0.0645,-0.3176
+"Opening-range breakout, buy",2026-11-04,167,0.5555,0.3015
+"Opening-range breakout, buy",2026-11-05,120,0.3522,0.0985
+"Opening-range breakout, buy",2026-11-06,142,0.2369,-0.0167
+"Opening-range breakout, buy",2026-11-09,101,0.0875,-0.1658
+"Opening-range breakout, buy",2026-11-11,134,-0.0579,-0.3111
+"Opening-range breakout, short",2026-08-17,108,-0.0993,-0.3526
+"Opening-range breakout, short",2026-08-18,144,0.0031,-0.2501
+"Opening-range breakout, short",2026-08-19,148,-0.0024,-0.2557
+"Opening-range breakout, short",2026-08-20,113,-0.0087,-0.2619
+"Opening-range breakout, short",2026-08-21,135,-0.1194,-0.3728
+"Opening-range breakout, short",2026-08-24,143,0.0847,-0.1685
+"Opening-range breakout, short",2026-08-25,144,-0.1685,-0.4219
+"Opening-range breakout, short",2026-08-26,122,0.1154,-0.1377
+"Opening-range breakout, short",2026-08-27,150,0.1414,-0.1117
+"Opening-range breakout, short",2026-08-28,133,0.1093,-0.1438
+"Opening-range breakout, short",2026-08-31,153,-0.1751,-0.4286
+"Opening-range breakout, short",2026-09-01,148,0.1,-0.1531
+"Opening-range breakout, short",2026-09-02,95,-0.0978,-0.3512
+"Opening-range breakout, short",2026-09-03,113,0.0578,-0.1954
+"Opening-range breakout, short",2026-09-04,132,0.0094,-0.2439
+"Opening-range breakout, short",2026-09-07,131,0.2321,-0.0209
+"Opening-range breakout, short",2026-09-08,121,-0.1908,-0.4443
+"Opening-range breakout, short",2026-09-09,133,-0.0345,-0.2878
+"Opening-range breakout, short",2026-09-10,131,-0.0162,-0.2695
+"Opening-range breakout, short",2026-09-11,80,-0.3831,-0.6368
+"Opening-range breakout, short",2026-09-15,192,0.7817,0.5294
+"Opening-range breakout, short",2026-09-16,172,-0.506,-0.7599
+"Opening-range breakout, short",2026-09-17,71,-0.1333,-0.3867
+"Opening-range breakout, short",2026-09-18,77,-0.1763,-0.4297
+"Opening-range breakout, short",2026-09-21,112,-0.089,-0.3423
+"Opening-range breakout, short",2026-09-22,165,0.2039,-0.0491
+"Opening-range breakout, short",2026-09-23,99,-0.159,-0.4124
+"Opening-range breakout, short",2026-09-24,142,0.1168,-0.1364
+"Opening-range breakout, short",2026-09-25,132,-0.2268,-0.4803
+"Opening-range breakout, short",2026-09-28,175,0.1586,-0.0944
+"Opening-range breakout, short",2026-09-29,161,-0.1976,-0.451
+"Opening-range breakout, short",2026-09-30,130,0.1811,-0.072
+"Opening-range breakout, short",2026-10-01,173,0.2504,-0.0025
+"Opening-range breakout, short",2026-10-05,129,0.0229,-0.2303
+"Opening-range breakout, short",2026-10-06,81,-0.0619,-0.3152
+"Opening-range breakout, short",2026-10-07,136,-0.0631,-0.3164
+"Opening-range breakout, short",2026-10-08,182,0.6495,0.397
+"Opening-range breakout, short",2026-10-09,30,-0.683,-0.937
+"Opening-range breakout, short",2026-10-12,134,0.0761,-0.177
+"Opening-range breakout, short",2026-10-13,55,-0.3827,-0.6363
+"Opening-range breakout, short",2026-10-14,95,-0.0152,-0.2685
+"Opening-range breakout, short",2026-10-15,71,-0.09,-0.3433
+"Opening-range breakout, short",2026-10-16,107,-0.3544,-0.608
+"Opening-range breakout, short",2026-10-19,142,0.3428,0.0899
+"Opening-range breakout, short",2026-10-21,187,0.6303,0.3778
+"Opening-range breakout, short",2026-10-22,98,-0.6428,-0.8968
+"Opening-range breakout, short",2026-10-23,198,0.8231,0.5708
+"Opening-range breakout, short",2026-10-26,41,-0.6503,-0.9043
+"Opening-range breakout, short",2026-10-27,82,-0.0836,-0.3369
+"Opening-range breakout, short",2026-10-28,76,-0.1827,-0.4361
+"Opening-range breakout, short",2026-10-29,86,-0.3484,-0.602
+"Opening-range breakout, short",2026-10-30,134,0.1886,-0.0644
+"Opening-range breakout, short",2026-11-02,70,-0.0347,-0.288
+"Opening-range breakout, short",2026-11-03,98,0.0055,-0.2477
+"Opening-range breakout, short",2026-11-04,45,-0.0429,-0.2962
+"Opening-range breakout, short",2026-11-05,86,0.0416,-0.2115
+"Opening-range breakout, short",2026-11-06,82,-0.1619,-0.4154
+"Opening-range breakout, short",2026-11-09,101,-0.302,-0.5556
+"Opening-range breakout, short",2026-11-11,103,0.3063,0.0534
+Previous-day high/low breakout,2026-08-17,157,-0.1794,-0.4329
+Previous-day high/low breakout,2026-08-18,135,-0.0037,-0.2569
+Previous-day high/low breakout,2026-08-19,166,-0.1625,-0.4158
+Previous-day high/low breakout,2026-08-20,142,-0.1054,-0.3587
+Previous-day high/low breakout,2026-08-21,148,-0.084,-0.3373
+Previous-day high/low breakout,2026-08-24,151,-0.0533,-0.3065
+Previous-day high/low breakout,2026-08-25,151,0.0274,-0.2259
+Previous-day high/low breakout,2026-08-26,152,-0.1604,-0.4136
+Previous-day high/low breakout,2026-08-27,145,0.047,-0.206
+Previous-day high/low breakout,2026-08-28,154,0.0303,-0.223
+Previous-day high/low breakout,2026-08-31,174,-0.2084,-0.4618
+Previous-day high/low breakout,2026-09-01,123,0.0013,-0.2519
+Previous-day high/low breakout,2026-09-02,171,-0.2693,-0.5231
+Previous-day high/low breakout,2026-09-03,150,-0.131,-0.3841
+Previous-day high/low breakout,2026-09-04,149,-0.0321,-0.2852
+Previous-day high/low breakout,2026-09-07,159,0.1555,-0.0977
+Previous-day high/low breakout,2026-09-08,156,0.1122,-0.1411
+Previous-day high/low breakout,2026-09-09,157,0.0594,-0.1938
+Previous-day high/low breakout,2026-09-10,150,-0.0073,-0.2604
+Previous-day high/low breakout,2026-09-11,172,-0.5309,-0.7848
+Previous-day high/low breakout,2026-09-15,177,0.4895,0.2376
+Previous-day high/low breakout,2026-09-16,168,-0.3333,-0.587
+Previous-day high/low breakout,2026-09-17,150,-0.021,-0.2744
+Previous-day high/low breakout,2026-09-18,153,0.4193,0.1654
+Previous-day high/low breakout,2026-09-21,116,-0.0305,-0.2837
+Previous-day high/low breakout,2026-09-22,153,-0.0384,-0.2915
+Previous-day high/low breakout,2026-09-23,132,-0.0258,-0.2792
+Previous-day high/low breakout,2026-09-24,167,0.2891,0.0363
+Previous-day high/low breakout,2026-09-25,153,-0.1443,-0.3976
+Previous-day high/low breakout,2026-09-28,179,0.2397,-0.0132
+Previous-day high/low breakout,2026-09-29,183,-0.1924,-0.4459
+Previous-day high/low breakout,2026-09-30,141,-0.0288,-0.2817
+Previous-day high/low breakout,2026-10-01,186,0.2142,-0.0387
+Previous-day high/low breakout,2026-10-05,108,-0.1073,-0.3604
+Previous-day high/low breakout,2026-10-06,134,0.0848,-0.1688
+Previous-day high/low breakout,2026-10-07,147,0.0196,-0.2336
+Previous-day high/low breakout,2026-10-08,182,0.9503,0.6982
+Previous-day high/low breakout,2026-10-09,100,-0.2954,-0.5488
+Previous-day high/low breakout,2026-10-12,147,-0.2087,-0.4617
+Previous-day high/low breakout,2026-10-13,135,0.0576,-0.1961
+Previous-day high/low breakout,2026-10-14,148,0.083,-0.1704
+Previous-day high/low breakout,2026-10-15,115,0.1486,-0.1046
+Previous-day high/low breakout,2026-10-16,145,-0.0646,-0.3182
+Previous-day high/low breakout,2026-10-19,152,0.2134,-0.0394
+Previous-day high/low breakout,2026-10-21,184,1.0949,0.8431
+Previous-day high/low breakout,2026-10-22,174,-0.8268,-1.081
+Previous-day high/low breakout,2026-10-23,177,0.4304,0.1777
+Previous-day high/low breakout,2026-10-26,128,-0.2342,-0.4881
+Previous-day high/low breakout,2026-10-27,157,0.1696,-0.0839
+Previous-day high/low breakout,2026-10-28,151,-0.0619,-0.3153
+Previous-day high/low breakout,2026-10-29,144,0.0496,-0.204
+Previous-day high/low breakout,2026-10-30,158,0.2636,0.0106
+Previous-day high/low breakout,2026-11-02,158,0.1418,-0.1118
+Previous-day high/low breakout,2026-11-03,160,-0.1282,-0.3813
+Previous-day high/low breakout,2026-11-04,164,0.3277,0.074
+Previous-day high/low breakout,2026-11-05,174,0.5741,0.3202
+Previous-day high/low breakout,2026-11-06,153,-0.4859,-0.7398
+Previous-day high/low breakout,2026-11-09,147,0.0368,-0.2166
+Previous-day high/low breakout,2026-11-11,169,-0.0488,-0.302
+RSI reversion (30/70),2026-08-17,185,-0.1108,-0.3643
+RSI reversion (30/70),2026-08-18,174,0.0428,-0.2104
+RSI reversion (30/70),2026-08-19,158,0.085,-0.1682
+RSI reversion (30/70),2026-08-20,171,0.0097,-0.2435
+RSI reversion (30/70),2026-08-21,149,0.0479,-0.2053
+RSI reversion (30/70),2026-08-24,173,-0.0655,-0.3186
+RSI reversion (30/70),2026-08-25,228,-0.1107,-0.3642
+RSI reversion (30/70),2026-08-26,157,-0.1353,-0.3886
+RSI reversion (30/70),2026-08-27,173,-0.0134,-0.2666
+RSI reversion (30/70),2026-08-28,167,0.0373,-0.2158
+RSI reversion (30/70),2026-08-31,199,-0.1099,-0.3633
+RSI reversion (30/70),2026-09-01,208,-0.0599,-0.313
+RSI reversion (30/70),2026-09-02,190,-0.1131,-0.3664
+RSI reversion (30/70),2026-09-03,130,0.0118,-0.2413
+RSI reversion (30/70),2026-09-04,172,-0.0219,-0.275
+RSI reversion (30/70),2026-09-07,194,0.0936,-0.1596
+RSI reversion (30/70),2026-09-08,162,0.0185,-0.2347
+RSI reversion (30/70),2026-09-09,163,0.1009,-0.1522
+RSI reversion (30/70),2026-09-10,159,-0.0051,-0.2583
+RSI reversion (30/70),2026-09-11,155,-0.0709,-0.3244
+RSI reversion (30/70),2026-09-15,221,-0.754,-1.0061
+RSI reversion (30/70),2026-09-16,94,0.1577,-0.0958
+RSI reversion (30/70),2026-09-17,157,0.0528,-0.2005
+RSI reversion (30/70),2026-09-18,162,-0.064,-0.3175
+RSI reversion (30/70),2026-09-21,164,0.0843,-0.1691
+RSI reversion (30/70),2026-09-22,179,-0.0386,-0.2916
+RSI reversion (30/70),2026-09-23,146,-0.0167,-0.2701
+RSI reversion (30/70),2026-09-24,201,-0.1052,-0.3581
+RSI reversion (30/70),2026-09-25,183,0.168,-0.0854
+RSI reversion (30/70),2026-09-28,179,-0.031,-0.284
+RSI reversion (30/70),2026-09-29,178,0.187,-0.0665
+RSI reversion (30/70),2026-09-30,219,-0.0182,-0.2712
+RSI reversion (30/70),2026-10-01,235,-0.1306,-0.3834
+RSI reversion (30/70),2026-10-05,164,-0.0214,-0.2746
+RSI reversion (30/70),2026-10-06,165,-0.1547,-0.4083
+RSI reversion (30/70),2026-10-07,168,0.1771,-0.0761
+RSI reversion (30/70),2026-10-08,174,-0.703,-0.9551
+RSI reversion (30/70),2026-10-09,129,0.2175,-0.0356
+RSI reversion (30/70),2026-10-12,130,0.1001,-0.153
+RSI reversion (30/70),2026-10-13,195,-0.17,-0.4236
+RSI reversion (30/70),2026-10-14,194,0.106,-0.1474
+RSI reversion (30/70),2026-10-15,131,-0.0951,-0.3481
+RSI reversion (30/70),2026-10-16,165,-0.1052,-0.3585
+RSI reversion (30/70),2026-10-19,133,-0.4038,-0.6565
+RSI reversion (30/70),2026-10-21,178,-0.6598,-0.9121
+RSI reversion (30/70),2026-10-22,99,0.3599,0.1069
+RSI reversion (30/70),2026-10-23,216,0.1279,-0.1253
+RSI reversion (30/70),2026-10-26,152,-0.1397,-0.3933
+RSI reversion (30/70),2026-10-27,187,0.0274,-0.2259
+RSI reversion (30/70),2026-10-28,159,-0.0843,-0.3379
+RSI reversion (30/70),2026-10-29,184,-0.1103,-0.3638
+RSI reversion (30/70),2026-10-30,163,-0.0108,-0.2639
+RSI reversion (30/70),2026-11-02,168,0.048,-0.2053
+RSI reversion (30/70),2026-11-03,174,-0.0253,-0.2784
+RSI reversion (30/70),2026-11-04,178,-0.5765,-0.8304
+RSI reversion (30/70),2026-11-05,154,-0.1593,-0.4126
+RSI reversion (30/70),2026-11-06,213,-0.3294,-0.583
+RSI reversion (30/70),2026-11-09,150,0.1126,-0.1408
+RSI reversion (30/70),2026-11-11,176,-0.2682,-0.5211
+"Supertrend (10, 3)",2026-08-17,451,0.0413,-0.212
+"Supertrend (10, 3)",2026-08-18,451,0.0428,-0.2104
+"Supertrend (10, 3)",2026-08-19,461,-0.0271,-0.2803
+"Supertrend (10, 3)",2026-08-20,459,-0.0046,-0.2578
+"Supertrend (10, 3)",2026-08-21,418,0.011,-0.2423
+"Supertrend (10, 3)",2026-08-24,441,0.0508,-0.2023
+"Supertrend (10, 3)",2026-08-25,480,0.0852,-0.1683
+"Supertrend (10, 3)",2026-08-26,412,0.1481,-0.105
+"Supertrend (10, 3)",2026-08-27,448,0.0001,-0.2531
+"Supertrend (10, 3)",2026-08-28,436,0.0484,-0.2048
+"Supertrend (10, 3)",2026-08-31,500,0.0422,-0.2112
+"Supertrend (10, 3)",2026-09-01,466,0.1063,-0.1469
+"Supertrend (10, 3)",2026-09-02,459,0.1009,-0.1526
+"Supertrend (10, 3)",2026-09-03,473,-0.0851,-0.3382
+"Supertrend (10, 3)",2026-09-04,466,0.007,-0.2461
+"Supertrend (10, 3)",2026-09-07,485,-0.0696,-0.3227
+"Supertrend (10, 3)",2026-09-08,507,-0.1628,-0.4161
+"Supertrend (10, 3)",2026-09-09,516,-0.1202,-0.3734
+"Supertrend (10, 3)",2026-09-10,442,-0.0406,-0.2937
+"Supertrend (10, 3)",2026-09-11,431,0.0986,-0.1551
+"Supertrend (10, 3)",2026-09-15,436,0.3793,0.127
+"Supertrend (10, 3)",2026-09-16,429,-0.1915,-0.4452
+"Supertrend (10, 3)",2026-09-17,472,-0.0729,-0.3262
+"Supertrend (10, 3)",2026-09-18,475,-0.0183,-0.2717
+"Supertrend (10, 3)",2026-09-21,461,-0.0836,-0.3368
+"Supertrend (10, 3)",2026-09-22,528,-0.0828,-0.3358
+"Supertrend (10, 3)",2026-09-23,440,-0.0081,-0.2615
+"Supertrend (10, 3)",2026-09-24,450,0.1092,-0.1436
+"Supertrend (10, 3)",2026-09-25,497,-0.1296,-0.3829
+"Supertrend (10, 3)",2026-09-28,472,-0.0429,-0.2957
+"Supertrend (10, 3)",2026-09-29,520,0.0092,-0.2441
+"Supertrend (10, 3)",2026-09-30,537,0.0613,-0.1917
+"Supertrend (10, 3)",2026-10-01,595,0.0681,-0.1847
+"Supertrend (10, 3)",2026-10-05,453,-0.0465,-0.2997
+"Supertrend (10, 3)",2026-10-06,445,0.0423,-0.2111
+"Supertrend (10, 3)",2026-10-07,517,-0.1331,-0.3862
+"Supertrend (10, 3)",2026-10-08,435,0.1045,-0.1478
+"Supertrend (10, 3)",2026-10-09,438,-0.1661,-0.4194
+"Supertrend (10, 3)",2026-10-12,396,0.0647,-0.1882
+"Supertrend (10, 3)",2026-10-13,457,0.1569,-0.0967
+"Supertrend (10, 3)",2026-10-14,525,-0.1269,-0.3801
+"Supertrend (10, 3)",2026-10-15,356,-0.0029,-0.2559
+"Supertrend (10, 3)",2026-10-16,452,0.0247,-0.2286
+"Supertrend (10, 3)",2026-10-19,381,0.2195,-0.0332
+"Supertrend (10, 3)",2026-10-21,330,0.5862,0.3339
+"Supertrend (10, 3)",2026-10-22,562,-0.5387,-0.7921
+"Supertrend (10, 3)",2026-10-23,488,-0.1188,-0.3721
+"Supertrend (10, 3)",2026-10-26,384,0.1281,-0.1254
+"Supertrend (10, 3)",2026-10-27,504,-0.0337,-0.2869
+"Supertrend (10, 3)",2026-10-28,452,-0.1155,-0.369
+"Supertrend (10, 3)",2026-10-29,455,0.0619,-0.1919
+"Supertrend (10, 3)",2026-10-30,451,-0.0368,-0.2899
+"Supertrend (10, 3)",2026-11-02,492,-0.126,-0.3793
+"Supertrend (10, 3)",2026-11-03,450,0.1015,-0.1516
+"Supertrend (10, 3)",2026-11-04,411,0.1488,-0.1049
+"Supertrend (10, 3)",2026-11-05,434,-0.0379,-0.2913
+"Supertrend (10, 3)",2026-11-06,405,0.3147,0.0608
+"Supertrend (10, 3)",2026-11-09,484,-0.0915,-0.3449
+"Supertrend (10, 3)",2026-11-11,471,0.0307,-0.2223
+VWAP reversion (fade 2 sd),2026-08-17,277,-0.1324,-0.3859
+VWAP reversion (fade 2 sd),2026-08-18,310,-0.0145,-0.2677
+VWAP reversion (fade 2 sd),2026-08-19,272,0.0818,-0.1714
+VWAP reversion (fade 2 sd),2026-08-20,288,-0.0105,-0.2637
+VWAP reversion (fade 2 sd),2026-08-21,261,-0.0003,-0.2535
+VWAP reversion (fade 2 sd),2026-08-24,283,-0.0502,-0.3032
+VWAP reversion (fade 2 sd),2026-08-25,324,-0.0549,-0.3085
+VWAP reversion (fade 2 sd),2026-08-26,260,-0.2538,-0.5069
+VWAP reversion (fade 2 sd),2026-08-27,279,-0.0131,-0.2663
+VWAP reversion (fade 2 sd),2026-08-28,277,0.0096,-0.2435
+VWAP reversion (fade 2 sd),2026-08-31,299,-0.147,-0.4005
+VWAP reversion (fade 2 sd),2026-09-01,278,-0.0009,-0.2539
+VWAP reversion (fade 2 sd),2026-09-02,282,-0.088,-0.3415
+VWAP reversion (fade 2 sd),2026-09-03,277,0.043,-0.2101
+VWAP reversion (fade 2 sd),2026-09-04,297,-0.0327,-0.2858
+VWAP reversion (fade 2 sd),2026-09-07,265,0.0145,-0.2387
+VWAP reversion (fade 2 sd),2026-09-08,285,0.0458,-0.2073
+VWAP reversion (fade 2 sd),2026-09-09,278,0.0785,-0.1747
+VWAP reversion (fade 2 sd),2026-09-10,269,0.0256,-0.2276
+VWAP reversion (fade 2 sd),2026-09-11,262,-0.1537,-0.4072
+VWAP reversion (fade 2 sd),2026-09-15,256,-0.9278,-1.1797
+VWAP reversion (fade 2 sd),2026-09-16,197,0.0599,-0.1934
+VWAP reversion (fade 2 sd),2026-09-17,302,0.0612,-0.1921
+VWAP reversion (fade 2 sd),2026-09-18,312,-0.0221,-0.2755
+VWAP reversion (fade 2 sd),2026-09-21,271,0.0047,-0.2486
+VWAP reversion (fade 2 sd),2026-09-22,301,-0.0728,-0.3258
+VWAP reversion (fade 2 sd),2026-09-23,256,-0.0458,-0.2992
+VWAP reversion (fade 2 sd),2026-09-24,309,-0.149,-0.4018
+VWAP reversion (fade 2 sd),2026-09-25,307,0.1762,-0.0772
+VWAP reversion (fade 2 sd),2026-09-28,282,-0.0679,-0.3208
+VWAP reversion (fade 2 sd),2026-09-29,302,0.002,-0.2513
+VWAP reversion (fade 2 sd),2026-09-30,316,0.0268,-0.2263
+VWAP reversion (fade 2 sd),2026-10-01,325,-0.1133,-0.3661
+VWAP reversion (fade 2 sd),2026-10-05,296,0.0681,-0.1851
+VWAP reversion (fade 2 sd),2026-10-06,265,-0.1479,-0.4014
+VWAP reversion (fade 2 sd),2026-10-07,329,0.1137,-0.1395
+VWAP reversion (fade 2 sd),2026-10-08,276,-0.7366,-0.9887
+VWAP reversion (fade 2 sd),2026-10-09,251,0.1967,-0.0566
+VWAP reversion (fade 2 sd),2026-10-12,276,-0.0272,-0.2802
+VWAP reversion (fade 2 sd),2026-10-13,280,-0.1022,-0.3559
+VWAP reversion (fade 2 sd),2026-10-14,333,0.0819,-0.1713
+VWAP reversion (fade 2 sd),2026-10-15,207,0.045,-0.208
+VWAP reversion (fade 2 sd),2026-10-16,281,0.0926,-0.1606
+VWAP reversion (fade 2 sd),2026-10-19,265,-0.2733,-0.5259
+VWAP reversion (fade 2 sd),2026-10-21,233,-0.636,-0.8883
+VWAP reversion (fade 2 sd),2026-10-22,280,0.2953,0.0423
+VWAP reversion (fade 2 sd),2026-10-23,300,0.3162,0.0626
+VWAP reversion (fade 2 sd),2026-10-26,222,-0.033,-0.2865
+VWAP reversion (fade 2 sd),2026-10-27,320,0.0443,-0.209
+VWAP reversion (fade 2 sd),2026-10-28,259,-0.0974,-0.3511
+VWAP reversion (fade 2 sd),2026-10-29,315,-0.0769,-0.3305
+VWAP reversion (fade 2 sd),2026-10-30,301,0.0054,-0.2477
+VWAP reversion (fade 2 sd),2026-11-02,289,-0.0445,-0.2978
+VWAP reversion (fade 2 sd),2026-11-03,292,-0.1021,-0.3552
+VWAP reversion (fade 2 sd),2026-11-04,282,-0.3079,-0.5616
+VWAP reversion (fade 2 sd),2026-11-05,251,-0.2162,-0.4695
+VWAP reversion (fade 2 sd),2026-11-06,307,-0.2242,-0.4779
+VWAP reversion (fade 2 sd),2026-11-09,304,0.1369,-0.1165
+VWAP reversion (fade 2 sd),2026-11-11,289,-0.2006,-0.4534
+VWAP trend (with price vs VWAP),2026-08-17,1161,0.0213,-0.232
+VWAP trend (with price vs VWAP),2026-08-18,1289,-0.0014,-0.2546
+VWAP trend (with price vs VWAP),2026-08-19,1214,-0.0101,-0.2633
+VWAP trend (with price vs VWAP),2026-08-20,1223,0.0032,-0.25
+VWAP trend (with price vs VWAP),2026-08-21,1302,-0.0114,-0.2646
+VWAP trend (with price vs VWAP),2026-08-24,1153,0.0253,-0.2279
+VWAP trend (with price vs VWAP),2026-08-25,1210,0.0246,-0.2287
+VWAP trend (with price vs VWAP),2026-08-26,1069,0.0581,-0.1951
+VWAP trend (with price vs VWAP),2026-08-27,1155,0.0097,-0.2435
+VWAP trend (with price vs VWAP),2026-08-28,1191,-0.0142,-0.2674
+VWAP trend (with price vs VWAP),2026-08-31,1278,0.0429,-0.2105
+VWAP trend (with price vs VWAP),2026-09-01,1116,0.0045,-0.2487
+VWAP trend (with price vs VWAP),2026-09-02,1132,0.059,-0.1944
+VWAP trend (with price vs VWAP),2026-09-03,1217,-0.0271,-0.2803
+VWAP trend (with price vs VWAP),2026-09-04,1176,0.015,-0.2382
+VWAP trend (with price vs VWAP),2026-09-07,1200,-0.0112,-0.2644
+VWAP trend (with price vs VWAP),2026-09-08,1276,-0.0377,-0.2909
+VWAP trend (with price vs VWAP),2026-09-09,1280,-0.0238,-0.277
+VWAP trend (with price vs VWAP),2026-09-10,1186,-0.0082,-0.2614
+VWAP trend (with price vs VWAP),2026-09-11,1173,0.024,-0.2294
+VWAP trend (with price vs VWAP),2026-09-15,742,0.3869,0.1343
+VWAP trend (with price vs VWAP),2026-09-16,1134,-0.0621,-0.3155
+VWAP trend (with price vs VWAP),2026-09-17,1309,-0.027,-0.2803
+VWAP trend (with price vs VWAP),2026-09-18,1459,-0.0113,-0.2646
+VWAP trend (with price vs VWAP),2026-09-21,1242,-0.0069,-0.2601
+VWAP trend (with price vs VWAP),2026-09-22,1118,0.0135,-0.2397
+VWAP trend (with price vs VWAP),2026-09-23,1315,-0.0247,-0.278
+VWAP trend (with price vs VWAP),2026-09-24,1303,0.0181,-0.235
+VWAP trend (with price vs VWAP),2026-09-25,1358,-0.0544,-0.3077
+VWAP trend (with price vs VWAP),2026-09-28,1226,0.0191,-0.234
+VWAP trend (with price vs VWAP),2026-09-29,1282,0.0272,-0.2261
+VWAP trend (with price vs VWAP),2026-09-30,1187,0.0275,-0.2256
+VWAP trend (with price vs VWAP),2026-10-01,1167,0.0636,-0.1895
+VWAP trend (with price vs VWAP),2026-10-05,1291,-0.0297,-0.2829
+VWAP trend (with price vs VWAP),2026-10-06,1162,0.0259,-0.2274
+VWAP trend (with price vs VWAP),2026-10-07,1480,-0.0621,-0.3153
+VWAP trend (with price vs VWAP),2026-10-08,953,0.1962,-0.0566
+VWAP trend (with price vs VWAP),2026-10-09,1352,-0.0524,-0.3057
+VWAP trend (with price vs VWAP),2026-10-12,1350,-0.0384,-0.2915
+VWAP trend (with price vs VWAP),2026-10-13,1342,-0.0002,-0.2536
+VWAP trend (with price vs VWAP),2026-10-14,1366,-0.0347,-0.2879
+VWAP trend (with price vs VWAP),2026-10-15,906,-0.0026,-0.2558
+VWAP trend (with price vs VWAP),2026-10-16,1295,-0.0179,-0.2713
+VWAP trend (with price vs VWAP),2026-10-19,1201,0.027,-0.226
+VWAP trend (with price vs VWAP),2026-10-21,573,0.4531,0.2005
+VWAP trend (with price vs VWAP),2026-10-22,1444,-0.0989,-0.3522
+VWAP trend (with price vs VWAP),2026-10-23,1026,-0.0018,-0.2549
+VWAP trend (with price vs VWAP),2026-10-26,1053,0.1169,-0.1367
+VWAP trend (with price vs VWAP),2026-10-27,1348,-0.0222,-0.2755
+VWAP trend (with price vs VWAP),2026-10-28,1230,-0.0244,-0.2776
+VWAP trend (with price vs VWAP),2026-10-29,1348,0.0075,-0.2459
+VWAP trend (with price vs VWAP),2026-10-30,1300,-0.016,-0.2692
+VWAP trend (with price vs VWAP),2026-11-02,1232,-0.0057,-0.259
+VWAP trend (with price vs VWAP),2026-11-03,1131,0.0322,-0.221
+VWAP trend (with price vs VWAP),2026-11-04,1114,0.0881,-0.1654
+VWAP trend (with price vs VWAP),2026-11-05,1139,0.0027,-0.2506
+VWAP trend (with price vs VWAP),2026-11-06,1213,0.0784,-0.1751
+VWAP trend (with price vs VWAP),2026-11-09,1386,-0.0407,-0.294
+VWAP trend (with price vs VWAP),2026-11-11,1222,0.0438,-0.2093
